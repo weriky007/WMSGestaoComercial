@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/fundo_tela"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        app:cardMaxElevation="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView android:id="@+id/textFornecedoresPF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Fornecedores Pessoa Física: "
+                android:textStyle="bold"/>
+
+            <TextView android:id="@+id/textQtdFornecedoresPF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textFornecedoresPF"
+                android:textStyle="bold"/>
+
+            <TextView android:id="@+id/textFornecedoresPJ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/textFornecedoresPF"
+                app:layout_constraintStart_toStartOf="@+id/textFornecedoresPF"
+                android:text="Fornecedores Pessoa Jurídica: "
+                android:textStyle="bold"/>
+
+            <TextView android:id="@+id/textQtdFornecedoresPJ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/textQtdFornecedoresPF"
+                app:layout_constraintStart_toEndOf="@+id/textFornecedoresPJ"
+                android:textStyle="bold"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/botao_pessoa_fisica"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:background="@drawable/botao_arredondado"
+        android:text="Pessoa Física"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="@dimen/_10sdp"
+        app:backgroundTint="#8BC34A" />
+
+    <Button
+        android:id="@+id/botao_pessoa_juridica"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:background="@drawable/botao_arredondado"
+        android:text="Pessoa Jurídica"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="@dimen/_10sdp"
+        app:backgroundTint="#8BC34A" />
+
+</LinearLayout>

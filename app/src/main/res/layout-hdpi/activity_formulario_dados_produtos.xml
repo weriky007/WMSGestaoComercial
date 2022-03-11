@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/fundo_tela">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_produto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/botao_arredondado"
+            app:cardCornerRadius="10dp"
+            app:cardMaxElevation="3dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_dados_produto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Dados Produto:"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_codigo_barras"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="@dimen/_225sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    app:layout_constraintEnd_toStartOf="@+id/fab_scan_produto"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/txt_dados_produto"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_dados_produto">
+
+                    <EditText
+                        android:id="@+id/edit_codigo_barras_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Codigo de barras"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_scan_produto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_action_codigo_barras"
+                    android:tint="#F89402"
+                    app:backgroundTint="#E91E63"
+                    android:layout_marginEnd="@dimen/_21sdp"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_dados_produto"
+                    app:layout_constraintStart_toEndOf="@+id/edit_layout_codigo_barras"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_layout_codigo_barras"
+                    app:rippleColor="#F8F3F3" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_codigo_categoria"
+                    android:layout_width="@dimen/_270sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_layout_codigo_barras"
+                    app:layout_constraintStart_toStartOf="@+id/edit_layout_codigo_barras"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_8sdp">
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/edit_categoria_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="   Categoria"
+                        android:textAlignment="center"
+                        android:completionThreshold="1"
+                        android:inputType="textCapWords"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_codigo_produto"
+                    android:layout_width="@dimen/_270sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_layout_codigo_categoria"
+                    app:layout_constraintStart_toStartOf="@+id/edit_layout_codigo_categoria">
+                    <EditText
+                        android:id="@+id/edit_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:hint="Produto"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_codigo_marca"
+                    android:layout_width="@dimen/_270sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toBottomOf="@id/edit_layout_codigo_produto"
+                    app:layout_constraintStart_toStartOf="@id/edit_layout_codigo_produto">
+                    <EditText
+                        android:id="@+id/edit_marca_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:hint="Marca"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_discriminacao"
+                    android:layout_width="@dimen/_270sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toBottomOf="@id/edit_layout_codigo_marca"
+                    app:layout_constraintStart_toStartOf="@id/edit_layout_codigo_marca">
+                    <EditText
+                        android:id="@+id/edit_discriminacao_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:hint="Discriminacao"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_compra"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintStart_toStartOf="@id/edit_layout_discriminacao"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_layout_discriminacao">
+                    <EditText
+                        android:id="@+id/edit_preco_compra_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:drawableStart="@drawable/ic_action_preco"
+                        android:hint="Compra"
+                        android:inputType="numberDecimal"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_venda"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginStart="8dp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintStart_toEndOf="@+id/edit_layout_compra"
+                    app:layout_constraintTop_toTopOf="@+id/edit_layout_compra">
+                    <EditText
+                        android:id="@+id/edit_preco_venda_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawableStart="@drawable/ic_action_preco"
+                        android:hint="Venda"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_quantidade"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_layout_venda"
+                    app:layout_constraintStart_toStartOf="@id/edit_layout_compra"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="@dimen/_8sdp">
+                    <EditText
+                        android:id="@+id/edit_quantidade_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Qtd"
+                        android:textAlignment="center"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_layout_medida"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    app:boxBackgroundColor="@color/zxing_transparent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toTopOf="@id/edit_layout_quantidade"
+                    app:layout_constraintStart_toEndOf="@+id/edit_layout_quantidade"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="@dimen/_8sdp">
+                    <EditText
+                        android:id="@+id/edit_unidade_medida_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Medida"
+                        android:textAlignment="center"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/botao_salvar_produto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="@+id/cardview_produto"
+            app:layout_constraintTop_toBottomOf="@+id/cardview_produto"
+            app:layout_constraintEnd_toEndOf="@+id/cardview_produto"
+            android:background="@drawable/botao_arredondado"
+            android:text="SALVAR"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:backgroundTint="#E91E63" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

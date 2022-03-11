@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo_tela"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnPrincipalFornecedoresActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#8BC34A"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_fornecedores"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewFornecedores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fornecedores"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalFornecedoresActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalFornecedoresActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalFornecedoresActivity" />
+
+        <ImageButton
+            android:id="@+id/btnPrincipalClientesActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#FF9800"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_clientes"
+            app:layout_constraintStart_toEndOf="@+id/btnPrincipalFornecedoresActivity"
+            app:layout_constraintTop_toTopOf="@+id/btnPrincipalFornecedoresActivity"/>
+
+        <TextView
+            android:id="@+id/textViewClientes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clientes"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalClientesActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalClientesActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalClientesActivity" />
+
+        <ImageButton
+            android:id="@+id/btnAdicionaItemNaListaActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#FFC107"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_vendas"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/btnPrincipalClientesActivity"
+            app:layout_constraintTop_toTopOf="@+id/btnPrincipalClientesActivity"/>
+
+        <TextView
+            android:id="@+id/textViewVendas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vendas"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnAdicionaItemNaListaActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnAdicionaItemNaListaActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnAdicionaItemNaListaActivity" />
+
+        <ImageButton
+            android:id="@+id/btnPrincipalEstoqueActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#E91E63"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_produtos"
+            app:layout_constraintTop_toBottomOf="@id/textViewFornecedores"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalFornecedoresActivity"/>
+
+        <TextView
+            android:id="@+id/textViewEstoque"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estoque"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalEstoqueActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalEstoqueActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalEstoqueActivity" />
+
+        <ImageButton
+            android:id="@+id/btnPrincipalContasActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#673AB7"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_contas"
+            app:layout_constraintTop_toBottomOf="@+id/textViewClientes"
+            app:layout_constraintStart_toEndOf="@+id/btnPrincipalEstoqueActivity"/>
+
+        <TextView
+            android:id="@+id/textViewContas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contas"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalContasActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalContasActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalContasActivity" />
+
+        <ImageButton
+            android:id="@+id/btnPrincipalRelatoriosActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#F44336"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_relatorios"
+            app:layout_constraintTop_toBottomOf="@+id/textViewVendas"
+            app:layout_constraintStart_toEndOf="@+id/btnPrincipalContasActivity" />
+
+        <TextView
+            android:id="@+id/textViewRelatorios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Relatórios"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalRelatoriosActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalRelatoriosActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalRelatoriosActivity" />
+
+        <ImageButton
+            android:id="@+id/btnPrincipalConfiguracoesActivity"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/botao_arredondado"
+            android:backgroundTint="#2196F3"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_btn_configuracao"
+            app:layout_constraintTop_toBottomOf="@+id/textViewEstoque"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalEstoqueActivity"/>
+
+        <TextView
+            android:id="@+id/textViewConfiguracao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configuração"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalConfiguracoesActivity"
+            app:layout_constraintStart_toStartOf="@+id/btnPrincipalConfiguracoesActivity"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalConfiguracoesActivity"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

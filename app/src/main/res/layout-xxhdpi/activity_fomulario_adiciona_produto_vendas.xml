@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_produto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/model_vendas_codigo_barras"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="@dimen/_225sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:boxBackgroundColor="@color/zxing_transparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/edit_d_vendas_codigo_barras"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Codigo de Barras"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_scan_d_vendas_produto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_action_codigo_barras"
+                android:tint="#F89402"
+                app:backgroundTint="#FFC107"
+                app:layout_constraintBottom_toBottomOf="@+id/model_vendas_codigo_barras"
+                app:layout_constraintStart_toEndOf="@+id/model_vendas_codigo_barras"
+                app:layout_constraintTop_toTopOf="@+id/model_vendas_codigo_barras"
+                app:rippleColor="#F8F3F3" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/model_vendas_cliente"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:boxBackgroundColor="@color/zxing_transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/model_vendas_codigo_barras"
+                app:layout_constraintTop_toBottomOf="@+id/model_vendas_codigo_barras">
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/edit_d_vendas_cliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:completionThreshold="1"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:hint="   Cliente"
+                    android:inputType="textCapWords"
+                    android:textAlignment="center" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/model_vendas_produto"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="@dimen/_220sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:boxBackgroundColor="@color/zxing_transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/model_vendas_quantidade"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/edit_d_vendas_produto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:completionThreshold="1"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                    android:hint="   Produto"
+                    android:inputType="textCapWords"
+                    android:textAlignment="center" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/model_vendas_quantidade"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:boxBackgroundColor="@color/zxing_transparent"
+                app:layout_constraintStart_toEndOf="@+id/model_vendas_produto"
+                app:layout_constraintTop_toBottomOf="@+id/model_vendas_cliente">
+
+                <EditText
+                    android:id="@+id/edit_d_vendas_quantidade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Qtd"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+            <RadioGroup
+                android:id="@+id/formas_de_pagamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:checkedButton="@+id/forma_de_pagamento_dinheiro">
+            <RadioButton
+                android:id="@+id/forma_de_pagamento_dinheiro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Dinheiro" />
+
+            <RadioButton
+                android:id="@+id/forma_de_pagamento_cartao_credito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cartao de Credito" />
+
+            <RadioButton
+                android:id="@+id/forma_de_pagamento_cartao_debito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cartao de Debito" />
+
+            <RadioButton
+                android:id="@+id/forma_de_pagamento_conta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Conta Cliente" />
+            </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
