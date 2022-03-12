@@ -26,7 +26,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
@@ -34,7 +36,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -102,7 +103,8 @@ public class VendasActivity extends AppCompatActivity {
     private EditText campoQuantidade;
     private TextView valorTotal;
 
-    private RadioGroup radioGroup;
+    private RadioGroup radioGroupFormasPagamento;
+    private RadioGroup radioGroupParcelaCC;
 
     private List<Produto> produtos = new ArrayList<>();
     private List<Produto> listaCompras = new ArrayList<>();
@@ -122,6 +124,8 @@ public class VendasActivity extends AppCompatActivity {
     private BuscaProduto buscaProduto = new BuscaProduto();
     private ConfiguraLeitorCodigoDeBarras configuraLeitorCodigoDeBarras = new ConfiguraLeitorCodigoDeBarras();
     private ContaDoCliente contaDoCliente = new ContaDoCliente();
+    private CalculaRecebimentoEmDinheiro calculaRecebimentoEmDinheiro = new CalculaRecebimentoEmDinheiro();
+    private CalculaParcelasCartaoCredito calculaParcelasCartaoCredito = new CalculaParcelasCartaoCredito();
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
     String linkMacro = LINK_MACRO;
@@ -130,7 +134,10 @@ public class VendasActivity extends AppCompatActivity {
     public int id = 0;
     private BigDecimal total = new BigDecimal("0.0");
     private String resultadoQuantidade;
-//==================================================================================================
+    private String escolhaFormaPagamento;
+    private String escolhaCcParcelamento;
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +149,7 @@ public class VendasActivity extends AppCompatActivity {
         configuraFabAddProduto();
     }
 
-//==================================================================================================
+    //==================================================================================================
     @Override
     protected void onResume() {
         super.onResume();
@@ -303,7 +310,7 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-//==================================================================================================
+    //==================================================================================================
     //MENU ITENS LISTA
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -359,48 +366,114 @@ public class VendasActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 //==================================================================================================
     public void concluiVenda() {
-        View view = getLayoutInflater().inflate(R.layout.activity_formulario_conclui_venda,null);
+        //CONFIGURA VIEW A SEREM INFLADAS
+        View layoutConcluiVenda = getLayoutInflater().inflate(R.layout.activity_formulario_conclui_venda, null);
+        View layoutDinheiro = getLayoutInflater().inflate(R.layout.layout_pagamento_dinheiro, null);
+        View layoutCC = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito,null);
+        View layoutCCParcelas = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito_parcelas,null);
 
+        //CONFIG STILO DO ALERTDIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(VendasActivity.this);
 
-        radioGroup = view.findViewById(R.id.formas_de_pagamento);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        //CONFIG DOS RADIOSGROUPS
+        radioGroupFormasPagamento = layoutConcluiVenda.findViewById(R.id.formas_de_pagamento);
+        radioGroupParcelaCC = layoutCC.findViewById(R.id.radiogroup_cc);
+
+        //CHECAGEM DAS ESCOLHAS DE PAGAMENTO
+        radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int item = radioGroup.getCheckedRadioButtonId();
-                RadioButton  radioButton = view.findViewById(item);
-                String st = radioButton.getText().toString();
-                Toast.makeText(context, ""+st, Toast.LENGTH_SHORT).show();
+                RadioButton radioButtonConcluiVenda = layoutConcluiVenda.findViewById(item);
+                escolhaFormaPagamento = radioButtonConcluiVenda.getText().toString();
+
+                LinearLayout layoutPagamentoDinheiro = configuraRecebimentoDinheiro(layoutConcluiVenda, layoutDinheiro);
+                LinearLayout layoutPagamentoCC = layoutConcluiVenda.findViewById(R.id.linear_layout_formas_pagamentos_cartao_cc);
+
+                switch (escolhaFormaPagamento) {
+                    case "Dinheiro":
+                        layoutPagamentoDinheiro.addView(layoutDinheiro);
+                        layoutPagamentoCC.removeAllViews();
+                        break;
+                    case "Cartao de Credito":
+                        layoutPagamentoCC.addView(layoutCC);
+                        layoutPagamentoDinheiro.removeAllViews();
+                        break;
+                    case "Cartao de Debito":
+                        layoutPagamentoDinheiro.removeAllViews();
+                        layoutPagamentoCC.removeAllViews();
+                        break;
+                    case "Conta Cliente":
+                        layoutPagamentoDinheiro.removeAllViews();
+                        layoutPagamentoCC.removeAllViews();
+                        break;
+                }
             }
         });
 
+        //CHECAGEM DAS ESCOLHAS DE PARCELAMENTO CC
+        radioGroupParcelaCC.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int item = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButton = layoutCC.findViewById(item);
+                escolhaCcParcelamento = radioButton.getText().toString();
+                LinearLayout layoutParcelasCC = layoutCC.findViewById(R.id.layout_formas_pagamentos_cartao_cc);
 
-        alertDialog.setTitle("Concluir Venda")
-                .setView(view);
+                EditText recebeNumeroParcelas = layoutCCParcelas.findViewById(R.id.edit_numero_parcelas);
+                EditText taxa = layoutCCParcelas.findViewById(R.id.edit_taxa);
+                TextView vlParcela = layoutCCParcelas.findViewById(R.id.valor_parcela);
+                Button btnConcluiCalculoParcelasCC = layoutCCParcelas.findViewById(R.id.conclui_parcelas);
 
-                alertDialog.setPositiveButton(OK, new DialogInterface.OnClickListener() {
+                btnConcluiCalculoParcelasCC.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
+                    public void onClick(View view) {
+                        calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela,valorTotal);
                     }
                 });
-                alertDialog.setNegativeButton(CANCELAR, null)
-                        .show()
-                        .getWindow()
-                        .setBackgroundDrawable(inset);
+
+                switch (escolhaCcParcelamento){
+                    case "A Vista":
+                        layoutParcelasCC.removeAllViews();
+                        break;
+                    case "Parcelado":
+                        layoutParcelasCC.addView(layoutCCParcelas);
+                        break;
+                }
+            }
+        });
+
+        //CONFIGURANDO ALERTDIALOG
+        alertDialog.setTitle("Concluir Venda")
+                .setView(layoutConcluiVenda);
+
+        alertDialog.setPositiveButton(OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        alertDialog.setNegativeButton(CANCELAR, null)
+                .show()
+                .getWindow()
+                .setBackgroundDrawable(inset);
     }
-//==================================================================================================
+ //==================================================================================================
+    private LinearLayout configuraRecebimentoDinheiro(View view, View layoutDinheiro) {
+        LinearLayout layoutFormasPagamentoDinheiro = view.findViewById(R.id.linear_layout_forma_pagamento_dinheiro);
+        calculaRecebimentoEmDinheiro.calcula(layoutDinheiro, valorTotal);
+        return layoutFormasPagamentoDinheiro;
+    }
 //==================================================================================================
     private void configuraRemocaoProdutoDoCarrinhoCompras(Produto produto) {
         configuracaoIOEstoqueVendas.devolveItemAoEstoque(produtoDao, produto, produtos, total, valorTotal, produtosVendaAdapter, listaCompras);
     }
 
-    //==================================================================================================
+//==================================================================================================
     //JANELA ADICIONA PRODUTO AO CARRINHO
     private void configuraFabAddProduto() {
         fabAdicionaProduto.setOnClickListener(new View.OnClickListener() {
@@ -410,8 +483,7 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
