@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo_tela"
@@ -162,31 +163,6 @@
             app:layout_constraintEnd_toEndOf="@+id/btnPrincipalRelatoriosActivity"
             app:layout_constraintStart_toStartOf="@+id/btnPrincipalRelatoriosActivity"
             app:layout_constraintTop_toBottomOf="@+id/btnPrincipalRelatoriosActivity" />
-
-        <ImageButton
-            android:id="@+id/btnPrincipalConfiguracoesActivity"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/botao_arredondado"
-            android:backgroundTint="#2196F3"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_action_btn_configuracao"
-            app:layout_constraintTop_toBottomOf="@+id/textViewEstoque"
-            app:layout_constraintStart_toStartOf="@+id/btnPrincipalEstoqueActivity"/>
-
-        <TextView
-            android:id="@+id/textViewConfiguracao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Configuração"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="@+id/btnPrincipalConfiguracoesActivity"
-            app:layout_constraintStart_toStartOf="@+id/btnPrincipalConfiguracoesActivity"
-            app:layout_constraintTop_toBottomOf="@+id/btnPrincipalConfiguracoesActivity"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

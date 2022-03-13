@@ -38,13 +38,13 @@ public class Cliente implements Serializable {
     private String cep;
     private String complemento;
 
+    private String dataVencimento;
     private String divida = "0";
 //==================================================================================================
     //METODOS DE SOBRECARGA
     public Cliente(){}
 
-
-    public Cliente(int id, String nomeCompleto,  String dataNascimento, String cpf, String rg, String nomePai, String nomeMae, String celular1, String celular2, String telefone, String email, String rua, String numero, String quadra, String lote, String bairro, String cep, String complemento) {
+    public Cliente(int id, String nomeCompleto, String dataNascimento, String cpf, String rg, String nomePai, String nomeMae, String celular1, String celular2, String telefone, String email, String rua, String numero, String quadra, String lote, String bairro, String cep, String complemento, String dataVencimento, String divida) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
@@ -63,8 +63,11 @@ public class Cliente implements Serializable {
         this.bairro = bairro;
         this.cep = cep;
         this.complemento = complemento;
+        this.dataVencimento = dataVencimento;
+        this.divida = divida;
     }
-//==================================================================================================
+
+    //==================================================================================================
     //SOBREESCREVENDO O TOSTRING
     @NonNull
     @Override
@@ -220,6 +223,14 @@ public class Cliente implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(String dataVencimento) {
+        this.dataVencimento = dataVencimento;
     }
 
     public String getDivida() {

@@ -75,7 +75,7 @@ import javax.net.ssl.HttpsURLConnection;
 //==================================================================================================
 public class VendasActivity extends AppCompatActivity {
     public static final String ADICIONAR_PRODUTO = "Adicionar Produto";
-    public static final String OK = "Ok";
+    public static final String CONCLUIR = "Concluir";
     public static final String CANCELAR = "Cancelar";
     public static final String SCAN_CANCELADO = "Scan Cancelado!";
     public static final String VENDAS = "Vendas";
@@ -205,7 +205,7 @@ public class VendasActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(VendasActivity.this);
 
         alertDialog.setMessage(ADICIONAR_PRODUTO).setView(viewCriada)
-                .setPositiveButton(OK, new DialogInterface.OnClickListener() {
+                .setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
@@ -373,6 +373,7 @@ public class VendasActivity extends AppCompatActivity {
         View layoutDinheiro = getLayoutInflater().inflate(R.layout.layout_pagamento_dinheiro, null);
         View layoutCC = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito,null);
         View layoutCCParcelas = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito_parcelas,null);
+        View layoutCalendarioContaCliente = getLayoutInflater().inflate(R.layout.layout_pagamento_conta_cliente, null);
 
         //CONFIG STILO DO ALERTDIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
@@ -393,21 +394,26 @@ public class VendasActivity extends AppCompatActivity {
 
                 LinearLayout layoutPagamentoDinheiro = configuraRecebimentoDinheiro(layoutConcluiVenda, layoutDinheiro);
                 LinearLayout layoutPagamentoCC = layoutConcluiVenda.findViewById(R.id.linear_layout_formas_pagamentos_cartao_cc);
+                LinearLayout layoutPagamentoContaCliente = layoutConcluiVenda.findViewById(R.id.forma_pagamento_conta_cliente);
 
                 switch (escolhaFormaPagamento) {
                     case "Dinheiro":
                         layoutPagamentoDinheiro.addView(layoutDinheiro);
                         layoutPagamentoCC.removeAllViews();
+                        layoutPagamentoContaCliente.removeAllViews();
                         break;
                     case "Cartao de Credito":
                         layoutPagamentoCC.addView(layoutCC);
                         layoutPagamentoDinheiro.removeAllViews();
+                        layoutPagamentoContaCliente.removeAllViews();
                         break;
                     case "Cartao de Debito":
                         layoutPagamentoDinheiro.removeAllViews();
                         layoutPagamentoCC.removeAllViews();
+                        layoutPagamentoContaCliente.removeAllViews();
                         break;
                     case "Conta Cliente":
+                        layoutPagamentoContaCliente.addView(layoutCalendarioContaCliente);
                         layoutPagamentoDinheiro.removeAllViews();
                         layoutPagamentoCC.removeAllViews();
                         break;
@@ -451,9 +457,10 @@ public class VendasActivity extends AppCompatActivity {
         alertDialog.setTitle("Concluir Venda")
                 .setView(layoutConcluiVenda);
 
-        alertDialog.setPositiveButton(OK, new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                //SALVAR DADOS NO BD
                 finish();
             }
         });

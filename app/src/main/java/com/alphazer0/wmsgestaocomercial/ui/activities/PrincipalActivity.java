@@ -21,7 +21,6 @@ public class PrincipalActivity extends AppCompatActivity {
     private ImageButton btnEstoque;
     private ImageButton btnContas;
     private ImageButton btnRelatorios;
-    private ImageButton btnConfiguracao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,6 @@ public class PrincipalActivity extends AppCompatActivity {
         btnEstoque = findViewById(R.id.btnPrincipalEstoqueActivity);
         btnContas = findViewById(R.id.btnPrincipalContasActivity);
         btnRelatorios = findViewById(R.id.btnPrincipalRelatoriosActivity);
-        btnConfiguracao = findViewById(R.id.btnPrincipalConfiguracoesActivity);
     }
 
     private void configuraBotoes(){
@@ -78,13 +76,6 @@ public class PrincipalActivity extends AppCompatActivity {
         });
 
         btnRelatorios.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //startActivity(new Intent(PrincipalActivity.this, ListaDeClientesActivity.class));
-            }
-        });
-
-        btnConfiguracao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //startActivity(new Intent(PrincipalActivity.this, ListaDeClientesActivity.class));
