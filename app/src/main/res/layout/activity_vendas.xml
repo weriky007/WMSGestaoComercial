@@ -42,7 +42,7 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/total"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,26 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
     <RadioGroup
         android:id="@+id/formas_de_pagamento"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
-        >
+        android:layout_marginStart="@dimen/_8sdp">
 
         <RadioButton
             android:id="@+id/forma_de_pagamento_dinheiro"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:text="Dinheiro" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_pagamento_dinheiro"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/linear_layout_forma_pagamento_dinheiro"
@@ -33,13 +35,13 @@
 
         <RadioButton
             android:id="@+id/forma_de_pagamento_cartao_credito"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cartao de Credito" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_pagamento_cartao_credito"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/linear_layout_formas_pagamentos_cartao_cc"
@@ -51,18 +53,19 @@
 
         <RadioButton
             android:id="@+id/forma_de_pagamento_cartao_debito"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cartao de Debito" />
 
         <RadioButton
             android:id="@+id/forma_de_pagamento_conta"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Conta Cliente" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_pagamento_cliente"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/forma_pagamento_conta_cliente"
@@ -72,9 +75,10 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RadioGroup>
+   </ScrollView>
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_1sdp"
+        android:layout_height="@dimen/_1sdp"
         android:focusable="false"
         android:clickable="false"/>
 

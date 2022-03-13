@@ -15,7 +15,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_cliente_nome"
+                android:id="@+id/item_produto_vendas_produto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -25,7 +25,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/item_cliente_telefone"
+                android:id="@+id/item_produto_vendas_marca"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -34,15 +34,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/item_cliente_endereco"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="3dp"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/item_cliente_divida"
+                android:id="@+id/item_produto_vendas_quantidade_valor_unitario"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"

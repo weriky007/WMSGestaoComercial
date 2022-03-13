@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -98,10 +99,12 @@ public class VendasActivity extends AppCompatActivity {
     private final Context context = this;
 
     private EditText campoCodigoBarras;
-    private MultiAutoCompleteTextView campoCliente;
+    private MultiAutoCompleteTextView campoClienteCC;
+    private MultiAutoCompleteTextView campoClienteConta;
     private MultiAutoCompleteTextView campoProduto;
     private EditText campoQuantidade;
     private TextView valorTotal;
+    private CalendarView calendarContaCliente;
 
     private RadioGroup radioGroupFormasPagamento;
     private RadioGroup radioGroupParcelaCC;
@@ -136,8 +139,7 @@ public class VendasActivity extends AppCompatActivity {
     private String resultadoQuantidade;
     private String escolhaFormaPagamento;
     private String escolhaCcParcelamento;
-
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,21 +150,19 @@ public class VendasActivity extends AppCompatActivity {
         configuraLista();
         configuraFabAddProduto();
     }
-
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onResume() {
         super.onResume();
         produtosVendaAdapter.pegaTodosProdutos(listaCompras);
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void bindDosElementos() {
         valorTotal = findViewById(R.id.valor);
         fabAdicionaProduto = findViewById(R.id.fab_adiciona_produto_venda);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraAdapter() {
         produtosVendaAdapter = new ListaProdutosVendasAdapter(listaCompras);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
@@ -187,15 +187,14 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     //CONFIGURA ALERTDIALOG TELA VENDAS
     public void mostra() {
         View viewCriada = LayoutInflater.from(VendasActivity.this)
                 .inflate(R.layout.activity_fomulario_adiciona_produto_vendas, null);
 
         bindViewsVenda(viewCriada);
-        configuraAutoComplete();
+        configuraAutoCompleteProdutos();
         preencheProduto();
         preencheCodigoBarras();
         configuraLeitor();
@@ -211,8 +210,6 @@ public class VendasActivity extends AppCompatActivity {
                         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
                         configuracaoIOEstoqueVendas.diminuiItemDoEstoque(campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
                         calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
-                        pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(), filtroClientes, hashSetClientes);
-                        contaDoCliente.contaCliente(clienteDAO.todosClientes(), clienteDAO, campoCliente, valorTotal);
                     }
                 }).setNegativeButton(CANCELAR, null).show().getWindow().setBackgroundDrawable(inset);
     }
@@ -220,23 +217,26 @@ public class VendasActivity extends AppCompatActivity {
     private void bindViewsVenda(View viewCriada) {
         campoCodigoBarras = viewCriada.findViewById(R.id.edit_d_vendas_codigo_barras);
         campoProduto = viewCriada.findViewById(R.id.edit_d_vendas_produto);
-        campoCliente = viewCriada.findViewById(R.id.edit_d_vendas_cliente);
         campoQuantidade = viewCriada.findViewById(R.id.edit_d_vendas_quantidade);
         fabLerCodigo = viewCriada.findViewById(R.id.fab_scan_d_vendas_produto);
     }
-
-    //==================================================================================================
-    private void configuraAutoComplete() {
-        pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(), filtroClientes, hashSetClientes);
+//==================================================================================================
+    private void configuraAutoCompleteProdutos() {
         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
-
-        ArrayAdapter<String> adapterClientes = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filtroClientes);
         ArrayAdapter<String> adapterProdutos = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filtroTituloProdutos);
 
-        campoCliente.setAdapter(adapterClientes);
-        campoCliente.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         campoProduto.setAdapter(adapterProdutos);
         campoProduto.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+    }
+
+    private void configuraAutoCompleteClientes() {
+        pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(), filtroClientes, hashSetClientes);
+        ArrayAdapter<String> adapterClientes = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filtroClientes);
+
+        campoClienteCC.setAdapter(adapterClientes);
+        campoClienteCC.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        campoClienteConta.setAdapter(adapterClientes);
+        campoClienteConta.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 
     private void preencheCodigoBarras() {
@@ -278,8 +278,7 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     //CONFIGURA LEITOR DE  CODIGO
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -310,7 +309,7 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     //MENU ITENS LISTA
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -374,15 +373,20 @@ public class VendasActivity extends AppCompatActivity {
         View layoutCC = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito,null);
         View layoutCCParcelas = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito_parcelas,null);
         View layoutCalendarioContaCliente = getLayoutInflater().inflate(R.layout.layout_pagamento_conta_cliente, null);
-
         //CONFIG STILO DO ALERTDIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(VendasActivity.this);
 
-        //CONFIG DOS RADIOSGROUPS
+        //BIND DOS RADIOSGROUPS
         radioGroupFormasPagamento = layoutConcluiVenda.findViewById(R.id.formas_de_pagamento);
         radioGroupParcelaCC = layoutCC.findViewById(R.id.radiogroup_cc);
+
+        //BIND CAMPOS CLIENTE
+        campoClienteCC = layoutCCParcelas.findViewById(R.id.edit_campo_cc_parcelas_cliente);
+        campoClienteConta = layoutCalendarioContaCliente.findViewById(R.id.edit_d_vendas_cliente);
+        configuraAutoCompleteClientes();
+        pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(),filtroClientes,hashSetClientes);
 
         //CHECAGEM DAS ESCOLHAS DE PAGAMENTO
         radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -416,6 +420,15 @@ public class VendasActivity extends AppCompatActivity {
                         layoutPagamentoContaCliente.addView(layoutCalendarioContaCliente);
                         layoutPagamentoDinheiro.removeAllViews();
                         layoutPagamentoCC.removeAllViews();
+                        calendarContaCliente = layoutCalendarioContaCliente.findViewById(R.id.calendar);
+                        calendarContaCliente.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                            @Override
+                            public void onSelectedDayChange(@NonNull CalendarView calendarView, int ano, int mes, int dia) {
+                                String date = dia + "/" + (mes+1) + "/" + ano;
+                                contaDoCliente.contaCliente(clienteDAO.todosClientes(), clienteDAO, campoClienteConta, valorTotal,date);
+                                Toast.makeText(VendasActivity.this, ""+date, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         break;
                 }
             }
@@ -460,16 +473,15 @@ public class VendasActivity extends AppCompatActivity {
         alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //SALVAR DADOS NO BD
-                finish();
+
             }
         });
         alertDialog.setNegativeButton(CANCELAR, null)
                 .show()
                 .getWindow()
                 .setBackgroundDrawable(inset);
-    }
- //==================================================================================================
+    }//FIM CONCLUI VENDA
+//==================================================================================================
     private LinearLayout configuraRecebimentoDinheiro(View view, View layoutDinheiro) {
         LinearLayout layoutFormasPagamentoDinheiro = view.findViewById(R.id.linear_layout_forma_pagamento_dinheiro);
         calculaRecebimentoEmDinheiro.calcula(layoutDinheiro, valorTotal);
@@ -521,7 +533,7 @@ public class VendasActivity extends AppCompatActivity {
         }//end onPostExecute
     }//end sendRequest
 
-    //==================================================================================================
+//==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {

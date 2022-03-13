@@ -58,13 +58,18 @@ public class ListaClientesAdapter extends BaseAdapter implements Filterable {
 //==================================================================================================
     private void vincula(View viewCriada, Cliente clienteDevolvido) {
         //BIND
-        TextView nome = viewCriada.findViewById(R.id.item_fornecedorpf_nome);
-        TextView celular1 = viewCriada.findViewById(R.id.item_fornecedorpf_telefone);
-        TextView endereco = viewCriada.findViewById(R.id.item_fornecedorpf_endereco);
+        TextView nome = viewCriada.findViewById(R.id.item_cliente_nome);
+        TextView celular1 = viewCriada.findViewById(R.id.item_cliente_telefone);
+        TextView endereco = viewCriada.findViewById(R.id.item_cliente_endereco);
+        TextView divida = viewCriada.findViewById(R.id.item_cliente_divida);
 
         nome.setText(clienteDevolvido.getNomeCompleto());
         celular1.setText(clienteDevolvido.getCelular1());
         endereco.setText("R :"+clienteDevolvido.getRua()+" | "+"Bairro: "+clienteDevolvido.getBairro());
+        if(clienteDevolvido.getDataVencimento()== null){
+            clienteDevolvido.setDataVencimento("//");
+        }
+        divida.setText("Divida: R$"+clienteDevolvido.getDivida()+" | "+"Data Vencimento: "+clienteDevolvido.getDataVencimento());
     }
 
     private View criaView(ViewGroup listViewClientes) {

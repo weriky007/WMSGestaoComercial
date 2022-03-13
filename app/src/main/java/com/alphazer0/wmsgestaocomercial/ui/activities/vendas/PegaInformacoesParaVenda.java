@@ -21,8 +21,8 @@ public class PegaInformacoesParaVenda {
         filtroCodigo.addAll(hashSetCodigos);
     }
 
-    public void pegaClientes(List<Cliente> cliente,List<String> filtroClientes,HashSet<String> hashSetClientes){
-        for (Cliente filtroCliente : cliente) {
+    public void pegaClientes(List<Cliente> clientes,List<String> filtroClientes,HashSet<String> hashSetClientes){
+        for (Cliente filtroCliente : clientes) {
             filtroClientes.add(filtroCliente.getNomeCompleto());
         }
         hashSetClientes.addAll(filtroClientes);

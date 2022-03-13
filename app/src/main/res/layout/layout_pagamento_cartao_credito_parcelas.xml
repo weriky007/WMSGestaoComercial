@@ -8,21 +8,46 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_form_dinheiro"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_pagamento_dinheiro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/model_vendas_numero_parcelas"
+                android:id="@+id/edit_model_vendas_cc_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                app:boxBackgroundColor="@color/zxing_transparent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp">
+                <MultiAutoCompleteTextView
+                    android:id="@+id/edit_campo_cc_parcelas_cliente"
+                    android:layout_width="@dimen/_210sdp"
+                    android:layout_height="match_parent"
+                    android:completionThreshold="1"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:hint="   Cliente"
+                    android:inputType="textCapWords"
+                    android:textAlignment="center" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_model_vendas_numero_parcelas"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="@+id/edit_model_vendas_cc_cliente"
+                app:layout_constraintTop_toBottomOf="@+id/edit_model_vendas_cc_cliente"
                 android:layout_marginTop="@dimen/_8sdp"
                 app:boxBackgroundColor="@color/zxing_transparent">
                 <EditText
@@ -34,25 +59,26 @@
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_model_vendas_taxa"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:layout_constraintStart_toEndOf="@+id/edit_model_vendas_numero_parcelas"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_model_vendas_numero_parcelas"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:boxBackgroundColor="@color/zxing_transparent">
+                <EditText
+                    android:id="@+id/edit_taxa"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Taxa %"
+                    android:textAlignment="center"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/model_vendas_taxa"
-        android:layout_width="@dimen/_90sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        app:boxBackgroundColor="@color/zxing_transparent"
-        app:layout_constraintStart_toEndOf="@+id/cardView_form_dinheiro"
-        app:layout_constraintTop_toTopOf="@+id/cardView_form_dinheiro">
-        <EditText
-            android:id="@+id/edit_taxa"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Taxa %"
-            android:textAlignment="center"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/titulo_valor_parcela"
@@ -79,7 +105,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ok"
-        app:layout_constraintEnd_toEndOf="@+id/model_vendas_taxa"
-        app:layout_constraintTop_toBottomOf="@+id/valor_parcela"/>
+        app:layout_constraintTop_toBottomOf="@+id/valor_parcela"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/_8sdp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,9 +57,9 @@ public class ListaProdutosVendasAdapter extends BaseAdapter implements Filterabl
 //==================================================================================================
     private void vincula(View viewCriada, Produto produtoDevolvido) {
         //BIND
-        TextView produto = viewCriada.findViewById(R.id.item_produto);
-        TextView marca = viewCriada.findViewById(R.id.item_marca);
-        TextView quantidadeValorUnitario = viewCriada.findViewById(R.id.item_quantidade_valor_unitario);
+        TextView produto = viewCriada.findViewById(R.id.item_produto_vendas_produto);
+        TextView marca = viewCriada.findViewById(R.id.item_produto_vendas_marca);
+        TextView quantidadeValorUnitario = viewCriada.findViewById(R.id.item_produto_vendas_quantidade_valor_unitario);
 
         produto.setText(produtoDevolvido.getProduto());
         marca.setText(produtoDevolvido.getMarca());
@@ -76,7 +76,7 @@ public class ListaProdutosVendasAdapter extends BaseAdapter implements Filterabl
     }
 
     private View criaView(ViewGroup listViewProdutos) {
-        return LayoutInflater.from(listViewProdutos.getContext()).inflate(R.layout.item_produto, listViewProdutos,false);
+        return LayoutInflater.from(listViewProdutos.getContext()).inflate(R.layout.item_produto_vendas, listViewProdutos,false);
     }
 //==================================================================================================
     public void atualizaListaProdutos(List<Produto> produto, String categoria){
