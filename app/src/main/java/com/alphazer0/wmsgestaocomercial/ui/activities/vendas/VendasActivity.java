@@ -80,6 +80,8 @@ import java.util.logging.SimpleFormatter;
 import javax.net.ssl.HttpsURLConnection;
 //==================================================================================================
 public class VendasActivity extends AppCompatActivity {
+
+    //CONSTANTES
     public static final String ADICIONAR_PRODUTO = "Adicionar Produto";
     public static final String CONCLUIR = "Concluir";
     public static final String CANCELAR = "Cancelar";
@@ -102,6 +104,7 @@ public class VendasActivity extends AppCompatActivity {
     public static final String CARTAO_DE_CREDITO = "Cartao de Credito";
     public static final String DINHEIRO = "Dinheiro";
 
+    //VIEWS E BD
     private ListView listaProdutos;
     private ListaProdutosVendasAdapter produtosVendaAdapter;
     private ListaEstoqueProdutosAdapter produtosEstoqueAdapter;
@@ -110,6 +113,7 @@ public class VendasActivity extends AppCompatActivity {
     private RoomVendasDAO vendasDAO;
     private final Context context = this;
 
+    //ELEMENTOS
     private EditText campoCodigoBarras;
     private MultiAutoCompleteTextView campoClienteCC;
     private MultiAutoCompleteTextView campoClienteConta;
@@ -117,10 +121,10 @@ public class VendasActivity extends AppCompatActivity {
     private EditText campoQuantidade;
     private TextView valorTotal;
     private CalendarView calendarContaCliente;
-
     private RadioGroup radioGroupFormasPagamento;
     private RadioGroup radioGroupParcelaCC;
 
+    //LISTAS
     private List<Venda> vendas = new ArrayList<>();
     private List<Cliente> clientes = new ArrayList<>();
     private List<Produto> produtos = new ArrayList<>();
@@ -134,6 +138,7 @@ public class VendasActivity extends AppCompatActivity {
     private FloatingActionButton fabAdicionaProduto;
     private FloatingActionButton fabLerCodigo;
 
+    //OUTRAS CLASSES
     private PegaInformacoesParaVenda pegaInformacoesParaVenda = new PegaInformacoesParaVenda();
     private ConfiguracaoIOEstoqueVendas configuracaoIOEstoqueVendas = new ConfiguracaoIOEstoqueVendas();
     private CalculaValorTotalDaVenda calculaValorTotalDaVenda = new CalculaValorTotalDaVenda();
@@ -149,8 +154,12 @@ public class VendasActivity extends AppCompatActivity {
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
     String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
+
+    //DADOS PARA WEB
     private int put = 0;
     public int id = 0;
+
+    //VARIAVEIS VENDAS
     private BigDecimal total = new BigDecimal("0.0");
     private String resultadoQuantidade;
     private String escolhaFormaPagamento;
@@ -159,8 +168,7 @@ public class VendasActivity extends AppCompatActivity {
     private Venda venda = new Venda();;
     private String dataFormatada;
     private String horaFormatada;
-
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +185,6 @@ public class VendasActivity extends AppCompatActivity {
         super.onResume();
         produtosVendaAdapter.pegaTodosProdutos(listaCompras);
     }
-
 //==================================================================================================
     private void bindDosElementos() {
         valorTotal = findViewById(R.id.valor);
@@ -330,7 +337,6 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
 //==================================================================================================
     //MENU ITENS LISTA
     @Override
@@ -372,7 +378,7 @@ public class VendasActivity extends AppCompatActivity {
     }
 
 //==================================================================================================
-    //MENU CONCLUI VENDA
+    //MENU APPBAR CONCLUI VENDA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -424,11 +430,11 @@ public class VendasActivity extends AppCompatActivity {
         //CHECAGEM DAS ESCOLHAS DE PARCELAMENTO CC
         checaParcelamentoCC(layoutCC, layoutCCParcelas, layoutParcelasCC);
 
-        //CONFIGURANDO ALERTDIALOG
+        //TITULO ALERTDIALOG
         alertDialog.setTitle("Concluir Venda")
                 .setView(layoutConcluiVenda);
 
-        //CONFIGURA O BOTAO POSITIVO
+        //CONFIGURA ALERTDIALOG
         configuraAlertDialog(inset, alertDialog);
     }//FIM CONCLUI VENDA
 //==================================================================================================
