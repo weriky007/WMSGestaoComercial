@@ -1,6 +1,5 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
 //==================================================================================================
-
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.ID_PASTA;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.LINK_MACRO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.PRODUTOS_PLAN;
@@ -44,9 +43,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
+import com.alphazer0.wmsgestaocomercial.database.VendasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomProdutoDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomVendasDAO;
+import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
+import com.alphazer0.wmsgestaocomercial.model.Venda;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaProdutosVendasAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,13 +69,15 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 import javax.net.ssl.HttpsURLConnection;
-
 //==================================================================================================
 public class VendasActivity extends AppCompatActivity {
     public static final String ADICIONAR_PRODUTO = "Adicionar Produto";
@@ -90,12 +95,19 @@ public class VendasActivity extends AppCompatActivity {
     public static final String ID_PRODUTO = "idProduto";
     public static final String POST = "POST";
     public static final String NÃO = "Não";
+    public static final String PARCELADO = "Parcelado";
+    public static final String A_VISTA = "A Vista";
+    public static final String CONTA_CLIENTE = "Conta Cliente";
+    public static final String CARTAO_DE_DEBITO = "Cartao de Debito";
+    public static final String CARTAO_DE_CREDITO = "Cartao de Credito";
+    public static final String DINHEIRO = "Dinheiro";
 
     private ListView listaProdutos;
     private ListaProdutosVendasAdapter produtosVendaAdapter;
     private ListaEstoqueProdutosAdapter produtosEstoqueAdapter;
     private RoomProdutoDAO produtoDao;
     private RoomClienteDAO clienteDAO;
+    private RoomVendasDAO vendasDAO;
     private final Context context = this;
 
     private EditText campoCodigoBarras;
@@ -109,6 +121,8 @@ public class VendasActivity extends AppCompatActivity {
     private RadioGroup radioGroupFormasPagamento;
     private RadioGroup radioGroupParcelaCC;
 
+    private List<Venda> vendas = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<>();
     private List<Produto> produtos = new ArrayList<>();
     private List<Produto> listaCompras = new ArrayList<>();
     private List<String> filtroTituloProdutos = new ArrayList<>();
@@ -129,6 +143,8 @@ public class VendasActivity extends AppCompatActivity {
     private ContaDoCliente contaDoCliente = new ContaDoCliente();
     private CalculaRecebimentoEmDinheiro calculaRecebimentoEmDinheiro = new CalculaRecebimentoEmDinheiro();
     private CalculaParcelasCartaoCredito calculaParcelasCartaoCredito = new CalculaParcelasCartaoCredito();
+    private ConfiguraDataHora configuraDataHora = new ConfiguraDataHora();
+    private InsereValoresNaVenda insereValoresNaVenda = new InsereValoresNaVenda();
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
     String linkMacro = LINK_MACRO;
@@ -139,7 +155,12 @@ public class VendasActivity extends AppCompatActivity {
     private String resultadoQuantidade;
     private String escolhaFormaPagamento;
     private String escolhaCcParcelamento;
-//==================================================================================================
+    private String dataContaCliente;
+    private Venda venda = new Venda();;
+    private String dataFormatada;
+    private String horaFormatada;
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,6 +189,7 @@ public class VendasActivity extends AppCompatActivity {
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
         produtoDao = ProdutosDatabase.getInstance(this).getProdutoDAO();
         clienteDAO = ClientesDatabase.getInstance(this).getClienteDAO();
+        vendasDAO = VendasDatabase.getInstance(this).getVendaDAO();
     }
 
     private void configuraLista() {
@@ -373,6 +395,7 @@ public class VendasActivity extends AppCompatActivity {
         View layoutCC = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito,null);
         View layoutCCParcelas = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito_parcelas,null);
         View layoutCalendarioContaCliente = getLayoutInflater().inflate(R.layout.layout_pagamento_conta_cliente, null);
+
         //CONFIG STILO DO ALERTDIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
@@ -381,106 +404,139 @@ public class VendasActivity extends AppCompatActivity {
         //BIND DOS RADIOSGROUPS
         radioGroupFormasPagamento = layoutConcluiVenda.findViewById(R.id.formas_de_pagamento);
         radioGroupParcelaCC = layoutCC.findViewById(R.id.radiogroup_cc);
-
         //BIND CAMPOS CLIENTE
         campoClienteCC = layoutCCParcelas.findViewById(R.id.edit_campo_cc_parcelas_cliente);
         campoClienteConta = layoutCalendarioContaCliente.findViewById(R.id.edit_d_vendas_cliente);
+        //BIND LAYOUTS
+        LinearLayout layoutPagamentoDinheiro = configuraRecebimentoDinheiro(layoutConcluiVenda, layoutDinheiro);
+        LinearLayout layoutPagamentoCC = layoutConcluiVenda.findViewById(R.id.linear_layout_formas_pagamentos_cartao_cc);
+        LinearLayout layoutPagamentoContaCliente = layoutConcluiVenda.findViewById(R.id.forma_pagamento_conta_cliente);
+        LinearLayout layoutParcelasCC = layoutCC.findViewById(R.id.layout_formas_pagamentos_cartao_cc);
+
         configuraAutoCompleteClientes();
         pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(),filtroClientes,hashSetClientes);
 
+        vendas = vendasDAO.todasVendas();
+
         //CHECAGEM DAS ESCOLHAS DE PAGAMENTO
-        radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        checaEscolhasPagamento(layoutConcluiVenda, layoutDinheiro, layoutCC, layoutCalendarioContaCliente, layoutPagamentoDinheiro, layoutPagamentoCC, layoutPagamentoContaCliente);
+
+        //CHECAGEM DAS ESCOLHAS DE PARCELAMENTO CC
+        checaParcelamentoCC(layoutCC, layoutCCParcelas, layoutParcelasCC);
+
+        //CONFIGURANDO ALERTDIALOG
+        alertDialog.setTitle("Concluir Venda")
+                .setView(layoutConcluiVenda);
+
+        //CONFIGURA O BOTAO POSITIVO
+        configuraAlertDialog(inset, alertDialog);
+    }//FIM CONCLUI VENDA
+//==================================================================================================
+    private void configuraAlertDialog(InsetDrawable inset, AlertDialog.Builder alertDialog) {
+        alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                int item = radioGroup.getCheckedRadioButtonId();
-                RadioButton radioButtonConcluiVenda = layoutConcluiVenda.findViewById(item);
-                escolhaFormaPagamento = radioButtonConcluiVenda.getText().toString();
+            public void onClick(DialogInterface dialogInterface, int i) {
 
-                LinearLayout layoutPagamentoDinheiro = configuraRecebimentoDinheiro(layoutConcluiVenda, layoutDinheiro);
-                LinearLayout layoutPagamentoCC = layoutConcluiVenda.findViewById(R.id.linear_layout_formas_pagamentos_cartao_cc);
-                LinearLayout layoutPagamentoContaCliente = layoutConcluiVenda.findViewById(R.id.forma_pagamento_conta_cliente);
+                    if(escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)){
+                        String a = campoClienteCC.getText().toString();
+                                venda.setCliente(a);
+                    }
+                    if(escolhaFormaPagamento.equals(CONTA_CLIENTE)){
+                        contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
+                    }
 
-                switch (escolhaFormaPagamento) {
-                    case "Dinheiro":
-                        layoutPagamentoDinheiro.addView(layoutDinheiro);
-                        layoutPagamentoCC.removeAllViews();
-                        layoutPagamentoContaCliente.removeAllViews();
-                        break;
-                    case "Cartao de Credito":
-                        layoutPagamentoCC.addView(layoutCC);
-                        layoutPagamentoDinheiro.removeAllViews();
-                        layoutPagamentoContaCliente.removeAllViews();
-                        break;
-                    case "Cartao de Debito":
-                        layoutPagamentoDinheiro.removeAllViews();
-                        layoutPagamentoCC.removeAllViews();
-                        layoutPagamentoContaCliente.removeAllViews();
-                        break;
-                    case "Conta Cliente":
-                        layoutPagamentoContaCliente.addView(layoutCalendarioContaCliente);
-                        layoutPagamentoDinheiro.removeAllViews();
-                        layoutPagamentoCC.removeAllViews();
-                        calendarContaCliente = layoutCalendarioContaCliente.findViewById(R.id.calendar);
-                        calendarContaCliente.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                            @Override
-                            public void onSelectedDayChange(@NonNull CalendarView calendarView, int ano, int mes, int dia) {
-                                String date = dia + "/" + (mes+1) + "/" + ano;
-                                contaDoCliente.contaCliente(clienteDAO.todosClientes(), clienteDAO, campoClienteConta, valorTotal,date);
-                                Toast.makeText(VendasActivity.this, ""+date, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        break;
-                }
+                    //SALVANDO A VENDA
+                    configuraDataHora.dataHora(dataFormatada,horaFormatada);
+                    insereValoresNaVenda.insere(valorTotal,venda,dataFormatada,horaFormatada,escolhaFormaPagamento,produtos,vendasDAO);
+
+                Toast.makeText(context, "Conpra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                    finish();
             }
         });
 
-        //CHECAGEM DAS ESCOLHAS DE PARCELAMENTO CC
+        //CONFIGURA  BOTAO NEGATIVO
+        alertDialog.setNegativeButton(CANCELAR, null)
+                .show()
+                .getWindow()
+                .setBackgroundDrawable(inset);
+    }
+//==================================================================================================
+    private void checaParcelamentoCC(View layoutCC, View layoutCCParcelas, LinearLayout layoutParcelasCC) {
         radioGroupParcelaCC.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int item = radioGroup.getCheckedRadioButtonId();
                 RadioButton radioButton = layoutCC.findViewById(item);
                 escolhaCcParcelamento = radioButton.getText().toString();
-                LinearLayout layoutParcelasCC = layoutCC.findViewById(R.id.layout_formas_pagamentos_cartao_cc);
 
                 EditText recebeNumeroParcelas = layoutCCParcelas.findViewById(R.id.edit_numero_parcelas);
                 EditText taxa = layoutCCParcelas.findViewById(R.id.edit_taxa);
                 TextView vlParcela = layoutCCParcelas.findViewById(R.id.valor_parcela);
                 Button btnConcluiCalculoParcelasCC = layoutCCParcelas.findViewById(R.id.conclui_parcelas);
 
+                //CONFIGURANDO ESCOLHA CC
                 btnConcluiCalculoParcelasCC.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela,valorTotal);
+                        calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela,valorTotal, venda);
                     }
                 });
 
                 switch (escolhaCcParcelamento){
-                    case "A Vista":
+                    case A_VISTA:
                         layoutParcelasCC.removeAllViews();
                         break;
-                    case "Parcelado":
+                    case PARCELADO:
                         layoutParcelasCC.addView(layoutCCParcelas);
                         break;
                 }
             }
         });
-
-        //CONFIGURANDO ALERTDIALOG
-        alertDialog.setTitle("Concluir Venda")
-                .setView(layoutConcluiVenda);
-
-        alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
+    }
+//==================================================================================================
+    private void checaEscolhasPagamento(View layoutConcluiVenda, View layoutDinheiro, View layoutCC, View layoutCalendarioContaCliente, LinearLayout layoutPagamentoDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente) {
+        radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int item = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButtonConcluiVenda = layoutConcluiVenda.findViewById(item);
+                escolhaFormaPagamento = radioButtonConcluiVenda.getText().toString();
+                switchLayouts(layoutPagamentoDinheiro, layoutDinheiro, layoutPagamentoCC, layoutPagamentoContaCliente, layoutCC, layoutCalendarioContaCliente);
             }
         });
-        alertDialog.setNegativeButton(CANCELAR, null)
-                .show()
-                .getWindow()
-                .setBackgroundDrawable(inset);
-    }//FIM CONCLUI VENDA
+    }
+//==================================================================================================
+    private void switchLayouts(LinearLayout layoutPagamentoDinheiro, View layoutDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente, View layoutCC, View layoutCalendarioContaCliente) {
+        switch (escolhaFormaPagamento) {
+            case DINHEIRO:
+                layoutPagamentoDinheiro.addView(layoutDinheiro);
+                layoutPagamentoCC.removeAllViews();
+                layoutPagamentoContaCliente.removeAllViews();
+                break;
+            case CARTAO_DE_CREDITO:
+                layoutPagamentoCC.addView(layoutCC);
+                layoutPagamentoDinheiro.removeAllViews();
+                layoutPagamentoContaCliente.removeAllViews();
+                break;
+            case CARTAO_DE_DEBITO:
+                layoutPagamentoDinheiro.removeAllViews();
+                layoutPagamentoCC.removeAllViews();
+                layoutPagamentoContaCliente.removeAllViews();
+                break;
+            case CONTA_CLIENTE:
+                layoutPagamentoContaCliente.addView(layoutCalendarioContaCliente);
+                layoutPagamentoDinheiro.removeAllViews();
+                layoutPagamentoCC.removeAllViews();
+                calendarContaCliente = layoutCalendarioContaCliente.findViewById(R.id.calendar);
+                calendarContaCliente.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView calendarView, int ano, int mes, int dia) {
+                        dataContaCliente = dia + "/" + (mes+1) + "/" + ano;
+                    }
+                });
+                break;
+        }//END SWITCH
+    }
 //==================================================================================================
     private LinearLayout configuraRecebimentoDinheiro(View view, View layoutDinheiro) {
         LinearLayout layoutFormasPagamentoDinheiro = view.findViewById(R.id.linear_layout_forma_pagamento_dinheiro);
@@ -491,7 +547,6 @@ public class VendasActivity extends AppCompatActivity {
     private void configuraRemocaoProdutoDoCarrinhoCompras(Produto produto) {
         configuracaoIOEstoqueVendas.devolveItemAoEstoque(produtoDao, produto, produtos, total, valorTotal, produtosVendaAdapter, listaCompras);
     }
-
 //==================================================================================================
     //JANELA ADICIONA PRODUTO AO CARRINHO
     private void configuraFabAddProduto() {
@@ -532,7 +587,6 @@ public class VendasActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
         }//end onPostExecute
     }//end sendRequest
-
 //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();

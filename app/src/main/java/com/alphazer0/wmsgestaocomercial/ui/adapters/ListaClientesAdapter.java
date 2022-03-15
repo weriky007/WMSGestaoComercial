@@ -69,7 +69,9 @@ public class ListaClientesAdapter extends BaseAdapter implements Filterable {
         if(clienteDevolvido.getDataVencimento()== null){
             clienteDevolvido.setDataVencimento("//");
         }
-        divida.setText("Divida: R$"+clienteDevolvido.getDivida()+" | "+"Data Vencimento: "+clienteDevolvido.getDataVencimento());
+        String div = clienteDevolvido.getDivida();
+        String dat = clienteDevolvido.getDataVencimento();
+        divida.setText("Divida: R$"+div+" | "+"Data Vencimento: "+dat);
     }
 
     private View criaView(ViewGroup listViewClientes) {

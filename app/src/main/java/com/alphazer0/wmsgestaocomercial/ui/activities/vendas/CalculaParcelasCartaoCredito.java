@@ -1,17 +1,21 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
 
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+
+import com.alphazer0.wmsgestaocomercial.model.Venda;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 public class CalculaParcelasCartaoCredito {
-    public void calculoParcelasCC(EditText recebeNumeroParcelas, EditText taxa, TextView vlParcela, TextView valorTotal) {
+    public void calculoParcelasCC(EditText recebeNumeroParcelas, EditText taxa, TextView vlParcela, TextView valorTotal, Venda venda) {
         //CALCULANDO VALOR PARCELAS
         String svlTotal = valorTotal.getText().toString();
         String snParcelas = recebeNumeroParcelas.getText().toString();
         String sTaxa = taxa.getText().toString();
+        venda.setParcelasCC(snParcelas);
 
         //TRANFORMANDO AS STRINGS EM BIGDECIMAL PARA OS CALCULOS
         BigDecimal bvlTotal = new BigDecimal(svlTotal);
@@ -38,6 +42,7 @@ public class CalculaParcelasCartaoCredito {
 
         DecimalFormat formatador = new DecimalFormat("0.00");
         String a = formatador.format(resultadoParcela);
+        venda.setVlParcelas(a);
 
         //ATRIBUI O RESULTADO AO TEXTVIEW VALOR DAS PARCELAS
         vlParcela.setText(a);

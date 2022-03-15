@@ -18,10 +18,15 @@ public class Venda implements Serializable {
     //VARIAVEIS
     @PrimaryKey(autoGenerate = true)
     private int id = 0;
+
     private String data;
     private String hora;
     private String cliente;
     private String vlTotal;
+    private String formaPagamento;
+    private String parcelasCC;
+    private String vlParcelas;
+
     @TypeConverters(ConversorDeObjetosParaJSON.class)
     private List<Produto> listaCompras;
 //==================================================================================================
@@ -29,12 +34,15 @@ public class Venda implements Serializable {
     //METODOS SOBRECARGA
     public Venda(){}
 
-    public Venda(int id, String data, String hora, String cliente, String vlTotal, List<Produto> listaCompras) {
+    public Venda(int id, String data, String hora, String cliente, String vlTotal, String formaPagamento, String parcelasCC, String vlParcelas, List<Produto> listaCompras) {
         this.id = id;
         this.data = data;
         this.hora = hora;
         this.cliente = cliente;
         this.vlTotal = vlTotal;
+        this.formaPagamento = formaPagamento;
+        this.parcelasCC = parcelasCC;
+        this.vlParcelas = vlParcelas;
         this.listaCompras = listaCompras;
     }
 //==================================================================================================
@@ -90,6 +98,30 @@ public class Venda implements Serializable {
         this.vlTotal = vlTotal;
     }
 
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public String getParcelasCC() {
+        return parcelasCC;
+    }
+
+    public void setParcelasCC(String parcelasCC) {
+        this.parcelasCC = parcelasCC;
+    }
+
+    public String getVlParcelas() {
+        return vlParcelas;
+    }
+
+    public void setVlParcelas(String vlParcelas) {
+        this.vlParcelas = vlParcelas;
+    }
+
     public List<Produto> getListaCompras() {
         return listaCompras;
     }
@@ -97,6 +129,7 @@ public class Venda implements Serializable {
     public void setListaCompras(List<Produto> listaCompras) {
         this.listaCompras = listaCompras;
     }
+
 
 //==================================================================================================
 }

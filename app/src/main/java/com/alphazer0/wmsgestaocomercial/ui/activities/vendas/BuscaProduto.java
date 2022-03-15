@@ -17,7 +17,7 @@ public class BuscaProduto {
             for (int j = 0; j < produtos.size(); j++) {
                 cod = produtos.get(j).getIdCod().toString();
                 if(campCodigo.equals(cod)){
-                    prod = produtos.get(j).getProduto().toString();
+                    prod = produtos.get(j).getProduto().trim();
                     campoProduto.setText(prod);
                 }else if(campCodigo.equals("")){
                     campoProduto.setText("");

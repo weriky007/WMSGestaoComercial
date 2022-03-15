@@ -23,7 +23,7 @@ public class PegaInformacoesParaVenda {
 
     public void pegaClientes(List<Cliente> clientes,List<String> filtroClientes,HashSet<String> hashSetClientes){
         for (Cliente filtroCliente : clientes) {
-            filtroClientes.add(filtroCliente.getNomeCompleto());
+            filtroClientes.add(filtroCliente.getNomeCompleto().trim());
         }
         hashSetClientes.addAll(filtroClientes);
         filtroClientes.clear();
