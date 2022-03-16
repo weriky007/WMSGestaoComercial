@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.FornecedoresPJDatabase;
@@ -51,7 +53,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 //==================================================================================================
 public class ListaDeFornecedorPJActivity extends AppCompatActivity {
-    private ListView listaFornecedoresPJ;
+    private RecyclerView listaFornecedoresPJ;
     private FloatingActionButton btnNovoFornecedorPJ;
     private ListaFornecedoresPJAdapter adapter;
     private RoomFornecedorPJDAO dao;
@@ -80,39 +82,39 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
         adapter.atualiza(dao.todosFornecedoresPJ());
     }
 //==================================================================================================
-    //MENU ITENS LISTA
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-}
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_remover_listas_activity) {
-            confirmaRemocao(item);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    public void confirmaRemocao(final MenuItem item) {
-    new AlertDialog.Builder(context).setTitle("Removendo Fornecedor PJ").setMessage("Deseja mesmo remover o FornecedorPJ?").setPositiveButton("Sim", (dialogInterface, i) -> {
-        FornecedorPJ fornecedorPJ = pegaFornecedorPJ(item);
-        put = 3;
-        id = fornecedorPJ.getId();
-        new SendRequest().execute();
-         remove(fornecedorPJ);
-    })
-            .setNegativeButton("Não",null)
-            .show();
-    }
-
-
-    private FornecedorPJ pegaFornecedorPJ(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        return adapter.getItem(menuInfo.position);
-    }
+//    //MENU ITENS LISTA
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//    super.onCreateContextMenu(menu, v, menuInfo);
+//    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
+//}
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        int itemId = item.getItemId();
+//        if (itemId == R.id.menu_remover_listas_activity) {
+//            confirmaRemocao(item);
+//        }
+//        return super.onContextItemSelected(item);
+//    }
+//
+//    public void confirmaRemocao(final MenuItem item) {
+//    new AlertDialog.Builder(context).setTitle("Removendo Fornecedor PJ").setMessage("Deseja mesmo remover o FornecedorPJ?").setPositiveButton("Sim", (dialogInterface, i) -> {
+//        FornecedorPJ fornecedorPJ = pegaFornecedorPJ(item);
+//        put = 3;
+//        id = fornecedorPJ.getId();
+//        new SendRequest().execute();
+//         remove(fornecedorPJ);
+//    })
+//            .setNegativeButton("Não",null)
+//            .show();
+//    }
+//
+//
+//    private FornecedorPJ pegaFornecedorPJ(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        return adapter.getItem(menuInfo.position);
+//    }
 //==================================================================================================
     private void remove(FornecedorPJ fornecedorPJ){
     adapter.remove(fornecedorPJ);
@@ -120,7 +122,7 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAdapter() {
-        adapter = new ListaFornecedoresPJAdapter(fornecedorPJS);
+        adapter = new ListaFornecedoresPJAdapter(this,fornecedorPJS);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
         dao = FornecedoresPJDatabase.getInstance(this).getFornecedorPJDAO();
     }
@@ -129,8 +131,12 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
         listaFornecedoresPJ = findViewById(R.id.list_view_fornecedorespj);
         listaFornecedoresPJ.setAdapter(adapter);
 
-        configuraClickPorItem(listaFornecedoresPJ);
-        registerForContextMenu(listaFornecedoresPJ);
+        //TIPO DE LAYOUT
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        listaFornecedoresPJ.setLayoutManager(layoutManager);
+
+//        configuraClickPorItem(listaFornecedoresPJ);
+//        registerForContextMenu(listaFornecedoresPJ);
     }
 
     private void configuraFabNovoFornecedorPJ() {

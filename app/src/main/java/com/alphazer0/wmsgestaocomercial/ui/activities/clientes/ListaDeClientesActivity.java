@@ -24,6 +24,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
@@ -52,7 +54,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 //==================================================================================================
 public class ListaDeClientesActivity extends AppCompatActivity {
-    private ListView listaClientes;
+    private RecyclerView listaClientes;
     private FloatingActionButton btnNovoCliente;
     private ListaClientesAdapter adapter;
     private RoomClienteDAO dao;
@@ -81,39 +83,39 @@ public class ListaDeClientesActivity extends AppCompatActivity {
         adapter.atualiza(dao.todosClientes());
     }
 //==================================================================================================
-    //MENU ITENS LISTA
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-}
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_remover_listas_activity) {
-            confirmaRemocao(item);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    public void confirmaRemocao(final MenuItem item) {
-    new AlertDialog.Builder(context).setTitle("Removendo Cliente").setMessage("Deseja mesmo remover o cliente?").setPositiveButton("Sim", (dialogInterface, i) -> {
-        Cliente cliente = pegaCliente(item);
-        put = 3;
-        id = cliente.getId();
-        new SendRequest().execute();
-         remove(cliente);
-    })
-            .setNegativeButton("Não",null)
-            .show();
-    }
-
-
-    private Cliente pegaCliente(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        return adapter.getItem(menuInfo.position);
-    }
+//    //MENU ITENS LISTA
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//    super.onCreateContextMenu(menu, v, menuInfo);
+//    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
+//}
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        int itemId = item.getItemId();
+//        if (itemId == R.id.menu_remover_listas_activity) {
+//            confirmaRemocao(item);
+//        }
+//        return super.onContextItemSelected(item);
+//    }
+//
+//    public void confirmaRemocao(final MenuItem item) {
+//    new AlertDialog.Builder(context).setTitle("Removendo Cliente").setMessage("Deseja mesmo remover o cliente?").setPositiveButton("Sim", (dialogInterface, i) -> {
+//        Cliente cliente = pegaCliente(item);
+//        put = 3;
+//        id = cliente.getId();
+//        new SendRequest().execute();
+//         remove(cliente);
+//    })
+//            .setNegativeButton("Não",null)
+//            .show();
+//    }
+//
+//
+//    private Cliente pegaCliente(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        return adapter.getItem(menuInfo.position);
+//    }
 //==================================================================================================
     private void remove(Cliente cliente){
     adapter.remove(cliente);
@@ -121,7 +123,7 @@ public class ListaDeClientesActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAdapter() {
-        adapter = new ListaClientesAdapter(clientes);
+        adapter = new ListaClientesAdapter(this,clientes);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
         dao = ClientesDatabase.getInstance(this).getClienteDAO();
     }
@@ -130,8 +132,11 @@ public class ListaDeClientesActivity extends AppCompatActivity {
         listaClientes = findViewById(R.id.list_view_cliente);
         listaClientes.setAdapter(adapter);
 
-        configuraClickPorItem(listaClientes);
-        registerForContextMenu(listaClientes);
+        //TIPO DE LAYOUT
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        listaClientes.setLayoutManager(layoutManager);
+//        configuraClickPorItem(listaClientes);
+//        registerForContextMenu(listaClientes);
     }
 
     private void configuraFabNovoCliente() {

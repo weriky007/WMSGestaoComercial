@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,72 +9,69 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alphazer0.wmsgestaocomercial.R;
+import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaFornecedoresPJAdapter extends BaseAdapter implements Filterable {
-//==================================================================================================
+public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements Filterable {
+    //==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
-    private  List<FornecedorPJ> fornecedoresPJPesquisa;
-    private  List<FornecedorPJ> fornecedoresPJ;
-    //private final Context context;
+    private List<FornecedorPJ> fornecedoresPJPesquisa;
+    private List<FornecedorPJ> fornecedoresPJ;
+    private Context context;
 
-    public ListaFornecedoresPJAdapter(List<FornecedorPJ> fornecedorPJS) {
-        //his.context = context;
+    public ListaFornecedoresPJAdapter(Context context, List<FornecedorPJ> fornecedorPJS) {
+        this.context = context;
         this.fornecedoresPJPesquisa = fornecedorPJS;
         this.fornecedoresPJ = fornecedorPJS;
     }
-//==================================================================================================
 
-    //INDICA A QUANTIDADE DE ELEMENTOS QUE O ADAPTER TERA
-    @Override
-    public int getCount() {
-        return fornecedoresPJPesquisa.size();
-    }
-
-    //INDICA O ELEMENTO QUE VC QUER COM BASE NA POSICAO
-    @Override
-    public FornecedorPJ getItem(int position) {
-        return fornecedoresPJPesquisa.get(position);
-    }
-
-    //ELEMENTO PELO ID, CASO NAO HOUVER ID NA LISTA DEIXE ZERO
-    @Override
-    public long getItemId(int position) {
-        return fornecedoresPJPesquisa.get(position).getId();
-    }
-
-    //REPRESENTA AS CONFIGURACOES VIEW QUE SERA APRESENTADA
-    @Override
-    public View getView(int position, View convertView, ViewGroup listViewFornecedorPF) {
-        //NAO PRECISA UTILISAR O FALSE QUANDO O LAYOUT E LINEAR
-        View viewCriada = criaView(listViewFornecedorPF);
-
-        FornecedorPJ fornecedorPJDevolvido = fornecedoresPJPesquisa.get(position);
-        vincula(viewCriada, fornecedorPJDevolvido);
-
-        return viewCriada;
-    }
     //==================================================================================================
-    private void vincula(View viewCriada, FornecedorPJ fornecedorPJDevolvido) {
-        //BIND
-        TextView nome = viewCriada.findViewById(R.id.item_fornecedorpf_nome);
-        TextView celular1 = viewCriada.findViewById(R.id.item_fornecedorpf_telefone);
-        TextView endereco = viewCriada.findViewById(R.id.item_fornecedorpf_endereco);
-
-        nome.setText(fornecedorPJDevolvido.getRazaoSocial());
-        celular1.setText(fornecedorPJDevolvido.getCelular1());
-        endereco.setText("R :"+fornecedorPJDevolvido.getRua()+" | "+"Bairro: "+fornecedorPJDevolvido.getBairro());
+    //RECYCLER VIEW
+    class fornecedorPJViewHolder extends RecyclerView.ViewHolder {
+        public fornecedorPJViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 
-    private View criaView(ViewGroup listViewFornecedoresPJ) {
-        return LayoutInflater.from(listViewFornecedoresPJ.getContext()).inflate(R.layout.item_fornecedorpf, listViewFornecedoresPJ,false);
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_fornecedorpf, parent, false);
+        return new ListaFornecedoresPJAdapter.fornecedorPJViewHolder(viewCriada);
     }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        FornecedorPJ fornecedorPJ = fornecedoresPJ.get(position);
+
+        TextView razaoSocial = holder.itemView.findViewById(R.id.item_fornecedorpj_razao_social);
+        TextView nomeFantasia = holder.itemView.findViewById(R.id.item_fornecedorpj_nome_fantasia);
+        TextView cel1 = holder.itemView.findViewById(R.id.item_fornecedorpj_celular1);
+        TextView telefone = holder.itemView.findViewById(R.id.item_fornecedorpj_telefone);
+        TextView endereco = holder.itemView.findViewById(R.id.item_fornecedorpj_endereco);
+
+
+        razaoSocial.setText(fornecedorPJ.getRazaoSocial());
+        nomeFantasia.setText("Nome Fantasia: " +fornecedorPJ.getNomeFantasia());
+        cel1.setText("Celular: " +fornecedorPJ.getCelular1());
+        telefone.setText("Telefone Fixo: " +fornecedorPJ.getTelefone());
+        endereco.setText("R: " + fornecedorPJ.getRua() + " | " + "Bairro: " + fornecedorPJ.getBairro());
+    }
+
+    @Override
+    public int getItemCount() {
+        return fornecedoresPJ.size();
+    }
+
     //==================================================================================================
-    public void atualiza(List<FornecedorPJ> fornecedoresPJ){
+    public void atualiza(List<FornecedorPJ> fornecedoresPJ) {
         this.fornecedoresPJ.clear();
         this.fornecedoresPJ.addAll(fornecedoresPJ);
         notifyDataSetChanged();
@@ -83,6 +81,7 @@ public class ListaFornecedoresPJAdapter extends BaseAdapter implements Filterabl
         this.fornecedoresPJ.remove(fornecedoresPJ);
         notifyDataSetChanged();
     }
+
     //==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override

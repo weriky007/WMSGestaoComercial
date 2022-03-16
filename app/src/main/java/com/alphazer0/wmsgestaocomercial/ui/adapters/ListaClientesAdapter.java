@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,77 +9,64 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
+import com.alphazer0.wmsgestaocomercial.model.Venda;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaClientesAdapter extends BaseAdapter implements Filterable {
+public class ListaClientesAdapter extends RecyclerView.Adapter implements Filterable {
 //==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
-    private  List<Cliente> clientePesquisa;
-    private  List<Cliente> clientes;
-    //private final Context context;
+    private List<Cliente> clientePesquisa;
+    private List<Cliente> clientes;
+    private Context context;
 
-    public ListaClientesAdapter(List<Cliente> cliente) {
-        //his.context = context;
+    //CONSTRUCTOR
+    public ListaClientesAdapter(Context context, List<Cliente> cliente) {
+        this.context = context;
         this.clientePesquisa = cliente;
         this.clientes = cliente;
     }
 //==================================================================================================
-      //INDICA A QUANTIDADE DE ELEMENTOS QUE O ADAPTER TERA
-     @Override
-     public int getCount() { return clientePesquisa.size();
-     }
-
-    //INDICA O ELEMENTO QUE VC QUER COM BASE NA POSICAO
-    @Override
-    public Cliente getItem(int position) {
-        return clientePesquisa.get(position);
-    }
-
-    //ELEMENTO PELO ID, CASO NAO HOUVER ID NA LISTA DEIXE ZERO
-    @Override
-    public long getItemId(int position) {
-        return clientePesquisa.get(position).getId();
-    }
-
-    //REPRESENTA AS CONFIGURACOES VIEW QUE SERA APRESENTADA
-    @Override
-    public View getView(int position, View convertView, ViewGroup listViewClientes) {
-        //NAO PRECISA UTILISAR O FALSE QUANDO O LAYOUT E LINEAR
-        View viewCriada = criaView(listViewClientes);
-
-        Cliente clienteDevolvido = clientePesquisa.get(position);
-        vincula(viewCriada, clienteDevolvido);
-
-        return viewCriada;
-    }
-//==================================================================================================
-    private void vincula(View viewCriada, Cliente clienteDevolvido) {
-        //BIND
-        TextView nome = viewCriada.findViewById(R.id.item_cliente_nome);
-        TextView celular1 = viewCriada.findViewById(R.id.item_cliente_telefone);
-        TextView endereco = viewCriada.findViewById(R.id.item_cliente_endereco);
-        TextView divida = viewCriada.findViewById(R.id.item_cliente_divida);
-
-        nome.setText(clienteDevolvido.getNomeCompleto());
-        celular1.setText(clienteDevolvido.getCelular1());
-        endereco.setText("R :"+clienteDevolvido.getRua()+" | "+"Bairro: "+clienteDevolvido.getBairro());
-        if(clienteDevolvido.getDataVencimento()== null){
-            clienteDevolvido.setDataVencimento("//");
+    //RECYCLER VIEW
+    class clienteViewHolder extends RecyclerView.ViewHolder {
+        public clienteViewHolder(@NonNull View itemView) {
+            super(itemView);
         }
-        String div = clienteDevolvido.getDivida();
-        String dat = clienteDevolvido.getDataVencimento();
-        divida.setText("Divida: R$"+div+" | "+"Data Vencimento: "+dat);
     }
 
-    private View criaView(ViewGroup listViewClientes) {
-        return LayoutInflater.from(listViewClientes.getContext()).inflate(R.layout.item_cliente, listViewClientes,false);
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_cliente, parent, false);
+        return new ListaClientesAdapter.clienteViewHolder(viewCriada);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Cliente cliente = clientes.get(position);
+        TextView nome = holder.itemView.findViewById(R.id.item_cliente_nome);
+        TextView telefone = holder.itemView.findViewById(R.id.item_cliente_telefone);
+        TextView endereco = holder.itemView.findViewById(R.id.item_cliente_endereco);
+        TextView divida = holder.itemView.findViewById(R.id.item_cliente_divida);
+
+        nome.setText(cliente.getNomeCompleto());
+        telefone.setText("Telefone: "+cliente.getCelular1());
+        endereco.setText("R: " + cliente.getRua()+" | "+"Bairro: "+cliente.getBairro());
+        divida.setText("Pendente: R$"+cliente.getDivida());
+    }
+
+    @Override
+    public int getItemCount() {
+        return clientes.size();
     }
 //==================================================================================================
-    public void atualiza(List<Cliente> clientes){
+    public void atualiza(List<Cliente> clientes) {
         this.clientes.clear();
         this.clientes.addAll(clientes);
         notifyDataSetChanged();
@@ -88,11 +76,12 @@ public class ListaClientesAdapter extends BaseAdapter implements Filterable {
         clientes.remove(cliente);
         notifyDataSetChanged();
     }
+
 //==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override
     public Filter getFilter() {
-    return filtroCliente;
+        return filtroCliente;
     }
 
     //CONFIGURACAO DO FILTRO

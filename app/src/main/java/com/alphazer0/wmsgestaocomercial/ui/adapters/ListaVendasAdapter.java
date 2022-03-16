@@ -24,6 +24,12 @@ public class ListaVendasAdapter extends RecyclerView.Adapter {
     }
 //==================================================================================================
     //RECYCLER VIEW
+    class vendaViewHolder extends RecyclerView.ViewHolder{
+    public vendaViewHolder(@NonNull View itemView) {
+        super(itemView);
+    }
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,13 +61,6 @@ public class ListaVendasAdapter extends RecyclerView.Adapter {
     this.vendas.addAll(venda);
     notifyDataSetChanged();
   }
-//==================================================================================================
-//CLASSE VIEW HOLDER
-    class vendaViewHolder extends RecyclerView.ViewHolder{
 
-    public vendaViewHolder(@NonNull View itemView) {
-        super(itemView);
-    }
-  }
 //==================================================================================================
 }

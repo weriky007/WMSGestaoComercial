@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,73 +9,69 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alphazer0.wmsgestaocomercial.R;
+import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaEstoqueProdutosAdapter extends BaseAdapter implements Filterable {
-//==================================================================================================
+public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements Filterable {
+    //==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
-    private  List<Produto> produtoPesquisa;
-    private  List<Produto> produtos;
-    public ListaEstoqueProdutosAdapter(List<Produto> produto) {
-        //his.context = context;
+    private List<Produto> produtoPesquisa;
+    private List<Produto> produtos;
+    private Context context;
+
+    public ListaEstoqueProdutosAdapter(Context context, List<Produto> produto) {
+        this.context = context;
         this.produtoPesquisa = produto;
         this.produtos = produto;
     }
-//==================================================================================================
-      //INDICA A QUANTIDADE DE ELEMENTOS QUE O ADAPTER TERA
-     @Override
-     public int getCount() { return produtoPesquisa.size();
-     }
 
-    //INDICA O ELEMENTO QUE VC QUER COM BASE NA POSICAO
+    //==================================================================================================
+    //RECYCLER VIEW
+    class produtoViewHolder extends RecyclerView.ViewHolder {
+        public produtoViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    @NonNull
     @Override
-    public Produto getItem(int position) {
-        return produtoPesquisa.get(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_produto, parent, false);
+        return new ListaEstoqueProdutosAdapter.produtoViewHolder(viewCriada);
     }
 
-    //ELEMENTO PELO ID, CASO NAO HOUVER ID NA LISTA DEIXE ZERO
     @Override
-    public long getItemId(int position) {
-        return produtoPesquisa.get(position).getId();
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Produto produto = produtos.get(position);
+        TextView prod = holder.itemView.findViewById(R.id.item_produto);
+        TextView marca = holder.itemView.findViewById(R.id.item_marca);
+        TextView qtdValorUnit = holder.itemView.findViewById(R.id.item_quantidade_valor_unitario);
+
+
+        prod.setText(produto.getProduto());
+        marca.setText("Marca: " + produto.getMarca());
+        qtdValorUnit.setText("Quantidade: " + produto.getQuantidade() + " | " + "Valor: " + produto.getPrecoVenda());
     }
 
-    //REPRESENTA AS CONFIGURACOES VIEW QUE SERA APRESENTADA
     @Override
-    public View getView(int position, View convertView, ViewGroup listViewProdutos) {
-        //NAO PRECISA UTILISAR O FALSE QUANDO O LAYOUT E LINEAR
-        View viewCriada = criaView(listViewProdutos);
-
-        Produto produtoDevolvido = produtoPesquisa.get(position);
-        vincula(viewCriada, produtoDevolvido);
-
-        return viewCriada;
-    }
-//==================================================================================================
-    private void vincula(View viewCriada, Produto produtoDevolvido) {
-        //BIND
-        TextView produto = viewCriada.findViewById(R.id.item_produto);
-        TextView marca = viewCriada.findViewById(R.id.item_marca);
-        TextView quantidadeValorUnitario = viewCriada.findViewById(R.id.item_quantidade_valor_unitario);
-
-        produto.setText(produtoDevolvido.getProduto());
-        marca.setText(produtoDevolvido.getMarca());
-        quantidadeValorUnitario.setText("Quantidade:"+produtoDevolvido.getQuantidade()+" | "+"Valor Unitario: "+produtoDevolvido.getPrecoVenda());
+    public int getItemCount() {
+        return produtos.size();
     }
 
-    private View criaView(ViewGroup listViewProdutos) {
-        return LayoutInflater.from(listViewProdutos.getContext()).inflate(R.layout.item_produto, listViewProdutos,false);
-    }
-//==================================================================================================
-    public void atualizaListaProdutos(List<Produto> produto, String categoria){
+    //==================================================================================================
+    public void atualizaListaProdutos(List<Produto> produto, String categoria) {
         this.produtos.clear();
-        if(categoria.equals("Todos") || categoria.equals(null)) {
-          this.produtos.addAll(produto);
-          notifyDataSetChanged();
-        }else {
+        if (categoria.equals("Todos") || categoria.equals(null)) {
+            this.produtos.addAll(produto);
+            notifyDataSetChanged();
+        } else {
             for (Produto filtroGrupo : produto) {
                 if (filtroGrupo.getCategoria().equals(categoria)) {
                     this.produtos.add(filtroGrupo);
@@ -84,20 +81,22 @@ public class ListaEstoqueProdutosAdapter extends BaseAdapter implements Filterab
         }
     }
 
-    public void pegaTodosProdutos(List<Produto> produto){
+    public void pegaTodosProdutos(List<Produto> produto) {
         this.produtos.clear();
         this.produtos.addAll(produto);
     }
-//==================================================================================================
+
+    //==================================================================================================
     public void remove(Produto produto) {
         produtos.remove(produto);
         notifyDataSetChanged();
     }
-//==================================================================================================
+
+    //==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override
     public Filter getFilter() {
-    return filtroProduto;
+        return filtroProduto;
     }
 
     //CONFIGURACAO DO FILTRO

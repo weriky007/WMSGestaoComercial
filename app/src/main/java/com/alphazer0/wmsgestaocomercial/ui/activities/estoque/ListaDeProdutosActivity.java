@@ -26,6 +26,8 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
@@ -55,7 +57,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 //==================================================================================================
 public class ListaDeProdutosActivity extends AppCompatActivity {
-    private ListView listaProdutos;
+    private RecyclerView listaProdutos;
     private FloatingActionButton btnNovoProduto;
     private ListaEstoqueProdutosAdapter adapter;
     private RoomProdutoDAO dao;
@@ -123,38 +125,38 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
     }
 //==================================================================================================
     //MENU ITENS LISTA
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-}
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_remover_listas_activity) {
-            confirmaRemocao(item);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    public void confirmaRemocao(final MenuItem item) {
-    new AlertDialog.Builder(context).setTitle("Removendo Produto").setMessage("Deseja mesmo remover o Produto?").setPositiveButton("Sim", (dialogInterface, i) -> {
-        Produto produto = pegaProduto(item);
-        put = 3;
-        id = produto.getId();
-        new SendRequest().execute();
-         remove(produto);
-    })
-            .setNegativeButton("Não",null)
-            .show();
-    }
-
-
-    private Produto pegaProduto(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        return adapter.getItem(menuInfo.position);
-    }
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//    super.onCreateContextMenu(menu, v, menuInfo);
+//    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
+//}
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        int itemId = item.getItemId();
+//        if (itemId == R.id.menu_remover_listas_activity) {
+//            confirmaRemocao(item);
+//        }
+//        return super.onContextItemSelected(item);
+//    }
+//
+//    public void confirmaRemocao(final MenuItem item) {
+//    new AlertDialog.Builder(context).setTitle("Removendo Produto").setMessage("Deseja mesmo remover o Produto?").setPositiveButton("Sim", (dialogInterface, i) -> {
+//        Produto produto = pegaProduto(item);
+//        put = 3;
+//        id = produto.getId();
+//        new SendRequest().execute();
+//         remove(produto);
+//    })
+//            .setNegativeButton("Não",null)
+//            .show();
+//    }
+//
+//
+//    private Produto pegaProduto(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        return adapter.getItem(menuInfo.position);
+//    }
 //==================================================================================================
     private void remove(Produto produto){
     adapter.remove(produto);
@@ -162,7 +164,7 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAdapter() {
-        adapter = new ListaEstoqueProdutosAdapter(produtos);
+        adapter = new ListaEstoqueProdutosAdapter(this,produtos);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
         dao = ProdutosDatabase.getInstance(this).getProdutoDAO();
     }
@@ -171,8 +173,12 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
         listaProdutos = findViewById(R.id.list_view_produtos_outros);
         listaProdutos.setAdapter(adapter);
 
-        configuraClickPorItem(listaProdutos);
-        registerForContextMenu(listaProdutos);
+        //TIPO DE LAYOUT
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        listaProdutos.setLayoutManager(layoutManager);
+
+//        configuraClickPorItem(listaProdutos);
+//        registerForContextMenu(listaProdutos);
     }
 
     private void configuraFabNovoProduto() {

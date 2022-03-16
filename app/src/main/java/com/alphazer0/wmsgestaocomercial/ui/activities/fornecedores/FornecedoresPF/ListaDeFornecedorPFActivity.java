@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.FornecedoresPFDatabase;
@@ -51,7 +53,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 //==================================================================================================
 public class ListaDeFornecedorPFActivity extends AppCompatActivity {
-    private ListView listaFornecedoresPF;
+    private RecyclerView listaFornecedoresPF;
     private FloatingActionButton btnNovoCliente;
     private ListaFornecedoresPFAdapter adapter;
     private RoomFornecedorPFDAO dao;
@@ -80,39 +82,39 @@ public class ListaDeFornecedorPFActivity extends AppCompatActivity {
         adapter.atualiza(dao.todosFornecedoresPF());
     }
 //==================================================================================================
-    //MENU ITENS LISTA
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-}
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_remover_listas_activity) {
-            confirmaRemocao(item);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    public void confirmaRemocao(final MenuItem item) {
-    new AlertDialog.Builder(context).setTitle("Removendo Fornecedor PF").setMessage("Deseja mesmo remover o FornecedorPF?").setPositiveButton("Sim", (dialogInterface, i) -> {
-        FornecedorPF fornecedorPF = pegaFornecedorPF(item);
-        put = 3;
-        id = fornecedorPF.getId();
-        new SendRequest().execute();
-         remove(fornecedorPF);
-    })
-            .setNegativeButton("Não",null)
-            .show();
-    }
-
-
-    private FornecedorPF pegaFornecedorPF(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        return adapter.getItem(menuInfo.position);
-    }
+//    //MENU ITENS LISTA
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//    super.onCreateContextMenu(menu, v, menuInfo);
+//    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
+//}
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        int itemId = item.getItemId();
+//        if (itemId == R.id.menu_remover_listas_activity) {
+//            confirmaRemocao(item);
+//        }
+//        return super.onContextItemSelected(item);
+//    }
+//
+//    public void confirmaRemocao(final MenuItem item) {
+//    new AlertDialog.Builder(context).setTitle("Removendo Fornecedor PF").setMessage("Deseja mesmo remover o FornecedorPF?").setPositiveButton("Sim", (dialogInterface, i) -> {
+//        FornecedorPF fornecedorPF = pegaFornecedorPF(item);
+//        put = 3;
+//        id = fornecedorPF.getId();
+//        new SendRequest().execute();
+//         remove(fornecedorPF);
+//    })
+//            .setNegativeButton("Não",null)
+//            .show();
+//    }
+//
+//
+//    private FornecedorPF pegaFornecedorPF(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        return adapter.getItem(menuInfo.position);
+//    }
 //==================================================================================================
     private void remove(FornecedorPF fornecedorPF){
     adapter.remove(fornecedorPF);
@@ -120,7 +122,7 @@ public class ListaDeFornecedorPFActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAdapter() {
-        adapter = new ListaFornecedoresPFAdapter(fornecedorPFS);
+        adapter = new ListaFornecedoresPFAdapter(this,fornecedorPFS);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
         dao = FornecedoresPFDatabase.getInstance(this).getFornecedorPFDAO();
     }
@@ -129,8 +131,12 @@ public class ListaDeFornecedorPFActivity extends AppCompatActivity {
         listaFornecedoresPF = findViewById(R.id.list_view_fornecedorespf);
         listaFornecedoresPF.setAdapter(adapter);
 
-        configuraClickPorItem(listaFornecedoresPF);
-        registerForContextMenu(listaFornecedoresPF);
+        //TIPO DE LAYOUT
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        listaFornecedoresPF.setLayoutManager(layoutManager);
+
+//        configuraClickPorItem(listaFornecedoresPF);
+//        registerForContextMenu(listaFornecedoresPF);
     }
 
     private void configuraFabNovoFornecedorPF() {

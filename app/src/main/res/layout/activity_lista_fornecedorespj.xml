@@ -23,7 +23,7 @@
         app:backgroundTint="#8BC34A"
         app:rippleColor="#F8F3F3" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_view_fornecedorespj"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

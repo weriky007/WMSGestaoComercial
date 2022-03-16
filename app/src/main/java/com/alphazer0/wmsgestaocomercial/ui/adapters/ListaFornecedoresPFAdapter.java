@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,72 +9,63 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
+import com.alphazer0.wmsgestaocomercial.model.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaFornecedoresPFAdapter extends BaseAdapter implements Filterable {
-//==================================================================================================
+public class ListaFornecedoresPFAdapter extends RecyclerView.Adapter implements Filterable {
+    //==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
-    private  List<FornecedorPF> fornecedoresPFPesquisa;
-    private  List<FornecedorPF> fornecedoresPF;
-    //private final Context context;
+    private List<FornecedorPF> fornecedoresPFPesquisa;
+    private List<FornecedorPF> fornecedoresPF;
+    private Context context;
 
-    public ListaFornecedoresPFAdapter(List<FornecedorPF> fornecedorPFS) {
-        //his.context = context;
+    public ListaFornecedoresPFAdapter(Context context,List<FornecedorPF> fornecedorPFS) {
+        this.context = context;
         this.fornecedoresPFPesquisa = fornecedorPFS;
         this.fornecedoresPF = fornecedorPFS;
     }
-//==================================================================================================
 
-    //INDICA A QUANTIDADE DE ELEMENTOS QUE O ADAPTER TERA
+    //==================================================================================================
+    //RECYCLER VIEW
+    class fornecedorPfViewHolder extends RecyclerView.ViewHolder {
+        public fornecedorPfViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    @NonNull
     @Override
-    public int getCount() {
-        return fornecedoresPFPesquisa.size();
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_fornecedorpf, parent, false);
+        return new ListaFornecedoresPFAdapter.fornecedorPfViewHolder(viewCriada);
     }
 
-    //INDICA O ELEMENTO QUE VC QUER COM BASE NA POSICAO
     @Override
-    public FornecedorPF getItem(int position) {
-        return fornecedoresPFPesquisa.get(position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        FornecedorPF fornecedorPF = fornecedoresPF.get(position);
+        TextView nome = holder.itemView.findViewById(R.id.item_fornecedorpf_nome);
+        TextView telefone = holder.itemView.findViewById(R.id.item_fornecedorpf_telefone);
+        TextView endereco = holder.itemView.findViewById(R.id.item_fornecedorpf_endereco);
+
+
+        nome.setText(fornecedorPF.getNomeCompleto());
+        telefone.setText("Telefone: " + fornecedorPF.getTelefone());
+        endereco.setText("R: " +fornecedorPF.getRua()+ " | " + "Bairro: " +fornecedorPF.getBairro());
     }
 
-    //ELEMENTO PELO ID, CASO NAO HOUVER ID NA LISTA DEIXE ZERO
     @Override
-    public long getItemId(int position) {
-        return fornecedoresPFPesquisa.get(position).getId();
+    public int getItemCount() {
+        return fornecedoresPF.size();
     }
-
-    //REPRESENTA AS CONFIGURACOES VIEW QUE SERA APRESENTADA
-    @Override
-    public View getView(int position, View convertView, ViewGroup listViewFornecedorPF) {
-        //NAO PRECISA UTILISAR O FALSE QUANDO O LAYOUT E LINEAR
-        View viewCriada = criaView(listViewFornecedorPF);
-
-        FornecedorPF fornecedorPFDevolvido = fornecedoresPFPesquisa.get(position);
-        vincula(viewCriada, fornecedorPFDevolvido);
-
-        return viewCriada;
-    }
-//==================================================================================================
-    private void vincula(View viewCriada, FornecedorPF fornecedorPFDevolvido) {
-        //BIND
-        TextView nome = viewCriada.findViewById(R.id.item_fornecedorpf_nome);
-        TextView celular1 = viewCriada.findViewById(R.id.item_fornecedorpf_telefone);
-        TextView endereco = viewCriada.findViewById(R.id.item_fornecedorpf_endereco);
-
-        nome.setText(fornecedorPFDevolvido.getNomeCompleto());
-        celular1.setText(fornecedorPFDevolvido.getCelular1());
-        endereco.setText("R :"+fornecedorPFDevolvido.getRua()+" | "+"Bairro: "+fornecedorPFDevolvido.getBairro());
-    }
-
-    private View criaView(ViewGroup listViewFornecedoresPF) {
-        return LayoutInflater.from(listViewFornecedoresPF.getContext()).inflate(R.layout.item_fornecedorpf, listViewFornecedoresPF,false);
-    }
-//==================================================================================================
-    public void atualiza(List<FornecedorPF> fornecedoresPF){
+    //==================================================================================================
+    public void atualiza(List<FornecedorPF> fornecedoresPF) {
         this.fornecedoresPF.clear();
         this.fornecedoresPF.addAll(fornecedoresPF);
         notifyDataSetChanged();
@@ -83,7 +75,8 @@ public class ListaFornecedoresPFAdapter extends BaseAdapter implements Filterabl
         this.fornecedoresPF.remove(fornecedoresPF);
         notifyDataSetChanged();
     }
-//==================================================================================================
+
+    //==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override
     public Filter getFilter() {
