@@ -41,17 +41,15 @@ public class RelatorioTodasVendas extends AppCompatActivity {
 //==================================================================================================
     private void configuraLista() {
         listaTodasVendas = findViewById(R.id.lista_vendas);
-
+        vendas = dao.todasVendas();
+        listaTodasVendas.setAdapter(adapter);
+        //TIPO DE LAYOUT
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaTodasVendas.setLayoutManager(layoutManager);
-        listaTodasVendas.setItemAnimator(new DefaultItemAnimator());
-        listaTodasVendas.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        listaTodasVendas.setAdapter(adapter);
     }
 //==================================================================================================
     private void configuraAdapter(){
-        adapter = new ListaVendasAdapter(vendas);
+        adapter = new ListaVendasAdapter(this,vendas);
         dao = VendasDatabase.getInstance(this).getVendaDAO();
     }
 //==================================================================================================

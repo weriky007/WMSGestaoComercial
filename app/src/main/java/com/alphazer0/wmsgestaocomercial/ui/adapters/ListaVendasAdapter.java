@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,46 +14,35 @@ import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
 import java.util.List;
 
-public class ListaVendasAdapter extends RecyclerView.Adapter<ListaVendasAdapter.MyViewHolder> {
+public class ListaVendasAdapter extends RecyclerView.Adapter {
     private List<Venda> vendas;
+    private Context context;
 //==================================================================================================
-    public ListaVendasAdapter(List<Venda> vendas) {
+    public ListaVendasAdapter(Context context, List<Venda> vendas) {
+        this.context = context;
         this.vendas = vendas;
     }
 //==================================================================================================
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView dataHora;
-        private TextView cliente;
-        private TextView vlTotal;
-        private TextView formaPagamento;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            dataHora = itemView.findViewById(R.id.item_list_vendas_data_hora);
-            cliente = itemView.findViewById(R.id.item_list_vendas_cliente);
-            vlTotal = itemView.findViewById(R.id.item_list_vendas_valor_total);
-            formaPagamento = itemView.findViewById(R.id.item_list_vendas_tipo_pagamento);
-        }
-    }
-//==================================================================================================
+    //RECYCLER VIEW
     @NonNull
     @Override
-    public ListaVendasAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vendas,parent,false));
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_vendas, parent, false);
+        return new vendaViewHolder(viewCriada);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListaVendasAdapter.MyViewHolder holder, int position) {
-        String data = vendas.get(position).getData();
-        String hora = vendas.get(position).getHora();
-        String cliente = vendas.get(position).getCliente();
-        String vlTotal = vendas.get(position).getVlTotal();
-        String tipoPagamento = vendas.get(position).getFormaPagamento();
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+       Venda venda = vendas.get(position);
+         TextView dataHora = holder.itemView.findViewById(R.id.item_list_vendas_data_hora);
+         TextView cliente = holder.itemView.findViewById(R.id.item_list_vendas_cliente);
+         TextView vlTotal = holder.itemView.findViewById(R.id.item_list_vendas_valor_total);
+         TextView formaPagamento = holder.itemView.findViewById(R.id.item_list_vendas_tipo_pagamento);
 
-        holder.dataHora.setText("Data: "+data+" | "+"Hora: "+hora);
-        holder.cliente.setText("Cliente: "+cliente);
-        holder.vlTotal.setText("Total: R$"+vlTotal);
-        holder.formaPagamento.setText("Forma pagamento: "+tipoPagamento);
+         dataHora.setText("Data: "+venda.getData()+" | "+"Hora: "+venda.getHora());
+         cliente.setText("Cliente: "+venda.getCliente());
+         vlTotal.setText("Total: R$"+venda.getVlTotal());
+         formaPagamento.setText("Forma pagamento: "+venda.getFormaPagamento());
     }
 
     @Override
@@ -64,6 +54,14 @@ public class ListaVendasAdapter extends RecyclerView.Adapter<ListaVendasAdapter.
     this.vendas.clear();
     this.vendas.addAll(venda);
     notifyDataSetChanged();
+  }
+//==================================================================================================
+//CLASSE VIEW HOLDER
+    class vendaViewHolder extends RecyclerView.ViewHolder{
+
+    public vendaViewHolder(@NonNull View itemView) {
+        super(itemView);
+    }
   }
 //==================================================================================================
 }
