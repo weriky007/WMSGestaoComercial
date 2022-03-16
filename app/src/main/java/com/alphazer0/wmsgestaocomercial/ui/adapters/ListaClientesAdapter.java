@@ -58,7 +58,19 @@ public class ListaClientesAdapter extends RecyclerView.Adapter implements Filter
         nome.setText(cliente.getNomeCompleto());
         telefone.setText("Telefone: "+cliente.getCelular1());
         endereco.setText("R: " + cliente.getRua()+" | "+"Bairro: "+cliente.getBairro());
-        divida.setText("Pendente: R$"+cliente.getDivida());
+
+        try {
+            if (!cliente.getDivida().equals(null) || !cliente.getDivida().equals("0")) {
+                divida.setText("Pendente: R$" + cliente.getDivida() + "\n" + "Data vencimento: " + cliente.getDataVencimento());
+            }
+        }catch (NullPointerException n){
+            n.printStackTrace();
+        }
+
+        if (cliente.getDivida().equals(null) || cliente.getDivida().equals("0")){
+            divida.setText("");
+        }
+
     }
 
     @Override

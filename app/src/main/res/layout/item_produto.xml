@@ -40,11 +40,12 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginStart="@dimen/_8sdp"
-            app:layout_goneMarginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/item_marca"
             app:layout_constraintStart_toStartOf="@+id/item_marca"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

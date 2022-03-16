@@ -43,7 +43,7 @@ public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_fornecedorpf, parent, false);
+        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_fornecedorpj, parent, false);
         return new ListaFornecedoresPJAdapter.fornecedorPJViewHolder(viewCriada);
     }
 

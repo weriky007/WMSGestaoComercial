@@ -57,7 +57,7 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
 
         prod.setText(produto.getProduto());
         marca.setText("Marca: " + produto.getMarca());
-        qtdValorUnit.setText("Quantidade: " + produto.getQuantidade() + " | " + "Valor: " + produto.getPrecoVenda());
+        qtdValorUnit.setText("Quantidade: " + produto.getQuantidade() + " | " + "Valor: R$" + produto.getPrecoVenda());
     }
 
     @Override

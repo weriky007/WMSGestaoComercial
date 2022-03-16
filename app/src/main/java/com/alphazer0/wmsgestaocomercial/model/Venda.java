@@ -26,6 +26,7 @@ public class Venda implements Serializable {
     private String formaPagamento;
     private String parcelasCC;
     private String vlParcelas;
+    private String dataVencimento;
 
     @TypeConverters(ConversorDeObjetosParaJSON.class)
     private List<Produto> listaCompras;
@@ -34,7 +35,7 @@ public class Venda implements Serializable {
     //METODOS SOBRECARGA
     public Venda(){}
 
-    public Venda(int id, String data, String hora, String cliente, String vlTotal, String formaPagamento, String parcelasCC, String vlParcelas, List<Produto> listaCompras) {
+    public Venda(int id, String data, String hora, String cliente, String vlTotal, String formaPagamento, String parcelasCC, String vlParcelas, String dataVencimento, List<Produto> listaCompras) {
         this.id = id;
         this.data = data;
         this.hora = hora;
@@ -43,6 +44,7 @@ public class Venda implements Serializable {
         this.formaPagamento = formaPagamento;
         this.parcelasCC = parcelasCC;
         this.vlParcelas = vlParcelas;
+        this.dataVencimento = dataVencimento;
         this.listaCompras = listaCompras;
     }
 //==================================================================================================
@@ -130,6 +132,12 @@ public class Venda implements Serializable {
         this.listaCompras = listaCompras;
     }
 
+    public String getDataVencimento() {
+        return dataVencimento;
+    }
 
+    public void setDataVencimento(String dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
 //==================================================================================================
 }

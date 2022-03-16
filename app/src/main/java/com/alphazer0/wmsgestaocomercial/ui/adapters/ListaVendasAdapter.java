@@ -46,9 +46,29 @@ public class ListaVendasAdapter extends RecyclerView.Adapter {
          TextView formaPagamento = holder.itemView.findViewById(R.id.item_list_vendas_tipo_pagamento);
 
          dataHora.setText("Data: "+venda.getData()+" | "+"Hora: "+venda.getHora());
-         cliente.setText("Cliente: "+venda.getCliente());
+         String cli = "";
          vlTotal.setText("Total: R$"+venda.getVlTotal());
-         formaPagamento.setText("Forma pagamento: "+venda.getFormaPagamento());
+         try {
+             if (!venda.getCliente().equals(null) || !venda.getCliente().equals("")) {
+                 cli = venda.getCliente();
+             }
+         }catch (NullPointerException n){
+             n.printStackTrace();
+         }
+
+        cliente.setText("Cliente: "+cli);
+
+         //CONFIGURA PAGAMENTO CC
+         pagamentoCC(venda,formaPagamento);
+
+         //CONFIGURA PAGAMENTO CONTA CLIENTE
+         pagamentoContaCliente(venda,formaPagamento);
+
+         //CONFIGURA PAGAMENTO DINHEIRO
+        pagamentoDinheiro(venda,formaPagamento);
+
+        //CONFIGURA PAGAMENTO DEBITO
+        pagamentoDebito(venda,formaPagamento);
     }
 
     @Override
@@ -56,11 +76,47 @@ public class ListaVendasAdapter extends RecyclerView.Adapter {
         return vendas.size();
     }
 //==================================================================================================
+    private void pagamentoCC(Venda venda, TextView formaPagamento){
+        String parcelasCC = "";
+        try{
+            if(venda.getParcelasCC().equals("") || venda.getParcelasCC().equals(null)){
+                parcelasCC = "";
+            }else {
+                parcelasCC = venda.getParcelasCC();
+            }
+        }catch (NullPointerException n){
+            n.printStackTrace();
+        }
+        if(venda.getFormaPagamento().equals("Cartao de Credito")){
+            if(!parcelasCC.equals("")) {
+                formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento() + " | " + "Parcelas: " + venda.getParcelasCC() + "\nValor: R$" + venda.getVlParcelas());
+            }else {
+                formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento());
+            }}
+    }
+
+    private void pagamentoContaCliente(Venda venda, TextView formaPagamento){
+        if(venda.getFormaPagamento().equals("Conta Cliente")){
+            formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento()+"\n"+"Data de Vencimento: "+venda.getDataVencimento());
+        }
+    }
+
+    private void pagamentoDinheiro(Venda venda, TextView formaPagamento){
+        if(venda.getFormaPagamento().equals("Dinheiro")){
+            formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento());
+        }
+    }
+
+    private void pagamentoDebito(Venda venda, TextView formaPagamento){
+        if(venda.getFormaPagamento().equals("Cartao de Debito")){
+            formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento());
+        }
+    }
+//==================================================================================================
   public void atualizaListaVendas(List<Venda> venda){
     this.vendas.clear();
     this.vendas.addAll(venda);
     notifyDataSetChanged();
   }
-
 //==================================================================================================
 }

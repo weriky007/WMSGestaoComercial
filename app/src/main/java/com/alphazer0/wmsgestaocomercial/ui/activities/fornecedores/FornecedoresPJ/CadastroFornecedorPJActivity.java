@@ -128,7 +128,6 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCNPJ.addTextChangedListener(MaskText.insert(MASK_CNPJ, campoCNPJ));
-        campoNomeFantasia.addTextChangedListener(MaskText.insert(MASK_DATA_NASCIMENTO, campoNomeFantasia));
         campoCelular1.addTextChangedListener(MaskText.insert(MASK_CEL, campoCelular1));
         campoCelular2.addTextChangedListener(MaskText.insert(MASK_CEL, campoCelular2));
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));

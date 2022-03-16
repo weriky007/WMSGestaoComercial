@@ -450,7 +450,6 @@ public class VendasActivity extends AppCompatActivity {
                     }
 
                     //SALVANDO A VENDA
-//                    configuraDataHora.dataHora(dataFormatada,horaFormatada);
                     SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
                     SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
                     Date dataAtual = new Date();
@@ -459,7 +458,7 @@ public class VendasActivity extends AppCompatActivity {
                     String horaFormatada;
                     dataFormatada = formataData.format(dataAtual);
                     horaFormatada = formataHora.format(horaAtual);
-                    insereValoresNaVenda.insere(valorTotal,venda,dataFormatada,horaFormatada,escolhaFormaPagamento,produtos,vendasDAO);
+                    insereValoresNaVenda.insere(valorTotal,venda,dataFormatada,horaFormatada,escolhaFormaPagamento,produtos,vendasDAO,dataContaCliente);
 
                 Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                     finish();

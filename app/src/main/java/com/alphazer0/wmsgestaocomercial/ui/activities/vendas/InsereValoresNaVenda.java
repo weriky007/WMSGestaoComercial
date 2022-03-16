@@ -9,9 +9,10 @@ import com.alphazer0.wmsgestaocomercial.model.Venda;
 import java.util.List;
 
 public class InsereValoresNaVenda {
-    public void insere(TextView valorTotal, Venda venda, String dataFormatada, String horaFormatada, String escolhaFormaPagamento, List<Produto> produtos, RoomVendasDAO vendasDAO){
+    public void insere(TextView valorTotal, Venda venda, String dataFormatada, String horaFormatada, String escolhaFormaPagamento, List<Produto> produtos, RoomVendasDAO vendasDAO,String dataContaCliente){
         String total = valorTotal.getText().toString();
         venda.setData(dataFormatada);
+        venda.setDataVencimento(dataContaCliente);
         venda.setHora(horaFormatada);
         venda.setVlTotal(total);
         venda.setFormaPagamento(escolhaFormaPagamento);
