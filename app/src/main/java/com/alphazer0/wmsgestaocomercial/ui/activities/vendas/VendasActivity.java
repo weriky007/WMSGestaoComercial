@@ -166,8 +166,6 @@ public class VendasActivity extends AppCompatActivity {
     private String escolhaCcParcelamento;
     private String dataContaCliente;
     private Venda venda = new Venda();;
-    private String dataFormatada;
-    private String horaFormatada;
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -445,17 +443,25 @@ public class VendasActivity extends AppCompatActivity {
 
                     if(escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)){
                         String a = campoClienteCC.getText().toString();
-                                venda.setCliente(a);
+                        venda.setCliente(a);
                     }
                     if(escolhaFormaPagamento.equals(CONTA_CLIENTE)){
                         contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
                     }
 
                     //SALVANDO A VENDA
-                    configuraDataHora.dataHora(dataFormatada,horaFormatada);
+//                    configuraDataHora.dataHora(dataFormatada,horaFormatada);
+                    SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
+                    Date dataAtual = new Date();
+                    Date horaAtual = new Date();
+                    String dataFormatada;
+                    String horaFormatada;
+                    dataFormatada = formataData.format(dataAtual);
+                    horaFormatada = formataHora.format(horaAtual);
                     insereValoresNaVenda.insere(valorTotal,venda,dataFormatada,horaFormatada,escolhaFormaPagamento,produtos,vendasDAO);
 
-                Toast.makeText(context, "Conpra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                     finish();
             }
         });
