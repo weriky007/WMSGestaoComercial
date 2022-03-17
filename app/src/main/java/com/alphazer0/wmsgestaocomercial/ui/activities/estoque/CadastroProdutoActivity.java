@@ -278,7 +278,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 
     //==================================================================================================
-//INICIANDO COMUNICACAO WEB
+    // INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
