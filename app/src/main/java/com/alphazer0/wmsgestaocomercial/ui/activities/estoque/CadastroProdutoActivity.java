@@ -205,6 +205,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         } else {
             put = 1;
             produtos = dao.todosProdutos();
+            //VERIFICA REPETIDO
             String sproduto = produto.getProduto().trim();
             Produto pproduto = new Produto();
             for (int i = 0; i < produtos.size(); i++) {
@@ -212,10 +213,13 @@ public class CadastroProdutoActivity extends AppCompatActivity {
                     pproduto = produtos.get(i);
                 }
             }
-            verificaExistente = 0;
             if (pproduto.getProduto() == null || pproduto.getProduto().equals("")) {
                 dao.salvaProduto(produto);
-                verificaExistente = 1;
+                produtos = dao.todosProdutos();
+                new SendRequest().execute();
+                Toast.makeText(CadastroProdutoActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
+                finish();
             } else {
                 Toast.makeText(this, "Esse produto já está cadastrado!", Toast.LENGTH_LONG).show();
             }
@@ -258,15 +262,6 @@ public class CadastroProdutoActivity extends AppCompatActivity {
                                         Toast.makeText(this, "A quantidade nao pode ser menor que Zero", Toast.LENGTH_SHORT).show();
                                     } else {
                                         concluiCadastro();
-                                        if(verificaExistente == 1) {
-                                            new SendRequest().execute();
-                                            Toast.makeText(CadastroProdutoActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
-                                            verificaExistente = 0;
-                                            finish();
-                                        }else{
-                                            Toast.makeText(this, "Dados não salvos!", Toast.LENGTH_SHORT).show();
-                                        }
                                     }
                                 }
                             }
@@ -355,7 +350,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         JSONObject enviaDados = new JSONObject();
         if (put == 1) {
             action = "addProduto";
-            produto = produtos.get(produtos.size() - 1);
+            produto = produtos.get(produtos.size()-1);
             id = produto.getId();
         }
         if (put == 2) {
