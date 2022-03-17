@@ -135,6 +135,10 @@ public class ListaDeClientesActivity extends AppCompatActivity {
         //TIPO DE LAYOUT
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaClientes.setLayoutManager(layoutManager);
+
+        //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
 //        configuraClickPorItem(listaClientes);
 //        registerForContextMenu(listaClientes);
     }

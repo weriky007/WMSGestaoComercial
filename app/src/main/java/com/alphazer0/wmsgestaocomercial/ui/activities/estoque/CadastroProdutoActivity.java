@@ -198,6 +198,49 @@ private void pegaCategorias(List<Produto> produto){
         }
     }
 //==================================================================================================
+    private void realizaVerificacao(){
+        String codigo = campoIdCod.getText().toString();
+        String categoria = campoCategoria.getText().toString();
+        String produto = campoProduto.getText().toString();
+        String marca = campoMarca.getText().toString();
+        String vlCompra = campoPrecoCompra.getText().toString();
+        String vlVenda = campoPrecoVenda.getText().toString();
+        String quantidade = campoQuantidade.getText().toString();
+
+        if(codigo.equals(null) || codigo.equals("")){
+            Toast.makeText(CadastroProdutoActivity.this, "Preencha o código de barras", Toast.LENGTH_LONG).show();
+        }else{
+            if(categoria.equals(null) || categoria.equals("")){
+                Toast.makeText(CadastroProdutoActivity.this, "Preencha a categoria", Toast.LENGTH_LONG).show();
+            }else{
+                if(produto.equals(null) || produto.equals("")){
+                    Toast.makeText(CadastroProdutoActivity.this, "Preencha o produto", Toast.LENGTH_LONG).show();
+                }else{
+                    if(marca.equals(null) || marca.equals("")){
+                        Toast.makeText(CadastroProdutoActivity.this, "Preencha a marca", Toast.LENGTH_LONG).show();
+                    }else{
+                        if(vlCompra.equals(null) || vlCompra.equals("")){
+                            Toast.makeText(CadastroProdutoActivity.this, "Preencha o valor de compra", Toast.LENGTH_LONG).show();
+                        }else{
+                            if(vlVenda.equals(null) || vlVenda.equals("")){
+                                Toast.makeText(CadastroProdutoActivity.this, "Preencha o valor de venda", Toast.LENGTH_LONG).show();
+                            }else{
+                                if(quantidade.equals(null) || quantidade.equals("")){
+                                    Toast.makeText(CadastroProdutoActivity.this, "Preencha a quantidade", Toast.LENGTH_LONG).show();
+                                }else{
+                                    concluiCadastro();
+                                    new SendRequest().execute();
+                                    startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
+                                    finish();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+//==================================================================================================
 //INICIANDO COMUNICACAO WEB
 public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -348,10 +391,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                concluiCadastro();
-                new SendRequest().execute();
-                startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
-                finish();
+                realizaVerificacao();
             }
         });
 

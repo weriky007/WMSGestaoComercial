@@ -134,6 +134,9 @@ public class ListaDeFornecedorPFActivity extends AppCompatActivity {
         //TIPO DE LAYOUT
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaFornecedoresPF.setLayoutManager(layoutManager);
+        //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
 
 //        configuraClickPorItem(listaFornecedoresPF);
 //        registerForContextMenu(listaFornecedoresPF);

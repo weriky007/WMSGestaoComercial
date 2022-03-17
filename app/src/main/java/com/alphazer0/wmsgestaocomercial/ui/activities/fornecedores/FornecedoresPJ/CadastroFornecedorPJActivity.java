@@ -217,6 +217,33 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         }
     }
 //==================================================================================================
+    private void realizaVerificacao(){
+        String razaoSocial = campoRazaoSocial.getText().toString();
+        String telefone = campoTelefone.getText().toString();
+        String rua = campoRua.getText().toString();
+        String bairro = campoBairro.getText().toString();
+        if(razaoSocial.equals(null) || razaoSocial.equals("")){
+            Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha a Razão Social", Toast.LENGTH_SHORT).show();
+        }else{
+            if(telefone.equals(null) || telefone.equals("")){
+                Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha o telefone", Toast.LENGTH_SHORT).show();
+            }else{
+                if(rua.equals(null) || rua.equals("")){
+                    Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha a rua", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(bairro.equals(null) || bairro.equals("")){
+                        Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
+                    }else{
+                        concluiCadastro();
+                        new SendRequest().execute();
+                        startActivity(new Intent(CadastroFornecedorPJActivity.this, ListaDeFornecedorPJActivity.class));
+                        finish();
+                    }
+                }
+            }
+        }
+    }
+//==================================================================================================
 //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -354,10 +381,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                concluiCadastro();
-                new SendRequest().execute();
-                startActivity(new Intent(CadastroFornecedorPJActivity.this, ListaDeFornecedorPJActivity.class));
-                finish();
+                realizaVerificacao();
             }
         });
     }

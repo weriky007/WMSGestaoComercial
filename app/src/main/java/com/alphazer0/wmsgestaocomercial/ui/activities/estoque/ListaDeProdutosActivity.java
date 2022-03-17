@@ -176,6 +176,9 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
         //TIPO DE LAYOUT
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaProdutos.setLayoutManager(layoutManager);
+        //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
 
 //        configuraClickPorItem(listaProdutos);
 //        registerForContextMenu(listaProdutos);

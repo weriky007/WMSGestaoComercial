@@ -135,6 +135,10 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaFornecedoresPJ.setLayoutManager(layoutManager);
 
+        //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+
 //        configuraClickPorItem(listaFornecedoresPJ);
 //        registerForContextMenu(listaFornecedoresPJ);
     }

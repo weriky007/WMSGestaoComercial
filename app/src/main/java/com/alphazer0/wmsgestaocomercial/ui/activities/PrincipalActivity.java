@@ -12,6 +12,7 @@ import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesAc
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.RelatorioTodasVendas;
+import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.RelatoriosPrincipal;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.VendasActivity;
 
 public class PrincipalActivity extends AppCompatActivity {
@@ -79,7 +80,7 @@ public class PrincipalActivity extends AppCompatActivity {
         btnRelatorios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PrincipalActivity.this, RelatorioTodasVendas.class));
+                startActivity(new Intent(PrincipalActivity.this, RelatoriosPrincipal.class));
             }
         });
     }

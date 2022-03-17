@@ -233,6 +233,34 @@ public class CadastroClienteActivity extends AppCompatActivity {
         }
     }
 //==================================================================================================
+    private void realizaVerificacao(){
+        String nome = campoNomeCompleto.getText().toString();
+        String celular = campoCelular1.getText().toString();
+        String rua  = campoRua.getText().toString();
+        String bairro = campoBairro.getText().toString();
+
+        if(nome.equals(null) || nome.equals("")){
+            Toast.makeText(CadastroClienteActivity.this, "Preencha o nome do cliente", Toast.LENGTH_SHORT).show();
+        }else{
+            if(celular.equals(null) || celular.equals("")){
+                Toast.makeText(CadastroClienteActivity.this, "Preencha o celular do cliente", Toast.LENGTH_SHORT).show();
+            }else{
+                if(rua.equals(null) || rua.equals("")){
+                    Toast.makeText(CadastroClienteActivity.this, "Preencha a rua", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(bairro.equals(null) || bairro.equals("")){
+                        Toast.makeText(CadastroClienteActivity.this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
+                    }else{
+                        concluiCadastro();
+                        new SendRequest().execute();
+                        startActivity(new Intent(CadastroClienteActivity.this, ListaDeClientesActivity.class));
+                        finish();
+                    }
+                }
+            }
+        }
+    }
+//==================================================================================================
 //INICIANDO COMUNICACAO WEB
 public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -371,10 +399,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                concluiCadastro();
-                new SendRequest().execute();
-                startActivity(new Intent(CadastroClienteActivity.this, ListaDeClientesActivity.class));
-                finish();
+                realizaVerificacao();
             }
         });
     }

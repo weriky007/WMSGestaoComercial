@@ -230,15 +230,16 @@ public class VendasActivity extends AppCompatActivity {
         InsetDrawable inset = new InsetDrawable(back, 0);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(VendasActivity.this);
 
-        alertDialog.setMessage(ADICIONAR_PRODUTO).setView(viewCriada)
-                .setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
-                        configuracaoIOEstoqueVendas.diminuiItemDoEstoque(campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
-                        calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
-                    }
-                }).setNegativeButton(CANCELAR, null).show().getWindow().setBackgroundDrawable(inset);
+        alertDialog.setMessage(ADICIONAR_PRODUTO).setView(viewCriada);
+
+        alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                realizaVerificacao();
+            }
+        });
+
+        alertDialog.setNegativeButton(CANCELAR, null).show().getWindow().setBackgroundDrawable(inset);
     }
 
     private void bindViewsVenda(View viewCriada) {
@@ -246,6 +247,28 @@ public class VendasActivity extends AppCompatActivity {
         campoProduto = viewCriada.findViewById(R.id.edit_d_vendas_produto);
         campoQuantidade = viewCriada.findViewById(R.id.edit_d_vendas_quantidade);
         fabLerCodigo = viewCriada.findViewById(R.id.fab_scan_d_vendas_produto);
+    }
+
+    private void realizaVerificacao(){
+        String codigoBarras = campoCodigoBarras.getText().toString();
+        String produto = campoProduto.getText().toString();
+        String quantidade = campoQuantidade.getText().toString();
+
+        if(codigoBarras.equals(null) || codigoBarras.equals("")){
+            Toast.makeText(context, "Preencha o Código de Barras", Toast.LENGTH_SHORT).show();
+        }else{
+            if(produto.equals(null) || produto.equals("")){
+                Toast.makeText(context, "Preencha o Produto", Toast.LENGTH_SHORT).show();
+            }else{
+                if(quantidade.equals(null) || quantidade.equals("")){
+                    Toast.makeText(context, "Preencha a quantidade", Toast.LENGTH_SHORT).show();
+                }else{
+                    pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
+                    configuracaoIOEstoqueVendas.diminuiItemDoEstoque(campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
+                    calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
+                }
+            }
+        }
     }
 //==================================================================================================
     private void configuraAutoCompleteProdutos() {
@@ -441,28 +464,59 @@ public class VendasActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                    if(escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)){
-                        String a = campoClienteCC.getText().toString();
-                        venda.setCliente(a);
+                String a = campoClienteCC.getText().toString();
+                String b = campoClienteConta.getText().toString();
+                String vlTotal = valorTotal.getText().toString();
+                BigDecimal bvlTotal = new BigDecimal(vlTotal);
+
+                if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
+                if (bvlTotal.equals("0.00") || bvlTotal.equals("") || bvlTotal.equals(null)) {
+                    Toast.makeText(context, "Adicione Produtos a Lista de Compras", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (a.equals(null) || a.equals("")) {
+                        Toast.makeText(context, "Por favor preencha os dados", Toast.LENGTH_SHORT).show();
+                    } else {
+                            venda.setCliente(a);
+                            //SALVANDO A VENDA
+                            SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
+                            Date dataAtual = new Date();
+                            Date horaAtual = new Date();
+                            String dataFormatada;
+                            String horaFormatada;
+                            dataFormatada = formataData.format(dataAtual);
+                            horaFormatada = formataHora.format(horaAtual);
+                            insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+
+                            Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                            finish();
                     }
-                    if(escolhaFormaPagamento.equals(CONTA_CLIENTE)){
+                }}
+
+                if (escolhaFormaPagamento.equals(CONTA_CLIENTE)) {
+                if (bvlTotal.equals("0.00") || bvlTotal.equals("") || bvlTotal.equals(null)) {
+                    Toast.makeText(context, "Adicione Produtos a Lista de Compras", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (b.equals(null) || b.equals("")) {
+                        Toast.makeText(context, "Por favor preencha os dados", Toast.LENGTH_SHORT).show();
+                    } else {
                         contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
-                    }
+                        //SALVANDO A VENDA
+                        SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
+                        Date dataAtual = new Date();
+                        Date horaAtual = new Date();
+                        String dataFormatada;
+                        String horaFormatada;
+                        dataFormatada = formataData.format(dataAtual);
+                        horaFormatada = formataHora.format(horaAtual);
+                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
 
-                    //SALVANDO A VENDA
-                    SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
-                    SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
-                    Date dataAtual = new Date();
-                    Date horaAtual = new Date();
-                    String dataFormatada;
-                    String horaFormatada;
-                    dataFormatada = formataData.format(dataAtual);
-                    horaFormatada = formataHora.format(horaAtual);
-                    insereValoresNaVenda.insere(valorTotal,venda,dataFormatada,horaFormatada,escolhaFormaPagamento,produtos,vendasDAO,dataContaCliente);
-
-                Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
-                    finish();
-            }
+                        Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                        finish();
+                        }
+                }
+            }}
         });
 
         //CONFIGURA  BOTAO NEGATIVO
@@ -485,11 +539,27 @@ public class VendasActivity extends AppCompatActivity {
                 TextView vlParcela = layoutCCParcelas.findViewById(R.id.valor_parcela);
                 Button btnConcluiCalculoParcelasCC = layoutCCParcelas.findViewById(R.id.conclui_parcelas);
 
-                //CONFIGURANDO ESCOLHA CC
+                //CONFIGURANDO ESCOLHA CC PARCELAS
                 btnConcluiCalculoParcelasCC.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela,valorTotal, venda);
+                        String cliente = campoClienteCC.getText().toString();
+                        String nParcelas = recebeNumeroParcelas.getText().toString();
+                        String tax = taxa.getText().toString();
+                        if(cliente.equals(null)||cliente.equals("")){
+                            Toast.makeText(context, "Peencha o Cliente", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(nParcelas.equals(null)||nParcelas.equals("")){
+                                Toast.makeText(context, "Peencha a quantidade de parcelas", Toast.LENGTH_SHORT).show();
+                            }else{
+                                if(tax.equals(null)||tax.equals("")){
+                                    Toast.makeText(context, "Peencha a taxa", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela,valorTotal, venda);
+                                }
+                            }
+                        }
+
                     }
                 });
 

@@ -46,6 +46,9 @@ public class RelatorioTodasVendas extends AppCompatActivity {
         //TIPO DE LAYOUT
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaTodasVendas.setLayoutManager(layoutManager);
+        //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
     }
 //==================================================================================================
     private void configuraAdapter(){

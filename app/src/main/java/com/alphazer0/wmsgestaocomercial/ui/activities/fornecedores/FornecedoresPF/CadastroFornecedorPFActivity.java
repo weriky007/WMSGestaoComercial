@@ -29,6 +29,8 @@ import com.alphazer0.wmsgestaocomercial.database.FornecedoresPFDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomFornecedorPFDAO;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
+import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.CadastroClienteActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -233,6 +235,34 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         }
     }
 //==================================================================================================
+private void realizaVerificacao(){
+    String nome = campoNomeCompleto.getText().toString();
+    String celular = campoCelular1.getText().toString();
+    String rua  = campoRua.getText().toString();
+    String bairro = campoBairro.getText().toString();
+
+    if(nome.equals(null) || nome.equals("")){
+        Toast.makeText(this, "Preencha o nome ", Toast.LENGTH_SHORT).show();
+    }else{
+        if(celular.equals(null) || celular.equals("")){
+            Toast.makeText(this, "Preencha o celular", Toast.LENGTH_SHORT).show();
+        }else{
+            if(rua.equals(null) || rua.equals("")){
+                Toast.makeText(this, "Preencha a rua", Toast.LENGTH_SHORT).show();
+            }else{
+                if(bairro.equals(null) || bairro.equals("")){
+                    Toast.makeText(this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
+                }else{
+                    concluiCadastro();
+                    new SendRequest().execute();
+                    startActivity(new Intent(CadastroFornecedorPFActivity.this, ListaDeFornecedorPFActivity.class));
+                    finish();
+                }
+            }
+        }
+    }
+}
+//==================================================================================================
 //INICIANDO COMUNICACAO WEB
 public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -371,10 +401,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                concluiCadastro();
-                new SendRequest().execute();
-                startActivity(new Intent(CadastroFornecedorPFActivity.this, ListaDeFornecedorPFActivity.class));
-                finish();
+                realizaVerificacao();
             }
         });
     }
