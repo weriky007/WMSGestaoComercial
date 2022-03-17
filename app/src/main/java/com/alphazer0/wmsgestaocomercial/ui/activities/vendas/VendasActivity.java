@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
 //==================================================================================================
+
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.ID_PASTA;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.LINK_MACRO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.PRODUTOS_PLAN;
@@ -78,6 +79,7 @@ import java.util.List;
 import java.util.logging.SimpleFormatter;
 
 import javax.net.ssl.HttpsURLConnection;
+
 //==================================================================================================
 public class VendasActivity extends AppCompatActivity {
 
@@ -165,8 +167,14 @@ public class VendasActivity extends AppCompatActivity {
     private String escolhaFormaPagamento;
     private String escolhaCcParcelamento;
     private String dataContaCliente;
-    private Venda venda = new Venda();;
-//==================================================================================================
+    private Venda venda = new Venda();
+    ;
+    private EditText vlRecebido;
+    private TextView troco;
+    private EditText parcelas;
+    private EditText taxa;
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,18 +185,21 @@ public class VendasActivity extends AppCompatActivity {
         configuraLista();
         configuraFabAddProduto();
     }
-//==================================================================================================
+
+    //==================================================================================================
     @Override
     protected void onResume() {
         super.onResume();
         produtosVendaAdapter.pegaTodosProdutos(listaCompras);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void bindDosElementos() {
         valorTotal = findViewById(R.id.valor);
         fabAdicionaProduto = findViewById(R.id.fab_adiciona_produto_venda);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraAdapter() {
         produtosVendaAdapter = new ListaProdutosVendasAdapter(listaCompras);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
@@ -214,7 +225,8 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     //CONFIGURA ALERTDIALOG TELA VENDAS
     public void mostra() {
         View viewCriada = LayoutInflater.from(VendasActivity.this)
@@ -232,6 +244,7 @@ public class VendasActivity extends AppCompatActivity {
 
         alertDialog.setMessage(ADICIONAR_PRODUTO).setView(viewCriada);
 
+        //ADICIONANDO O PRODUTO A LISTA DE COMPRAS
         alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -249,20 +262,21 @@ public class VendasActivity extends AppCompatActivity {
         fabLerCodigo = viewCriada.findViewById(R.id.fab_scan_d_vendas_produto);
     }
 
-    private void realizaVerificacao(){
+    //VERIFICACAO DOS CAMPOS DE ADICAO DA LISTA DE COMPRAS
+    private void realizaVerificacao() {
         String codigoBarras = campoCodigoBarras.getText().toString();
         String produto = campoProduto.getText().toString();
         String quantidade = campoQuantidade.getText().toString();
 
-        if(codigoBarras.equals(null) || codigoBarras.equals("")){
+        if (codigoBarras.equals(null) || codigoBarras.equals("")) {
             Toast.makeText(context, "Preencha o Código de Barras", Toast.LENGTH_SHORT).show();
-        }else{
-            if(produto.equals(null) || produto.equals("")){
+        } else {
+            if (produto.equals(null) || produto.equals("")) {
                 Toast.makeText(context, "Preencha o Produto", Toast.LENGTH_SHORT).show();
-            }else{
-                if(quantidade.equals(null) || quantidade.equals("")){
+            } else {
+                if (quantidade.equals(null) || quantidade.equals("")) {
                     Toast.makeText(context, "Preencha a quantidade", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
                     configuracaoIOEstoqueVendas.diminuiItemDoEstoque(campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
                     calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
@@ -270,7 +284,9 @@ public class VendasActivity extends AppCompatActivity {
             }
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
+    //CONFIGURANDO AUTO PREENCHER DOS CAMPOS
     private void configuraAutoCompleteProdutos() {
         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
         ArrayAdapter<String> adapterProdutos = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filtroTituloProdutos);
@@ -328,7 +344,8 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     //CONFIGURA LEITOR DE  CODIGO
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -358,7 +375,8 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     //MENU ITENS LISTA
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -398,7 +416,7 @@ public class VendasActivity extends AppCompatActivity {
         configuraRemocaoProdutoDoCarrinhoCompras(produto);
     }
 
-//==================================================================================================
+    //==================================================================================================
     //MENU APPBAR CONCLUI VENDA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -414,13 +432,15 @@ public class VendasActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-//==================================================================================================
+
+    //==================================================================================================
+    //CONCLUINDO VENDA
     public void concluiVenda() {
         //CONFIGURA VIEW A SEREM INFLADAS
         View layoutConcluiVenda = getLayoutInflater().inflate(R.layout.activity_formulario_conclui_venda, null);
         View layoutDinheiro = getLayoutInflater().inflate(R.layout.layout_pagamento_dinheiro, null);
-        View layoutCC = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito,null);
-        View layoutCCParcelas = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito_parcelas,null);
+        View layoutCC = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito, null);
+        View layoutCCParcelas = getLayoutInflater().inflate(R.layout.layout_pagamento_cartao_credito_parcelas, null);
         View layoutCalendarioContaCliente = getLayoutInflater().inflate(R.layout.layout_pagamento_conta_cliente, null);
 
         //CONFIG STILO DO ALERTDIALOG
@@ -441,7 +461,7 @@ public class VendasActivity extends AppCompatActivity {
         LinearLayout layoutParcelasCC = layoutCC.findViewById(R.id.layout_formas_pagamentos_cartao_cc);
 
         configuraAutoCompleteClientes();
-        pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(),filtroClientes,hashSetClientes);
+        pegaInformacoesParaVenda.pegaClientes(clienteDAO.todosClientes(), filtroClientes, hashSetClientes);
 
         vendas = vendasDAO.todasVendas();
 
@@ -455,68 +475,103 @@ public class VendasActivity extends AppCompatActivity {
         alertDialog.setTitle("Concluir Venda")
                 .setView(layoutConcluiVenda);
 
+        vlRecebido = layoutDinheiro.findViewById(R.id.edit_valor_recebido);
+        troco = layoutDinheiro.findViewById(R.id.troco_valor);
+        parcelas = layoutCCParcelas.findViewById(R.id.edit_numero_parcelas);
+        taxa = layoutCCParcelas.findViewById(R.id.edit_taxa);
         //CONFIGURA ALERTDIALOG
         configuraAlertDialog(inset, alertDialog);
     }//FIM CONCLUI VENDA
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraAlertDialog(InsetDrawable inset, AlertDialog.Builder alertDialog) {
+
+        //CONFIGURA BOTAO POSITIVO
         alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
+            //CONFIGURA DATA E HORA
+            SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
+            Date dataAtual = new Date();
+            Date horaAtual = new Date();
+            String dataFormatada = formataData.format(dataAtual);
+            String horaFormatada = formataHora.format(horaAtual);
+
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
-                String a = campoClienteCC.getText().toString();
-                String b = campoClienteConta.getText().toString();
                 String vlTotal = valorTotal.getText().toString();
-                BigDecimal bvlTotal = new BigDecimal(vlTotal);
+                double dvlTotal = Double.parseDouble(vlTotal);
+                String pegaClienteDoCampoCC = campoClienteCC.getText().toString();
 
-                if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
-                if (bvlTotal.equals("0.00") || bvlTotal.equals("") || bvlTotal.equals(null)) {
-                    Toast.makeText(context, "Adicione Produtos a Lista de Compras", Toast.LENGTH_SHORT).show();
+                if (vlTotal.equals("0.00") && dvlTotal <= 0) {
+                    Toast.makeText(context, "Adicione produtos a lista", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (a.equals(null) || a.equals("")) {
-                        Toast.makeText(context, "Por favor preencha os dados", Toast.LENGTH_SHORT).show();
-                    } else {
-                            venda.setCliente(a);
-                            //SALVANDO A VENDA
-                            SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
-                            SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
-                            Date dataAtual = new Date();
-                            Date horaAtual = new Date();
-                            String dataFormatada;
-                            String horaFormatada;
-                            dataFormatada = formataData.format(dataAtual);
-                            horaFormatada = formataHora.format(horaAtual);
-                            insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
 
-                            Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
-                            finish();
+                    if(escolhaFormaPagamento.equals(DINHEIRO)){
+                        String svlRecebido = vlRecebido.getText().toString();
+                        String sTroco = troco.getText().toString();
+                        String svlTotal = valorTotal.getText().toString();
+
+                        if(svlRecebido.equals(null) || svlRecebido.equals("")){
+                            Toast.makeText(context, "Preecha o valor Recebido", Toast.LENGTH_SHORT).show();
+                        }else {
+                            if(sTroco.equals("0.00")){
+                                Toast.makeText(context, "Clique em OK para calcular o troco", Toast.LENGTH_SHORT).show();
+                            }else {
+                                double dtotal = Double.parseDouble(svlTotal);
+                                double dvalorRecebido = Double.parseDouble(svlRecebido);
+
+                                if(dvalorRecebido < dtotal){
+                                    Toast.makeText(context, "O valor Recebido Não pode ser menor do que o Total", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    //INSERINDO VALORES NA VENDA
+                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                                    Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            }
+                        }
                     }
-                }}
 
-                if (escolhaFormaPagamento.equals(CONTA_CLIENTE)) {
-                if (bvlTotal.equals("0.00") || bvlTotal.equals("") || bvlTotal.equals(null)) {
-                    Toast.makeText(context, "Adicione Produtos a Lista de Compras", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (b.equals(null) || b.equals("")) {
-                        Toast.makeText(context, "Por favor preencha os dados", Toast.LENGTH_SHORT).show();
-                    } else {
-                        contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
-                        //SALVANDO A VENDA
-                        SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy");
-                        SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
-                        Date dataAtual = new Date();
-                        Date horaAtual = new Date();
-                        String dataFormatada;
-                        String horaFormatada;
-                        dataFormatada = formataData.format(dataAtual);
-                        horaFormatada = formataHora.format(horaAtual);
+                    if(escolhaFormaPagamento.equals(CARTAO_DE_DEBITO)){
+                        //INSERINDO VALORES NA VENDA
                         insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
-
                         Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                         finish();
+                    }
+
+                    if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
+                        String cliente = campoClienteCC.getText().toString();
+                        if(cliente.equals(null) || cliente.equals("")){
+                            Toast.makeText(context, "Preencha o campo Cliente", Toast.LENGTH_SHORT).show();
+                        }else {
+                            String parcela = parcelas.getText().toString();
+                            if(parcela.equals(null) || parcela.equals("")){
+                                Toast.makeText(context, "Preencha a Quantidade de Parcelas", Toast.LENGTH_SHORT).show();
+                            }else {
+                                String tax = taxa.getText().toString();
+                                if(tax.equals(null) || tax.equals("")){
+                                    Toast.makeText(context, "Preencha a taxa", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    venda.setCliente(pegaClienteDoCampoCC);
+                                    //INSERINDO VALORES NA VENDA
+                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                                    Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            }
                         }
+                    }
+
+                    if (escolhaFormaPagamento.equals(CONTA_CLIENTE)) {
+                        contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
+                        //INSERINDO VALORES NA VENDA
+                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                        Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+
                 }
-            }}
+            }
         });
 
         //CONFIGURA  BOTAO NEGATIVO
@@ -525,7 +580,8 @@ public class VendasActivity extends AppCompatActivity {
                 .getWindow()
                 .setBackgroundDrawable(inset);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void checaParcelamentoCC(View layoutCC, View layoutCCParcelas, LinearLayout layoutParcelasCC) {
         radioGroupParcelaCC.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -546,16 +602,16 @@ public class VendasActivity extends AppCompatActivity {
                         String cliente = campoClienteCC.getText().toString();
                         String nParcelas = recebeNumeroParcelas.getText().toString();
                         String tax = taxa.getText().toString();
-                        if(cliente.equals(null)||cliente.equals("")){
+                        if (cliente.equals(null) || cliente.equals("")) {
                             Toast.makeText(context, "Peencha o Cliente", Toast.LENGTH_SHORT).show();
-                        }else{
-                            if(nParcelas.equals(null)||nParcelas.equals("")){
+                        } else {
+                            if (nParcelas.equals(null) || nParcelas.equals("")) {
                                 Toast.makeText(context, "Peencha a quantidade de parcelas", Toast.LENGTH_SHORT).show();
-                            }else{
-                                if(tax.equals(null)||tax.equals("")){
+                            } else {
+                                if (tax.equals(null) || tax.equals("")) {
                                     Toast.makeText(context, "Peencha a taxa", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela,valorTotal, venda);
+                                } else {
+                                    calculaParcelasCartaoCredito.calculoParcelasCC(recebeNumeroParcelas, taxa, vlParcela, valorTotal, venda);
                                 }
                             }
                         }
@@ -563,7 +619,7 @@ public class VendasActivity extends AppCompatActivity {
                     }
                 });
 
-                switch (escolhaCcParcelamento){
+                switch (escolhaCcParcelamento) {
                     case A_VISTA:
                         layoutParcelasCC.removeAllViews();
                         break;
@@ -574,7 +630,8 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void checaEscolhasPagamento(View layoutConcluiVenda, View layoutDinheiro, View layoutCC, View layoutCalendarioContaCliente, LinearLayout layoutPagamentoDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente) {
         radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -586,7 +643,8 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void switchLayouts(LinearLayout layoutPagamentoDinheiro, View layoutDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente, View layoutCC, View layoutCalendarioContaCliente) {
         switch (escolhaFormaPagamento) {
             case DINHEIRO:
@@ -612,23 +670,26 @@ public class VendasActivity extends AppCompatActivity {
                 calendarContaCliente.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int ano, int mes, int dia) {
-                        dataContaCliente = dia + "/" + (mes+1) + "/" + ano;
+                        dataContaCliente = dia + "/" + (mes + 1) + "/" + ano;
                     }
                 });
                 break;
         }//END SWITCH
     }
-//==================================================================================================
+
+    //==================================================================================================
     private LinearLayout configuraRecebimentoDinheiro(View view, View layoutDinheiro) {
         LinearLayout layoutFormasPagamentoDinheiro = view.findViewById(R.id.linear_layout_forma_pagamento_dinheiro);
-        calculaRecebimentoEmDinheiro.calcula(layoutDinheiro, valorTotal);
+        calculaRecebimentoEmDinheiro.calcula(context,layoutDinheiro, valorTotal);
         return layoutFormasPagamentoDinheiro;
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraRemocaoProdutoDoCarrinhoCompras(Produto produto) {
         configuracaoIOEstoqueVendas.devolveItemAoEstoque(produtoDao, produto, produtos, total, valorTotal, produtosVendaAdapter, listaCompras);
     }
-//==================================================================================================
+
+    //==================================================================================================
     //JANELA ADICIONA PRODUTO AO CARRINHO
     private void configuraFabAddProduto() {
         fabAdicionaProduto.setOnClickListener(new View.OnClickListener() {
@@ -638,7 +699,8 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -668,7 +730,8 @@ public class VendasActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
         }//end onPostExecute
     }//end sendRequest
-//==================================================================================================
+
+    //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
