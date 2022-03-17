@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.estoque;
 //==================================================================================================
+
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.ID_PASTA;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.LINK_MACRO;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.accessibility.AccessibilityViewCommand;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
@@ -53,6 +55,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 //==================================================================================================
 public class CadastroProdutoActivity extends AppCompatActivity {
+
+    private int verificaExistente;
+
     public CadastroProdutoActivity() throws SQLException {
     }
 
@@ -72,7 +77,8 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         configuraBotoes();
         configuraAutoComplete();
     }
-//==================================================================================================
+
+    //==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private Produto produto;
     private RoomProdutoDAO dao;
@@ -83,7 +89,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
 //    private  List<Produto> produtos;
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
-    String linkMacro= LINK_MACRO;
+    String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
     int put = 0;
 
@@ -103,7 +109,8 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     private EditText campoUnidadeMedida;
 
     private Button botao;
-//==================================================================================================
+
+    //==================================================================================================
     private void bindDosCampos() {
         campoIdCod = findViewById(R.id.edit_codigo_barras_produto);
         campoCategoria = findViewById(R.id.edit_categoria_produto);
@@ -118,27 +125,29 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         btnLerCodigo = findViewById(R.id.fab_scan_produto);
         botao = findViewById(R.id.botao_salvar_produto);
     }
-//==================================================================================================
-    //AUTOCOMPLETE
-private void pegaCategorias(List<Produto> produto){
 
-    for (Produto filtroGrupo : produto) {
-        this.categorias.add(filtroGrupo.getCategoria());
-    }
-    hashSet.addAll(this.categorias);
-    this.categorias.clear();
+    //==================================================================================================
+    //AUTOCOMPLETE
+    private void pegaCategorias(List<Produto> produto) {
+
+        for (Produto filtroGrupo : produto) {
+            this.categorias.add(filtroGrupo.getCategoria());
+        }
+        hashSet.addAll(this.categorias);
+        this.categorias.clear();
 //    this.categorias.add("Todos");
-    this.categorias.addAll(hashSet);
-}
+        this.categorias.addAll(hashSet);
+    }
 
     private void configuraAutoComplete() {
         pegaCategorias(dao.todosProdutos());
-        ArrayAdapter<String> adapterCategorias = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,categorias);
+        ArrayAdapter<String> adapterCategorias = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categorias);
 
         campoCategoria.setAdapter(adapterCategorias);
         campoCategoria.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String codigoBarras = campoIdCod.getText().toString();
         String categoria = campoCategoria.getText().toString();
@@ -160,7 +169,8 @@ private void pegaCategorias(List<Produto> produto){
         this.produto.setQuantidade(quantidade);
         this.produto.setUnidadeMedida(unidadeMedida);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void carregaProduto() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_PRODUTO_OUTRO)) {
@@ -170,7 +180,8 @@ private void pegaCategorias(List<Produto> produto){
             produto = new Produto();
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void preencheCamposParaEdicao() {
         campoIdCod.setText(produto.getIdCod());
         campoCategoria.setText(produto.getCategoria());
@@ -182,8 +193,9 @@ private void pegaCategorias(List<Produto> produto){
         campoQuantidade.setText(produto.getQuantidade());
         campoUnidadeMedida.setText(produto.getUnidadeMedida());
     }
-//==================================================================================================
-    private void concluiCadastro()  {
+
+    //==================================================================================================
+    private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
         if (produto.temIdValido()) {
             put = 2;
@@ -192,13 +204,26 @@ private void pegaCategorias(List<Produto> produto){
             Toast.makeText(CadastroProdutoActivity.this, "Editado com Sucesso!", Toast.LENGTH_SHORT).show();
         } else {
             put = 1;
-            dao.salvaProduto(produto);
             produtos = dao.todosProdutos();
-            Toast.makeText(CadastroProdutoActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+            String sproduto = produto.getProduto().trim();
+            Produto pproduto = new Produto();
+            for (int i = 0; i < produtos.size(); i++) {
+                if (sproduto.equals(produtos.get(i).getProduto().trim())) {
+                    pproduto = produtos.get(i);
+                }
+            }
+            verificaExistente = 0;
+            if (pproduto.getProduto() == null || pproduto.getProduto().equals("")) {
+                dao.salvaProduto(produto);
+                verificaExistente = 1;
+            } else {
+                Toast.makeText(this, "Esse produto já está cadastrado!", Toast.LENGTH_LONG).show();
+            }
         }
     }
-//==================================================================================================
-    private void realizaVerificacao(){
+
+    //==================================================================================================
+    private void realizaVerificacao() {
         String codigo = campoIdCod.getText().toString();
         String categoria = campoCategoria.getText().toString();
         String produto = campoProduto.getText().toString();
@@ -207,31 +232,42 @@ private void pegaCategorias(List<Produto> produto){
         String vlVenda = campoPrecoVenda.getText().toString();
         String quantidade = campoQuantidade.getText().toString();
 
-        if(codigo.equals(null) || codigo.equals("")){
+        if (codigo.equals(null) || codigo.equals("")) {
             Toast.makeText(CadastroProdutoActivity.this, "Preencha o código de barras", Toast.LENGTH_LONG).show();
-        }else{
-            if(categoria.equals(null) || categoria.equals("")){
+        } else {
+            if (categoria.equals(null) || categoria.equals("")) {
                 Toast.makeText(CadastroProdutoActivity.this, "Preencha a categoria", Toast.LENGTH_LONG).show();
-            }else{
-                if(produto.equals(null) || produto.equals("")){
+            } else {
+                if (produto.equals(null) || produto.equals("")) {
                     Toast.makeText(CadastroProdutoActivity.this, "Preencha o produto", Toast.LENGTH_LONG).show();
-                }else{
-                    if(marca.equals(null) || marca.equals("")){
+                } else {
+                    if (marca.equals(null) || marca.equals("")) {
                         Toast.makeText(CadastroProdutoActivity.this, "Preencha a marca", Toast.LENGTH_LONG).show();
-                    }else{
-                        if(vlCompra.equals(null) || vlCompra.equals("")){
+                    } else {
+                        if (vlCompra.equals(null) || vlCompra.equals("")) {
                             Toast.makeText(CadastroProdutoActivity.this, "Preencha o valor de compra", Toast.LENGTH_LONG).show();
-                        }else{
-                            if(vlVenda.equals(null) || vlVenda.equals("")){
+                        } else {
+                            if (vlVenda.equals(null) || vlVenda.equals("")) {
                                 Toast.makeText(CadastroProdutoActivity.this, "Preencha o valor de venda", Toast.LENGTH_LONG).show();
-                            }else{
-                                if(quantidade.equals(null) || quantidade.equals("")){
+                            } else {
+                                if (quantidade.equals(null) || quantidade.equals("")) {
                                     Toast.makeText(CadastroProdutoActivity.this, "Preencha a quantidade", Toast.LENGTH_LONG).show();
-                                }else{
-                                    concluiCadastro();
-                                    new SendRequest().execute();
-                                    startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
-                                    finish();
+                                } else {
+                                    double dquantidade = Double.parseDouble(quantidade);
+                                    if (dquantidade < 0) {
+                                        Toast.makeText(this, "A quantidade nao pode ser menor que Zero", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        concluiCadastro();
+                                        if(verificaExistente == 1) {
+                                            new SendRequest().execute();
+                                            Toast.makeText(CadastroProdutoActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
+                                            verificaExistente = 0;
+                                            finish();
+                                        }else{
+                                            Toast.makeText(this, "Dados não salvos!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -240,44 +276,47 @@ private void pegaCategorias(List<Produto> produto){
             }
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
 //INICIANDO COMUNICACAO WEB
-public class SendRequest extends AsyncTask<String, Void, String> {
+    public class SendRequest extends AsyncTask<String, Void, String> {
 
-    protected void onPreExecute(){}
+        protected void onPreExecute() {
+        }
 
-    protected String doInBackground(String... arg0) {
-        try{
-            URL url = new URL(linkMacro);
-            String idPlan= idPlanilha;
+        protected String doInBackground(String... arg0) {
+            try {
+                URL url = new URL(linkMacro);
+                String idPlan = idPlanilha;
 
-            JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
-            HttpURLConnection connection = executaConeccaoExternalServer(url);
-            escreveDadosNaPlanilha(enviaDados, connection);
-            return verificaLinhaVazia(connection);
-        }//end try
+                JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
+                HttpURLConnection connection = executaConeccaoExternalServer(url);
+                escreveDadosNaPlanilha(enviaDados, connection);
+                return verificaLinhaVazia(connection);
+            }//end try
 
-        catch(Exception e){
-            return new String("Exception: " + e.getMessage());
-        }//end catch
+            catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }//end catch
 
-    }//end doInBackGround
+        }//end doInBackGround
 
-    @Override
-    protected void onPostExecute(String resultado) {
-        Toast.makeText(getApplicationContext(),"Salvo Na GSheet!!!",Toast.LENGTH_LONG).show();
+        @Override
+        protected void onPostExecute(String resultado) {
+            Toast.makeText(getApplicationContext(), "Salvo Na GSheet!!!", Toast.LENGTH_LONG).show();
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-    }//end onPostExecute
-}//end sendRequest
-//==================================================================================================
+        }//end onPostExecute
+    }//end sendRequest
+
+    //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
             BufferedReader leValor = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer sb = new StringBuffer("");
-            String linha="";
+            String linha = "";
 
-            while((linha = leValor.readLine()) != null) {
+            while ((linha = leValor.readLine()) != null) {
                 sb.append(linha);
                 break;
             }//end while
@@ -287,7 +326,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         }//end if
         else {
-            return new String("false : "+codigoWeb);
+            return new String("false : " + codigoWeb);
         }//end else
     }
 
@@ -314,21 +353,21 @@ public class SendRequest extends AsyncTask<String, Void, String> {
     //ENVIA DADOS PARA A PLANILHA GOOGLE
     private JSONObject enviaDadosParaPlanilha(String action) throws JSONException {
         JSONObject enviaDados = new JSONObject();
-        if(put == 1) {
+        if (put == 1) {
             action = "addProduto";
-           produto = produtos.get(produtos.size()-1);
-           id = produto.getId();
+            produto = produtos.get(produtos.size() - 1);
+            id = produto.getId();
         }
-        if(put == 2){
-            action ="updateProduto";
+        if (put == 2) {
+            action = "updateProduto";
             id = produto.getId();
         }
 
         enviaDados.put("pasta", ID_PASTA);
-        enviaDados.put("planilha",PRODUTOS_PLAN);
-        enviaDados.put("action",action);
+        enviaDados.put("planilha", PRODUTOS_PLAN);
+        enviaDados.put("action", action);
 
-        enviaDados.put("idProduto",produto.getId());
+        enviaDados.put("idProduto", produto.getId());
         enviaDados.put("idCod", produto.getIdCod());
         enviaDados.put("categoria", produto.getCategoria());
         enviaDados.put("produto", produto.getProduto());
@@ -339,7 +378,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         enviaDados.put("quantidade", produto.getQuantidade());
         enviaDados.put("unidadeMedida", produto.getUnidadeMedida());
 
-        Log.e("params",enviaDados.toString());
+        Log.e("params", enviaDados.toString());
         return enviaDados;
     }
 
@@ -349,13 +388,13 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         Iterator<String> itr = params.keys();
 
-        while(itr.hasNext()){
-            String key= itr.next();
+        while (itr.hasNext()) {
+            String key = itr.next();
             Object value = params.get(key);
 
             if (first) {
                 first = false;
-            }else {
+            } else {
                 result.append("&");
             }
             result.append(URLEncoder.encode(key, "UTF-8"));
@@ -365,25 +404,26 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         }
         return result.toString();
     }//end configuraData
-//==================================================================================================
+
+    //==================================================================================================
     //PEGA O RESULTADO DO SCANNER
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result != null){
-            if(result.getContents() != null){
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() != null) {
                 campoIdCod.setText(result.getContents());
                 alert(result.getContents());
-            }else{
+            } else {
                 alert("Scan Cancelado!");
             }
-        }else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void alert(String msg){
-        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+    private void alert(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 
     //CONFIGURA LEITOR E BOTOES

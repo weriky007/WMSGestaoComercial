@@ -7,6 +7,7 @@ import java.util.List;
 
 public class PegaInformacoesParaVenda {
     public void pegaProduto(List<Produto> produto, List<String> filtroTituloProdutos, List<String> filtroCodigo, List<Produto> produtos, HashSet<String> hashSetTituloProdutos, HashSet<String> hashSetCodigos){
+
         for (Produto filtroProduto : produto) {
             filtroTituloProdutos.add(filtroProduto.getProduto());
             filtroCodigo.add(filtroProduto.getIdCod());

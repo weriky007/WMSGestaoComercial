@@ -1,12 +1,14 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomProdutoDAO;
@@ -71,7 +73,7 @@ public class ConfiguracaoIOEstoqueVendas {
         valorTotal.setText(vl.toString());
     }
 //==================================================================================================
-    public void diminuiItemDoEstoque(MultiAutoCompleteTextView campoProduto,EditText campoCodigoBarras,List<Produto> produtos,EditText campoQuantidade,String resultadoQuantidade,RoomProdutoDAO produtoDao,List<Produto> listaCompras){
+    public void diminuiItemDoEstoque(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras){
         String tituloProduto = campoProduto.getText().toString().trim();
         String codigoBarras = campoCodigoBarras.getText().toString().trim();
         Produto produtoLocalizado = new Produto();
@@ -84,14 +86,18 @@ public class ConfiguracaoIOEstoqueVendas {
             }
         }
 
-        int qtd = Integer.parseInt(produtoLocalizado2.getQuantidade());
-        int gqtd = Integer.parseInt(campoQuantidade.getText().toString());
-        int result = qtd - gqtd;
-        resultadoQuantidade = Integer.toString(result);
-        produtoLocalizado2.setQuantidade(resultadoQuantidade);
-        produtoDao.editaProduto(produtoLocalizado2);
-        produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
-        produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
-        listaCompras.add(produtoLocalizado);
+        int qtdBD = Integer.parseInt(produtoLocalizado2.getQuantidade());
+        int qtdVenda = Integer.parseInt(campoQuantidade.getText().toString());
+        if(qtdVenda > qtdBD){
+            Toast.makeText(context, "A quantidade não pode ser maior que o estoque"+" | "+"Qantidade Estoque: "+qtdBD, Toast.LENGTH_LONG).show();
+        }else {
+            int result = qtdBD - qtdVenda;
+            resultadoQuantidade = Integer.toString(result);
+            produtoLocalizado2.setQuantidade(resultadoQuantidade);
+            produtoDao.editaProduto(produtoLocalizado2);
+            produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
+            produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
+            listaCompras.add(produtoLocalizado);
+        }
     }
 }
