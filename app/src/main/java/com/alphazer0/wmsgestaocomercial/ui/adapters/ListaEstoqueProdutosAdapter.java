@@ -1,7 +1,13 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
+
 import android.content.Context;
+import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,16 +16,19 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements Filterable {
+public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements Filterable{
     //==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
     private List<Produto> produtoPesquisa;
@@ -34,10 +43,19 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
 
     //==================================================================================================
     //RECYCLER VIEW
-    class produtoViewHolder extends RecyclerView.ViewHolder {
+    class produtoViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public produtoViewHolder(@NonNull View itemView) {
             super(itemView);
+            //itemView.setOnCreateContextMenuListener(this);
+            CardView cardView = itemView.findViewById(R.id.cardViewProdutos);
+            cardView.setOnCreateContextMenuListener(this);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+             menu.add(this.getAdapterPosition(),0,0,"Remover Produto");
+        }
+
     }
 
     @NonNull
@@ -49,6 +67,16 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        CardView cardView = holder.itemView.findViewById(R.id.cardViewProdutos);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,CadastroProdutoActivity.class);
+                intent.putExtra(CHAVE_PRODUTO_OUTRO,produtos.get(holder.getAdapterPosition()));
+                context.startActivity(intent);
+            }
+        });
+
         Produto produto = produtos.get(position);
         TextView prod = holder.itemView.findViewById(R.id.item_produto);
         TextView marca = holder.itemView.findViewById(R.id.item_marca);
@@ -87,11 +115,13 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
     }
 
     //==================================================================================================
-    public void remove(Produto produto) {
-        produtos.remove(produto);
+    public void remove(int position) {
+        produtos.remove(position);
         notifyDataSetChanged();
     }
-
+    public void pegaProduto(int position, Produto produto){
+         produto = produtos.get(position);
+    }
     //==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override

@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -125,42 +126,26 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
     }
 //==================================================================================================
     //MENU ITENS LISTA
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//    super.onCreateContextMenu(menu, v, menuInfo);
-//    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-//}
-//
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        int itemId = item.getItemId();
-//        if (itemId == R.id.menu_remover_listas_activity) {
-//            confirmaRemocao(item);
-//        }
-//        return super.onContextItemSelected(item);
-//    }
-//
-//    public void confirmaRemocao(final MenuItem item) {
-//    new AlertDialog.Builder(context).setTitle("Removendo Produto").setMessage("Deseja mesmo remover o Produto?").setPositiveButton("Sim", (dialogInterface, i) -> {
-//        Produto produto = pegaProduto(item);
-//        put = 3;
-//        id = produto.getId();
-//        new SendRequest().execute();
-//         remove(produto);
-//    })
-//            .setNegativeButton("Não",null)
-//            .show();
-//    }
-//
-//
-//    private Produto pegaProduto(MenuItem item) {
-//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        return adapter.getItem(menuInfo.position);
-//    }
-//==================================================================================================
-    private void remove(Produto produto){
-    adapter.remove(produto);
-    dao.removeProduto(produto);
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == 0) {
+            confirmaRemocao(item);
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public void confirmaRemocao(final MenuItem item) {
+    new AlertDialog.Builder(context).setTitle("Removendo Produto").setMessage("Deseja mesmo remover o Produto?").setPositiveButton("Sim", (dialogInterface, i) -> {
+        int position = item.getGroupId();
+        Produto produto = produtos.get(position);
+        Toast.makeText(context, ""+produtos.get(position), Toast.LENGTH_SHORT).show();
+        dao.removeProduto(produto);
+        adapter.remove(position);
+        put = 3;
+    })
+            .setNegativeButton("Não",null)
+            .show();
     }
 //==================================================================================================
     private void configuraAdapter() {
@@ -195,15 +180,15 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
         });
     }
 
-    private void configuraClickPorItem(ListView listaProdutos) {
-        listaProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Produto produtoEscolhido = (Produto) adapterView.getItemAtPosition(position);
-                abreFormularioModoEdita(produtoEscolhido);
-            }
-        });
-    }
+//    private void configuraClickPorItem(RecyclerView listaProdutos) {
+//        listaProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+//                Produto produtoEscolhido = (Produto) adapterView.getItemAtPosition(position);
+//                abreFormularioModoEdita(produtoEscolhido);
+//            }
+//        });
+//    }
 
     private void abreFormularioModoEdita(Produto produto) {
         Intent vaiParaDadosProduto = new Intent(ListaDeProdutosActivity.this, CadastroProdutoActivity.class);
