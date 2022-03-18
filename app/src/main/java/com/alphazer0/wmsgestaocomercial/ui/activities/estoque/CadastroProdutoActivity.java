@@ -194,14 +194,16 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         campoUnidadeMedida.setText(produto.getUnidadeMedida());
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
         if (produto.temIdValido()) {
             put = 2;
             dao.editaProduto(produto);
             produtos = dao.todosProdutos();
-            Toast.makeText(CadastroProdutoActivity.this, "Editado com Sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroProdutoActivity.this, "Editado com Sucesso!", Toast.LENGTH_LONG).show();
+            new SendRequest().execute();
+            finish();
         } else {
             put = 1;
             produtos = dao.todosProdutos();
@@ -217,16 +219,15 @@ public class CadastroProdutoActivity extends AppCompatActivity {
                 dao.salvaProduto(produto);
                 produtos = dao.todosProdutos();
                 new SendRequest().execute();
-                Toast.makeText(CadastroProdutoActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(CadastroProdutoActivity.this, ListaDeProdutosActivity.class));
+                Toast.makeText(CadastroProdutoActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(this, "Esse produto já está cadastrado!", Toast.LENGTH_LONG).show();
             }
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void realizaVerificacao() {
         String codigo = campoIdCod.getText().toString();
         String categoria = campoCategoria.getText().toString();

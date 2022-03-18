@@ -41,12 +41,11 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
         this.produtos = produto;
     }
 
-    //==================================================================================================
+//==================================================================================================
     //RECYCLER VIEW
     class produtoViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public produtoViewHolder(@NonNull View itemView) {
             super(itemView);
-            //itemView.setOnCreateContextMenuListener(this);
             CardView cardView = itemView.findViewById(R.id.cardViewProdutos);
             cardView.setOnCreateContextMenuListener(this);
         }
@@ -114,7 +113,7 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
         this.produtos.addAll(produto);
     }
 
-    //==================================================================================================
+//==================================================================================================
     public void remove(int position) {
         produtos.remove(position);
         notifyDataSetChanged();
@@ -122,7 +121,7 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
     public void pegaProduto(int position, Produto produto){
          produto = produtos.get(position);
     }
-    //==================================================================================================
+//==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override
     public Filter getFilter() {

@@ -121,8 +121,6 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
 
             }
         });
-//        campoCategoria.setAdapter(adapterCategorias);
-//        campoCategoria.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 //==================================================================================================
     //MENU ITENS LISTA
@@ -164,9 +162,6 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
         //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-
-//        configuraClickPorItem(listaProdutos);
-//        registerForContextMenu(listaProdutos);
     }
 
     private void configuraFabNovoProduto() {
@@ -178,27 +173,6 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-//    private void configuraClickPorItem(RecyclerView listaProdutos) {
-//        listaProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//                Produto produtoEscolhido = (Produto) adapterView.getItemAtPosition(position);
-//                abreFormularioModoEdita(produtoEscolhido);
-//            }
-//        });
-//    }
-
-    private void abreFormularioModoEdita(Produto produto) {
-        Intent vaiParaDadosProduto = new Intent(ListaDeProdutosActivity.this, CadastroProdutoActivity.class);
-        vaiParaDadosProduto.putExtra(CHAVE_PRODUTO_OUTRO, produto);
-        startActivity(vaiParaDadosProduto);
-        finish();
-    }
-
-    private void abreFormularioModoInsereNew() {
-        startActivity(new Intent(ListaDeProdutosActivity.this, CadastroProdutoActivity.class));
     }
 //==================================================================================================
     //CONFIGURACOES DO FILTRO PESQUISA

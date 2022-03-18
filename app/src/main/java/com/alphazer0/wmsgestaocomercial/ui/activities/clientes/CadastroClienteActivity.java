@@ -29,6 +29,9 @@ import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
+import com.alphazer0.wmsgestaocomercial.model.Produto;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,14 +73,15 @@ public class CadastroClienteActivity extends AppCompatActivity {
         formataTexto();
         configuraBotao();
     }
-//==================================================================================================
+
+    //==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private Cliente cliente;
     private RoomClienteDAO dao;
 
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
-    String linkMacro= LINK_MACRO;
+    String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
     int put = 0;
 
@@ -109,7 +113,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
 
     private Button botao;
-//==================================================================================================
+
+    //==================================================================================================
     private void bindDosCampos() {
         campoNomeCompleto = findViewById(R.id.edit_razao_social);
         campoDataNascimento = findViewById(R.id.edit_nome_fantasia);
@@ -133,7 +138,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
         botao = findViewById(R.id.botao_salvar);
     }
-//==================================================================================================
+
+    //==================================================================================================
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCpf.addTextChangedListener(MaskText.insert(MASK_CPF, campoCpf));
@@ -143,7 +149,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));
         campoCEP.addTextChangedListener(MaskText.insert(MASK_CEP, campoCEP));
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String nomeCompleto = campoNomeCompleto.getText().toString();
         String dataNascimento = campoDataNascimento.getText().toString();
@@ -185,7 +192,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
         cliente.setCep(cep);
         cliente.setComplemento(complemento);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void carregaCliente() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_CLIENTE)) {
@@ -195,7 +203,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
             cliente = new Cliente();
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void preencheCamposParaEdicao() {
         campoNomeCompleto.setText(cliente.getNomeCompleto());
         campoDataNascimento.setText(cliente.getDataNascimento());
@@ -218,86 +227,102 @@ public class CadastroClienteActivity extends AppCompatActivity {
         campoComplemento.setText(cliente.getComplemento());
     }
 //==================================================================================================
-    private void concluiCadastro()  {
+    private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
         if (cliente.temIdValido()) {
             put = 2;
             dao.editaCliente(cliente);
             clientes = dao.todosClientes();
-            Toast.makeText(CadastroClienteActivity.this, "Editado com Sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroClienteActivity.this, "Editado com Sucesso!", Toast.LENGTH_LONG).show();
+            new SendRequest().execute();
+            finish();
         } else {
             put = 1;
-            dao.salvaCliente(cliente);
             clientes = dao.todosClientes();
-            Toast.makeText(CadastroClienteActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+            //VERIFICA REPETIDO
+            String scliente = cliente.getNomeCompleto().trim();
+            Cliente ccliente = new Cliente();
+            for (int i = 0; i < clientes.size(); i++) {
+                if (scliente.equals(clientes.get(i).getNomeCompleto().trim())) {
+                    ccliente = clientes.get(i);
+                }
+            }
+            if (ccliente.getNomeCompleto() == null || ccliente.getNomeCompleto().equals("")) {
+                dao.salvaCliente(cliente);
+                clientes = dao.todosClientes();
+                new CadastroClienteActivity.SendRequest().execute();
+                startActivity(new Intent(CadastroClienteActivity.this, ListaDeClientesActivity.class));
+                Toast.makeText(CadastroClienteActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Esse cliente já está cadastrado!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 //==================================================================================================
-    private void realizaVerificacao(){
+    private void realizaVerificacao() {
         String nome = campoNomeCompleto.getText().toString();
         String celular = campoCelular1.getText().toString();
-        String rua  = campoRua.getText().toString();
+        String rua = campoRua.getText().toString();
         String bairro = campoBairro.getText().toString();
 
-        if(nome.equals(null) || nome.equals("")){
+        if (nome.equals(null) || nome.equals("")) {
             Toast.makeText(CadastroClienteActivity.this, "Preencha o nome do cliente", Toast.LENGTH_SHORT).show();
-        }else{
-            if(celular.equals(null) || celular.equals("")){
+        } else {
+            if (celular.equals(null) || celular.equals("")) {
                 Toast.makeText(CadastroClienteActivity.this, "Preencha o celular do cliente", Toast.LENGTH_SHORT).show();
-            }else{
-                if(rua.equals(null) || rua.equals("")){
+            } else {
+                if (rua.equals(null) || rua.equals("")) {
                     Toast.makeText(CadastroClienteActivity.this, "Preencha a rua", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(bairro.equals(null) || bairro.equals("")){
+                } else {
+                    if (bairro.equals(null) || bairro.equals("")) {
                         Toast.makeText(CadastroClienteActivity.this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         concluiCadastro();
-                        new SendRequest().execute();
-                        startActivity(new Intent(CadastroClienteActivity.this, ListaDeClientesActivity.class));
-                        finish();
                     }
                 }
             }
         }
     }
 //==================================================================================================
-//INICIANDO COMUNICACAO WEB
-public class SendRequest extends AsyncTask<String, Void, String> {
+    //INICIANDO COMUNICACAO WEB
+    public class SendRequest extends AsyncTask<String, Void, String> {
 
-    protected void onPreExecute(){}
+        protected void onPreExecute() {
+        }
 
-    protected String doInBackground(String... arg0) {
-        try{
-            URL url = new URL(linkMacro);
-            String idPlan= idPlanilha;
+        protected String doInBackground(String... arg0) {
+            try {
+                URL url = new URL(linkMacro);
+                String idPlan = idPlanilha;
 
-            JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
-            HttpURLConnection connection = executaConeccaoExternalServer(url);
-            escreveDadosNaPlanilha(enviaDados, connection);
-            return verificaLinhaVazia(connection);
-        }//end try
+                JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
+                HttpURLConnection connection = executaConeccaoExternalServer(url);
+                escreveDadosNaPlanilha(enviaDados, connection);
+                return verificaLinhaVazia(connection);
+            }//end try
 
-        catch(Exception e){
-            return new String("Exception: " + e.getMessage());
-        }//end catch
+            catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }//end catch
 
-    }//end doInBackGround
+        }//end doInBackGround
 
-    @Override
-    protected void onPostExecute(String resultado) {
-        Toast.makeText(getApplicationContext(),"Salvo Na GSheet!!!",Toast.LENGTH_LONG).show();
+        @Override
+        protected void onPostExecute(String resultado) {
+            Toast.makeText(getApplicationContext(), "Salvo Na GSheet!!!", Toast.LENGTH_LONG).show();
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-    }//end onPostExecute
-}//end sendRequest
+        }//end onPostExecute
+    }//end sendRequest
 //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
             BufferedReader leValor = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer sb = new StringBuffer("");
-            String linha="";
+            String linha = "";
 
-            while((linha = leValor.readLine()) != null) {
+            while ((linha = leValor.readLine()) != null) {
                 sb.append(linha);
                 break;
             }//end while
@@ -307,7 +332,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         }//end if
         else {
-            return new String("false : "+codigoWeb);
+            return new String("false : " + codigoWeb);
         }//end else
     }
 
@@ -334,41 +359,41 @@ public class SendRequest extends AsyncTask<String, Void, String> {
     //ENVIA DADOS PARA A PLANILHA GOOGLE
     private JSONObject enviaDadosParaPlanilha(String action) throws JSONException {
         JSONObject enviaDados = new JSONObject();
-        if(put == 1) {
+        if (put == 1) {
             action = "addCliente";
-           cliente = clientes.get(clientes.size()-1);
-           id = cliente.getId();
+            cliente = clientes.get(clientes.size() - 1);
+            id = cliente.getId();
         }
-        if(put == 2){
-            action ="updateCliente";
+        if (put == 2) {
+            action = "updateCliente";
             id = cliente.getId();
         }
 
         enviaDados.put("pasta", ID_PASTA);
-        enviaDados.put("planilha",CLIENTE_PLAN);
-        enviaDados.put("action",action);
-        enviaDados.put("idCliente",id);
+        enviaDados.put("planilha", CLIENTE_PLAN);
+        enviaDados.put("action", action);
+        enviaDados.put("idCliente", id);
         enviaDados.put("nomeCompleto", cliente.getNomeCompleto());
         enviaDados.put("dataNascimento", cliente.getDataNascimento());
-        enviaDados.put("cpf",cliente.getCpf());
-        enviaDados.put("rg",cliente.getRg());
-        enviaDados.put("nomePai",cliente.getNomePai());
-        enviaDados.put("nomeMae",cliente.getNomeMae());
+        enviaDados.put("cpf", cliente.getCpf());
+        enviaDados.put("rg", cliente.getRg());
+        enviaDados.put("nomePai", cliente.getNomePai());
+        enviaDados.put("nomeMae", cliente.getNomeMae());
 
-        enviaDados.put("celular1",cliente.getCelular1());
-        enviaDados.put("celular2",cliente.getCelular2());
-        enviaDados.put("telefone",cliente.getTelefone());
-        enviaDados.put("email",cliente.getEmail());
+        enviaDados.put("celular1", cliente.getCelular1());
+        enviaDados.put("celular2", cliente.getCelular2());
+        enviaDados.put("telefone", cliente.getTelefone());
+        enviaDados.put("email", cliente.getEmail());
 
-        enviaDados.put("cep",cliente.getCep());
-        enviaDados.put("rua",cliente.getRua());
-        enviaDados.put("numero",cliente.getNumero());
-        enviaDados.put("quadra",cliente.getQuadra());
-        enviaDados.put("lote",cliente.getLote());
-        enviaDados.put("bairro",cliente.getBairro());
-        enviaDados.put("complemento",cliente.getComplemento());
+        enviaDados.put("cep", cliente.getCep());
+        enviaDados.put("rua", cliente.getRua());
+        enviaDados.put("numero", cliente.getNumero());
+        enviaDados.put("quadra", cliente.getQuadra());
+        enviaDados.put("lote", cliente.getLote());
+        enviaDados.put("bairro", cliente.getBairro());
+        enviaDados.put("complemento", cliente.getComplemento());
 
-        Log.e("params",enviaDados.toString());
+        Log.e("params", enviaDados.toString());
         return enviaDados;
     }
 
@@ -378,13 +403,13 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         Iterator<String> itr = params.keys();
 
-        while(itr.hasNext()){
-            String key= itr.next();
+        while (itr.hasNext()) {
+            String key = itr.next();
             Object value = params.get(key);
 
             if (first) {
                 first = false;
-            }else {
+            } else {
                 result.append("&");
             }
             result.append(URLEncoder.encode(key, "UTF-8"));
@@ -394,7 +419,8 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         }
         return result.toString();
     }//end configuraData
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraBotao() {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
