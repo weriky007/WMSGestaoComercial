@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/info_produto_codigo_barras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:text="Código de Barras: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_codigo_barras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_codigo_barras"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_codigo_barras"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_codigo_barras"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_codigo_barras"
+        android:text="Categoria: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_categoria"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_categoria"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_produto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_categoria"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_categoria"
+        android:text="Produto: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_produto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_produto"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_produto"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_marca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_produto"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_produto"
+        android:text="Marca: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_marca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_marca"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_marca"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_discriminacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_marca"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_marca"
+        android:text="Discriminação: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_discriminacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_discriminacao"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_discriminacao"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_preco_compra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_discriminacao"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_discriminacao"
+        android:text="Preço Compra: R$"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_preco_compra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_preco_compra"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_preco_compra"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_preco_venda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_preco_compra"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_preco_compra"
+        android:text="Preço Venda: R$"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_preco_venda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_preco_venda"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_preco_venda"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_quantidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_preco_venda"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_preco_venda"
+        android:text="Quantidade: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_quantidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_quantidade"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_quantidade"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_medida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_produto_quantidade"
+        app:layout_constraintStart_toStartOf="@+id/info_produto_quantidade"
+        android:text="Medida: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_produto_txt_medida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_produto_medida"
+        app:layout_constraintBottom_toBottomOf="@+id/info_produto_medida"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

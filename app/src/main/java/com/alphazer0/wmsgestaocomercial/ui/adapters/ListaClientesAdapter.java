@@ -22,6 +22,7 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.CadastroClienteActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.InformacoesCliente;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class ListaClientesAdapter extends RecyclerView.Adapter implements Filter
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CadastroClienteActivity.class);
+                Intent intent = new Intent(context, InformacoesCliente.class);
                 intent.putExtra(CHAVE_CLIENTE,clientes.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
@@ -82,7 +83,7 @@ public class ListaClientesAdapter extends RecyclerView.Adapter implements Filter
 
         nome.setText(cliente.getNomeCompleto());
         telefone.setText("Telefone: "+cliente.getCelular1());
-        endereco.setText("R: " + cliente.getRua()+" | "+"Bairro: "+cliente.getBairro());
+        endereco.setText("R: " + cliente.getRua()+" | "+"Número: "+cliente.getNumero()+"\nBairro: "+cliente.getBairro());
 
         try {
             if (!cliente.getDivida().equals(null) || !cliente.getDivida().equals("0")) {

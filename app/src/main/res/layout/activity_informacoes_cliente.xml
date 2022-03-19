@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/info_cliente_dados_pessoais"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:text="Dados Pessoais"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_codigo_barras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_dados_pessoais"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:text="Nome: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_nome_completo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_codigo_barras"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_codigo_barras"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_data_nascimento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_codigo_barras"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_codigo_barras"
+        android:text="Data de Nascimento: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_data_nascimento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_data_nascimento"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_data_nascimento"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_cpf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_data_nascimento"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_data_nascimento"
+        android:text="CPF: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_cpf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_cpf"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_cpf"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_cpf"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_cpf"
+        android:text="RG: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_rg"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_rg"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_nome_pai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_rg"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_rg"
+        android:text="Nome Pai: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_nome_pai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_nome_pai"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_nome_pai"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_nome_mae"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_nome_pai"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_nome_pai"
+        android:text="Nome Mãe: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_nome_mae"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_nome_mae"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_nome_mae"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_dados_contato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_txt_nome_mae"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Dados Contato"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_celular1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_dados_contato"
+        android:text="Celular 1: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_celular1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_celular1"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_celular1"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_celular2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/info_cliente_celular1"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_celular1"
+        android:text="Celular 2: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_celular2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_celular2"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_celular2"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_telefone_fixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/info_cliente_celular2"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_celular2"
+        android:text="Telefone fixo: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_telefone_fixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_telefone_fixo"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_telefone_fixo"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/info_cliente_telefone_fixo"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_telefone_fixo"
+        android:text="E-mail: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_email"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_email"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_endereco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_txt_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Endereço"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_rua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_endereco"
+        android:text="Rua: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_rua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_rua"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_rua"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_numero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_rua"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_rua"
+        android:text="Número: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_numero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_numero"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_numero"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_quadra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_numero"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_numero"
+        android:text="Quadra: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_quadra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_quadra"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_quadra"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_lote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_quadra"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_quadra"
+        android:text="Lote: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_lote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_lote"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_lote"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_bairro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_lote"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_lote"
+        android:text="Bairro: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_bairro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_bairro"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_bairro"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_cep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_bairro"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_bairro"
+        android:text="CEP: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_cep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_cep"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_cep"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_complemento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_cliente_cep"
+        app:layout_constraintStart_toStartOf="@+id/info_cliente_cep"
+        android:text="Complemento: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_cliente_txt_complemento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_cliente_complemento"
+        app:layout_constraintBottom_toBottomOf="@+id/info_cliente_complemento"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

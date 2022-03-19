@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,7 +31,6 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
-import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaClientesAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -65,7 +63,7 @@ public class ListaDeClientesActivity extends AppCompatActivity {
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
     String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
-    private int put = 0;
+    private int putTypeWeb = 0;
     public int id = 0;
 //==================================================================================================
     @Override
@@ -85,7 +83,7 @@ public class ListaDeClientesActivity extends AppCompatActivity {
         adapter.atualiza(dao.todosClientes());
     }
 //==================================================================================================
-    //MENU ITENS LISTA
+    //MENU ITENS LISTA REMOVE
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -102,7 +100,7 @@ public class ListaDeClientesActivity extends AppCompatActivity {
             Toast.makeText(context, "" + clientes.get(position), Toast.LENGTH_SHORT).show();
             dao.removeCliente(cliente);
             adapter.remove(position);
-            put = 3;
+            putTypeWeb = 3;
             clientes = dao.todosClientes();
             id = cliente.getId();
             new SendRequest().execute();
@@ -268,7 +266,7 @@ public class ListaDeClientesActivity extends AppCompatActivity {
     private JSONObject enviaDadosParaPlanilha(String action) throws JSONException {
         JSONObject enviaDados = new JSONObject();
 
-        if (put == 3) {
+        if (putTypeWeb == 3) {
             action = "deleteCliente";
         }
 

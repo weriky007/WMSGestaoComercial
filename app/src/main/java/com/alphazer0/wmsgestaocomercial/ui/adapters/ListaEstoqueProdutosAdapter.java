@@ -23,6 +23,7 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.InformacoesProduto;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,CadastroProdutoActivity.class);
+                Intent intent = new Intent(context, InformacoesProduto.class);
                 intent.putExtra(CHAVE_PRODUTO_OUTRO,produtos.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }

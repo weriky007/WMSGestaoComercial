@@ -30,10 +30,14 @@
 
         <activity android:name=".ui.activities.fornecedores.FornecedoresPF.ListaDeFornecedorPFActivity"
             android:excludeFromRecents="true"/>
+        <activity android:name=".ui.activities.fornecedores.FornecedoresPF.InformacaoFornecedorPF"
+            android:excludeFromRecents="true"/>
         <activity android:name=".ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity"
             android:excludeFromRecents="true"/>
 
         <activity android:name=".ui.activities.fornecedores.FornecedoresPJ.ListaDeFornecedorPJActivity"
+            android:excludeFromRecents="true"/>
+        <activity android:name=".ui.activities.fornecedores.FornecedoresPJ.InformacaoFornecedorPJ"
             android:excludeFromRecents="true"/>
         <activity android:name=".ui.activities.fornecedores.FornecedoresPJ.CadastroFornecedorPJActivity"
             android:excludeFromRecents="true"/>
@@ -42,11 +46,17 @@
             android:name=".ui.activities.clientes.ListaDeClientesActivity"
             android:excludeFromRecents="true" />
         <activity
+            android:name=".ui.activities.clientes.InformacoesCliente"
+            android:excludeFromRecents="true" />
+        <activity
             android:name=".ui.activities.clientes.CadastroClienteActivity"
             android:excludeFromRecents="true" />
 
         <activity
             android:name=".ui.activities.estoque.ListaDeProdutosActivity"
+            android:excludeFromRecents="true" />
+        <activity
+            android:name=".ui.activities.estoque.InformacoesProduto"
             android:excludeFromRecents="true" />
         <activity
             android:name=".ui.activities.estoque.CadastroProdutoActivity"

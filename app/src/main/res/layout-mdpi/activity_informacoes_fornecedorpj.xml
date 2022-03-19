@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_dados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:text="Dados"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_razao_social"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_dados"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:text="Razão Social: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_razao_social"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_razao_social"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_razao_social"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_nome_fantasia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_razao_social"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_razao_social"
+        android:text="Nome Fantasia: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_nome_fantasia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_nome_fantasia"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_nome_fantasia"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_cnpj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_nome_fantasia"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_nome_fantasia"
+        android:text="CNPJ: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_cnpj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_cnpj"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_cnpj"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_ie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_cnpj"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_cnpj"
+        android:text="IE: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_ie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_ie"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_ie"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_dados_contato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_txt_ie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Dados Contato"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_celular1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_dados_contato"
+        android:text="Celular 1: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_celular1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_celular1"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_celular1"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_celular2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/info_fornecedorpj_celular1"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_celular1"
+        android:text="Celular 2: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_celular2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_celular2"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_celular2"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_telefone_fixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/info_fornecedorpj_celular2"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_celular2"
+        android:text="Telefone fixo: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_telefone_fixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_telefone_fixo"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_telefone_fixo"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/info_fornecedorpj_telefone_fixo"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_telefone_fixo"
+        android:text="E-mail: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_email"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_email"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_endereco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_txt_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Endereço"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_rua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_endereco"
+        android:text="Rua: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_rua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_rua"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_rua"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_numero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_rua"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_rua"
+        android:text="Número: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_numero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_numero"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_numero"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_quadra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_numero"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_numero"
+        android:text="Quadra: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_quadra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_quadra"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_quadra"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_lote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_quadra"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_quadra"
+        android:text="Lote: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_lote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_lote"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_lote"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_bairro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_lote"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_lote"
+        android:text="Bairro: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_bairro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_bairro"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_bairro"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_cep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_bairro"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_bairro"
+        android:text="CEP: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_cep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_cep"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_cep"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_complemento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/info_fornecedorpj_cep"
+        app:layout_constraintStart_toStartOf="@+id/info_fornecedorpj_cep"
+        android:text="Complemento: "
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/info_fornecedorpj_txt_complemento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/info_fornecedorpj_complemento"
+        app:layout_constraintBottom_toBottomOf="@+id/info_fornecedorpj_complemento"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

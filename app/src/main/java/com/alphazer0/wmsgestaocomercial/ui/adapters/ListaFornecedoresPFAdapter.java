@@ -23,6 +23,7 @@ import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.InformacaoFornecedorPF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ListaFornecedoresPFAdapter extends RecyclerView.Adapter implements 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CadastroFornecedorPFActivity.class);
+                Intent intent = new Intent(context, InformacaoFornecedorPF.class);
                 intent.putExtra(CHAVE_FORNECEDORPF,fornecedoresPF.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
@@ -82,7 +83,7 @@ public class ListaFornecedoresPFAdapter extends RecyclerView.Adapter implements 
 
         nome.setText(fornecedorPF.getNomeCompleto());
         telefone.setText("Telefone: " + fornecedorPF.getTelefone());
-        endereco.setText("R: " +fornecedorPF.getRua()+ " | " + "Bairro: " +fornecedorPF.getBairro());
+        endereco.setText("R: " +fornecedorPF.getRua()+ " | " +"Numero: "+fornecedorPF.getNumero()+ "\nBairro: " +fornecedorPF.getBairro());
     }
 
     @Override
