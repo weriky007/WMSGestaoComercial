@@ -1,6 +1,5 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPF;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPJ;
 
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -19,9 +17,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
-import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
-import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPJ.CadastroFornecedorPJActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +63,7 @@ public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CadastroFornecedorPFActivity.class);
+                Intent intent = new Intent(context, CadastroFornecedorPJActivity.class);
                 intent.putExtra(CHAVE_FORNECEDORPJ,fornecedoresPJ.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
