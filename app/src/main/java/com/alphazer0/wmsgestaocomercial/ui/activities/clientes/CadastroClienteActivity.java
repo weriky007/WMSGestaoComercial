@@ -233,8 +233,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
             put = 2;
             dao.editaCliente(cliente);
             clientes = dao.todosClientes();
-            Toast.makeText(CadastroClienteActivity.this, "Editado com Sucesso!", Toast.LENGTH_LONG).show();
             new SendRequest().execute();
+            Toast.makeText(CadastroClienteActivity.this, "Editado com Sucesso!", Toast.LENGTH_LONG).show();
             finish();
         } else {
             put = 1;
@@ -250,7 +250,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
             if (ccliente.getNomeCompleto() == null || ccliente.getNomeCompleto().equals("")) {
                 dao.salvaCliente(cliente);
                 clientes = dao.todosClientes();
-                new CadastroClienteActivity.SendRequest().execute();
+                new SendRequest().execute();
                 startActivity(new Intent(CadastroClienteActivity.this, ListaDeClientesActivity.class));
                 Toast.makeText(CadastroClienteActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
                 finish();

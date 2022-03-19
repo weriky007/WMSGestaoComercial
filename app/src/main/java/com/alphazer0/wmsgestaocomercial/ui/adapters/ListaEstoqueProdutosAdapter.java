@@ -91,8 +91,7 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
     public int getItemCount() {
         return produtos.size();
     }
-
-    //==================================================================================================
+//==================================================================================================
     public void atualizaListaProdutos(List<Produto> produto, String categoria) {
         this.produtos.clear();
         if (categoria.equals("Todos") || categoria.equals(null)) {

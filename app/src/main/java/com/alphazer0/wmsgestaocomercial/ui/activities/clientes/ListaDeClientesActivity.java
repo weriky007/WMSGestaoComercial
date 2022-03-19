@@ -103,6 +103,9 @@ public class ListaDeClientesActivity extends AppCompatActivity {
             dao.removeCliente(cliente);
             adapter.remove(position);
             put = 3;
+            clientes = dao.todosClientes();
+            id = cliente.getId();
+            new SendRequest().execute();
         })
                 .setNegativeButton("Não", null)
                 .show();

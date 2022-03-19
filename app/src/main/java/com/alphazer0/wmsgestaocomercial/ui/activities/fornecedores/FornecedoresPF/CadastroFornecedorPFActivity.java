@@ -29,8 +29,11 @@ import com.alphazer0.wmsgestaocomercial.database.FornecedoresPFDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomFornecedorPFDAO;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
+import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.CadastroClienteActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,14 +75,15 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         formataTexto();
         configuraBotao();
     }
-//==================================================================================================
+
+    //==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private FornecedorPF fornecedorPF;
     private RoomFornecedorPFDAO dao;
 
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
-    String linkMacro= LINK_MACRO;
+    String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
     int put = 0;
 
@@ -111,7 +115,8 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
 
 
     private Button botao;
-//==================================================================================================
+
+    //==================================================================================================
     private void bindDosCampos() {
         campoNomeCompleto = findViewById(R.id.edit_razao_social);
         campoDataNascimento = findViewById(R.id.edit_nome_fantasia);
@@ -135,7 +140,8 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
 
         botao = findViewById(R.id.botao_salvar);
     }
-//==================================================================================================
+
+    //==================================================================================================
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCpf.addTextChangedListener(MaskText.insert(MASK_CPF, campoCpf));
@@ -145,7 +151,8 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));
         campoCEP.addTextChangedListener(MaskText.insert(MASK_CEP, campoCEP));
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String nomeCompleto = campoNomeCompleto.getText().toString();
         String dataNascimento = campoDataNascimento.getText().toString();
@@ -187,7 +194,8 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         fornecedorPF.setCep(cep);
         fornecedorPF.setComplemento(complemento);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void carregaCliente() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_FORNECEDORPF)) {
@@ -197,7 +205,8 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
             fornecedorPF = new FornecedorPF();
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void preencheCamposParaEdicao() {
         campoNomeCompleto.setText(fornecedorPF.getNomeCompleto());
         campoDataNascimento.setText(fornecedorPF.getDataNascimento());
@@ -219,87 +228,106 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         campoCEP.setText(fornecedorPF.getCep());
         campoComplemento.setText(fornecedorPF.getComplemento());
     }
+
 //==================================================================================================
-    private void concluiCadastro()  {
+    private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
         if (fornecedorPF.temIdValido()) {
             put = 2;
             dao.editaFornecedorPF(fornecedorPF);
             fornecedorPFS = dao.todosFornecedoresPF();
-            Toast.makeText(CadastroFornecedorPFActivity.this, "Editado com Sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroFornecedorPFActivity.this, "Editado com Sucesso!", Toast.LENGTH_LONG).show();
+            new SendRequest().execute();
+            finish();
         } else {
             put = 1;
-            dao.salvaFornecedorPF(fornecedorPF);
             fornecedorPFS = dao.todosFornecedoresPF();
-            Toast.makeText(CadastroFornecedorPFActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+            //VERIFICA REPETIDO
+            String sfornecedorPF = fornecedorPF.getNomeCompleto().trim();
+            FornecedorPF ffornecedorPF = new FornecedorPF();
+            for (int i = 0; i < fornecedorPFS.size(); i++) {
+                if (sfornecedorPF.equals(fornecedorPFS.get(i).getNomeCompleto().trim())) {
+                    ffornecedorPF = fornecedorPFS.get(i);
+                }
+            }
+            if (ffornecedorPF.getNomeCompleto() == null || ffornecedorPF.getNomeCompleto().equals("")) {
+                dao.salvaFornecedorPF(fornecedorPF);
+                fornecedorPFS = dao.todosFornecedoresPF();
+                new SendRequest().execute();
+                startActivity(new Intent(CadastroFornecedorPFActivity.this, ListaDeFornecedorPFActivity.class));
+                Toast.makeText(CadastroFornecedorPFActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Esse fornecedor já está cadastrado!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 //==================================================================================================
-private void realizaVerificacao(){
-    String nome = campoNomeCompleto.getText().toString();
-    String celular = campoCelular1.getText().toString();
-    String rua  = campoRua.getText().toString();
-    String bairro = campoBairro.getText().toString();
+    private void realizaVerificacao() {
+        String nome = campoNomeCompleto.getText().toString();
+        String celular = campoCelular1.getText().toString();
+        String rua = campoRua.getText().toString();
+        String bairro = campoBairro.getText().toString();
 
-    if(nome.equals(null) || nome.equals("")){
-        Toast.makeText(this, "Preencha o nome ", Toast.LENGTH_SHORT).show();
-    }else{
-        if(celular.equals(null) || celular.equals("")){
-            Toast.makeText(this, "Preencha o celular", Toast.LENGTH_SHORT).show();
-        }else{
-            if(rua.equals(null) || rua.equals("")){
-                Toast.makeText(this, "Preencha a rua", Toast.LENGTH_SHORT).show();
-            }else{
-                if(bairro.equals(null) || bairro.equals("")){
-                    Toast.makeText(this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
-                }else{
-                    concluiCadastro();
-                    new SendRequest().execute();
-                    startActivity(new Intent(CadastroFornecedorPFActivity.this, ListaDeFornecedorPFActivity.class));
-                    finish();
+        if (nome.equals(null) || nome.equals("")) {
+            Toast.makeText(this, "Preencha o nome ", Toast.LENGTH_SHORT).show();
+        } else {
+            if (celular.equals(null) || celular.equals("")) {
+                Toast.makeText(this, "Preencha o celular", Toast.LENGTH_SHORT).show();
+            } else {
+                if (rua.equals(null) || rua.equals("")) {
+                    Toast.makeText(this, "Preencha a rua", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (bairro.equals(null) || bairro.equals("")) {
+                        Toast.makeText(this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
+                    } else {
+                        concluiCadastro();
+                    }
                 }
             }
         }
     }
-}
-//==================================================================================================
+
+    //==================================================================================================
 //INICIANDO COMUNICACAO WEB
-public class SendRequest extends AsyncTask<String, Void, String> {
+    public class SendRequest extends AsyncTask<String, Void, String> {
 
-    protected void onPreExecute(){}
+        protected void onPreExecute() {
+        }
 
-    protected String doInBackground(String... arg0) {
-        try{
-            URL url = new URL(linkMacro);
-            String idPlan= idPlanilha;
+        protected String doInBackground(String... arg0) {
+            try {
+                URL url = new URL(linkMacro);
+                String idPlan = idPlanilha;
 
-            JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
-            HttpURLConnection connection = executaConeccaoExternalServer(url);
-            escreveDadosNaPlanilha(enviaDados, connection);
-            return verificaLinhaVazia(connection);
-        }//end try
+                JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
+                HttpURLConnection connection = executaConeccaoExternalServer(url);
+                escreveDadosNaPlanilha(enviaDados, connection);
+                return verificaLinhaVazia(connection);
+            }//end try
 
-        catch(Exception e){
-            return new String("Exception: " + e.getMessage());
-        }//end catch
+            catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }//end catch
 
-    }//end doInBackGround
+        }//end doInBackGround
 
-    @Override
-    protected void onPostExecute(String resultado) {
-        Toast.makeText(getApplicationContext(),"Salvo Na GSheet!!!",Toast.LENGTH_LONG).show();
+        @Override
+        protected void onPostExecute(String resultado) {
+            Toast.makeText(getApplicationContext(), "Salvo Na GSheet!!!", Toast.LENGTH_LONG).show();
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-    }//end onPostExecute
-}//end sendRequest
-//==================================================================================================
+        }//end onPostExecute
+    }//end sendRequest
+
+    //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
             BufferedReader leValor = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer sb = new StringBuffer("");
-            String linha="";
+            String linha = "";
 
-            while((linha = leValor.readLine()) != null) {
+            while ((linha = leValor.readLine()) != null) {
                 sb.append(linha);
                 break;
             }//end while
@@ -309,7 +337,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         }//end if
         else {
-            return new String("false : "+codigoWeb);
+            return new String("false : " + codigoWeb);
         }//end else
     }
 
@@ -336,20 +364,20 @@ public class SendRequest extends AsyncTask<String, Void, String> {
     //ENVIA DADOS PARA A PLANILHA GOOGLE
     private JSONObject enviaDadosParaPlanilha(String action) throws JSONException {
         JSONObject enviaDados = new JSONObject();
-        if(put == 1) {
+        if (put == 1) {
             action = "addFornecedorPF";
-           fornecedorPF = fornecedorPFS.get(fornecedorPFS.size()-1);
-           id = fornecedorPF.getId();
+            fornecedorPF = fornecedorPFS.get(fornecedorPFS.size() - 1);
+            id = fornecedorPF.getId();
         }
-        if(put == 2){
-            action ="updateFornecedorPF";
+        if (put == 2) {
+            action = "updateFornecedorPF";
             id = fornecedorPF.getId();
         }
 
         enviaDados.put("pasta", ID_PASTA);
-        enviaDados.put("planilha",FORNECEDORESPF_PLAN);
-        enviaDados.put("action",action);
-        enviaDados.put("idFornecedorPF",id);
+        enviaDados.put("planilha", FORNECEDORESPF_PLAN);
+        enviaDados.put("action", action);
+        enviaDados.put("idFornecedorPF", id);
         enviaDados.put("nomeCompleto", fornecedorPF.getNomeCompleto());
         enviaDados.put("dataNascimento", fornecedorPF.getDataNascimento());
         enviaDados.put("cpf", fornecedorPF.getCpf());
@@ -370,7 +398,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         enviaDados.put("bairro", fornecedorPF.getBairro());
         enviaDados.put("complemento", fornecedorPF.getComplemento());
 
-        Log.e("params",enviaDados.toString());
+        Log.e("params", enviaDados.toString());
         return enviaDados;
     }
 
@@ -380,13 +408,13 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         Iterator<String> itr = params.keys();
 
-        while(itr.hasNext()){
-            String key= itr.next();
+        while (itr.hasNext()) {
+            String key = itr.next();
             Object value = params.get(key);
 
             if (first) {
                 first = false;
-            }else {
+            } else {
                 result.append("&");
             }
             result.append(URLEncoder.encode(key, "UTF-8"));
@@ -396,7 +424,8 @@ public class SendRequest extends AsyncTask<String, Void, String> {
         }
         return result.toString();
     }//end configuraData
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraBotao() {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override

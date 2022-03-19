@@ -34,6 +34,7 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomProdutoDAO;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
+import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -137,10 +138,11 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
     new AlertDialog.Builder(context).setTitle("Removendo Produto").setMessage("Deseja mesmo remover o Produto?").setPositiveButton("Sim", (dialogInterface, i) -> {
         int position = item.getGroupId();
         Produto produto = produtos.get(position);
-        Toast.makeText(context, ""+produtos.get(position), Toast.LENGTH_SHORT).show();
         dao.removeProduto(produto);
         adapter.remove(position);
         put = 3;
+        id = produto.getId();
+        new SendRequest().execute();
     })
             .setNegativeButton("Não",null)
             .show();
