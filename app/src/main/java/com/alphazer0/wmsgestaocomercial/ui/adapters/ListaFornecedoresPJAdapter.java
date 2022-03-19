@@ -1,6 +1,11 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPF;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPJ;
+
 import android.content.Context;
+import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +15,19 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
+import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements Filterable {
-    //==================================================================================================
+//==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
     private List<FornecedorPJ> fornecedoresPJPesquisa;
     private List<FornecedorPJ> fornecedoresPJ;
@@ -32,12 +39,18 @@ public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements 
         this.fornecedoresPJ = fornecedorPJS;
     }
 
-    //==================================================================================================
+//==================================================================================================
     //RECYCLER VIEW
-    class fornecedorPJViewHolder extends RecyclerView.ViewHolder {
+    class fornecedorPJViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public fornecedorPJViewHolder(@NonNull View itemView) {
             super(itemView);
+            CardView cardView = itemView.findViewById(R.id.cardViewFornecedorPJ);
+            cardView.setOnCreateContextMenuListener(this);
         }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        menu.add(this.getAdapterPosition(),0,0,"Remover Fornecedor");
+    }
     }
 
     @NonNull
@@ -49,8 +62,17 @@ public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        FornecedorPJ fornecedorPJ = fornecedoresPJ.get(position);
+        CardView cardView = holder.itemView.findViewById(R.id.cardViewFornecedorPJ);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CadastroFornecedorPFActivity.class);
+                intent.putExtra(CHAVE_FORNECEDORPJ,fornecedoresPJ.get(holder.getAdapterPosition()));
+                context.startActivity(intent);
+            }
+        });
 
+        FornecedorPJ fornecedorPJ = fornecedoresPJ.get(position);
         TextView razaoSocial = holder.itemView.findViewById(R.id.item_fornecedorpj_razao_social);
         TextView nomeFantasia = holder.itemView.findViewById(R.id.item_fornecedorpj_nome_fantasia);
         TextView cel1 = holder.itemView.findViewById(R.id.item_fornecedorpj_celular1);
@@ -69,20 +91,18 @@ public class ListaFornecedoresPJAdapter extends RecyclerView.Adapter implements 
     public int getItemCount() {
         return fornecedoresPJ.size();
     }
-
-    //==================================================================================================
+//==================================================================================================
     public void atualiza(List<FornecedorPJ> fornecedoresPJ) {
         this.fornecedoresPJ.clear();
         this.fornecedoresPJ.addAll(fornecedoresPJ);
         notifyDataSetChanged();
     }
 
-    public void remove(FornecedorPJ fornecedoresPJ) {
-        this.fornecedoresPJ.remove(fornecedoresPJ);
+    public void remove(int position) {
+        fornecedoresPJ.remove(position);
         notifyDataSetChanged();
     }
-
-    //==================================================================================================
+//==================================================================================================
     //INICIANDO CONFIGURACAO DO FILTRO
     @Override
     public Filter getFilter() {

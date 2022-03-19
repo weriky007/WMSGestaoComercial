@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaFornecedoresPFAdapter extends RecyclerView.Adapter implements Filterable {
-    //==================================================================================================
+//==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
     private List<FornecedorPF> fornecedoresPFPesquisa;
     private List<FornecedorPF> fornecedoresPF;
@@ -40,7 +40,7 @@ public class ListaFornecedoresPFAdapter extends RecyclerView.Adapter implements 
         this.fornecedoresPF = fornecedorPFS;
     }
 
-    //==================================================================================================
+//==================================================================================================
     //RECYCLER VIEW
     class fornecedorPfViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public fornecedorPfViewHolder(@NonNull View itemView) {

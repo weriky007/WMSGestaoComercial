@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPJ;
 //==================================================================================================
+
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPJ;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.FORNECEDORESPJ_PLAN;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.ID_PASTA;
@@ -29,7 +30,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.FornecedoresPJDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomFornecedorPJDAO;
+import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
+import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.ListaDeFornecedorPFActivity;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaFornecedoresPJAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -60,11 +63,12 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
     private List<FornecedorPJ> fornecedorPJS = new ArrayList<>();
     private final Context context = this;
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
-    String linkMacro= LINK_MACRO;
+    String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
-    private int put =0;
-    public int id =0;
-//==================================================================================================
+    private int put = 0;
+    public int id = 0;
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,54 +79,41 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
         configuraLista();
         configuraFabNovoFornecedorPJ();
     }
-//==================================================================================================
+
+    //==================================================================================================
     @Override
     protected void onResume() {
         super.onResume();
         adapter.atualiza(dao.todosFornecedoresPJ());
     }
+
 //==================================================================================================
-//    //MENU ITENS LISTA
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//    super.onCreateContextMenu(menu, v, menuInfo);
-//    getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-//}
-//
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        int itemId = item.getItemId();
-//        if (itemId == R.id.menu_remover_listas_activity) {
-//            confirmaRemocao(item);
-//        }
-//        return super.onContextItemSelected(item);
-//    }
-//
-//    public void confirmaRemocao(final MenuItem item) {
-//    new AlertDialog.Builder(context).setTitle("Removendo Fornecedor PJ").setMessage("Deseja mesmo remover o FornecedorPJ?").setPositiveButton("Sim", (dialogInterface, i) -> {
-//        FornecedorPJ fornecedorPJ = pegaFornecedorPJ(item);
-//        put = 3;
-//        id = fornecedorPJ.getId();
-//        new SendRequest().execute();
-//         remove(fornecedorPJ);
-//    })
-//            .setNegativeButton("Não",null)
-//            .show();
-//    }
-//
-//
-//    private FornecedorPJ pegaFornecedorPJ(MenuItem item) {
-//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        return adapter.getItem(menuInfo.position);
-//    }
-//==================================================================================================
-    private void remove(FornecedorPJ fornecedorPJ){
-    adapter.remove(fornecedorPJ);
-    dao.removeFornecedorPJ(fornecedorPJ);
+    //MENU ITENS LISTA
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == 0) {
+            confirmaRemocao(item);
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public void confirmaRemocao(final MenuItem item) {
+        new AlertDialog.Builder(context).setTitle("Removendo Fornecedor").setMessage("Deseja mesmo remover o Fornecedor?").setPositiveButton("Sim", (dialogInterface, i) -> {
+            int position = item.getGroupId();
+            FornecedorPJ fornecedorPJ = fornecedorPJS.get(position);
+            dao.removeFornecedorPJ(fornecedorPJ);
+            adapter.remove(position);
+            put = 3;
+            id = fornecedorPJ.getId();
+            new SendRequest().execute();
+        })
+                .setNegativeButton("Não", null)
+                .show();
     }
 //==================================================================================================
     private void configuraAdapter() {
-        adapter = new ListaFornecedoresPJAdapter(this,fornecedorPJS);
+        adapter = new ListaFornecedoresPJAdapter(this, fornecedorPJS);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
         dao = FornecedoresPJDatabase.getInstance(this).getFornecedorPJDAO();
     }
@@ -173,73 +164,77 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
     private void abreFormularioModoInsereNew() {
         startActivity(new Intent(ListaDeFornecedorPJActivity.this, CadastroFornecedorPJActivity.class));
     }
-//==================================================================================================
+
+    //==================================================================================================
     //CONFIGURACOES DO FILTRO PESQUISA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_search, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
 
-    MenuItem searchItem = menu.findItem(R.id.action_search);
-    SearchView campoBusca = (SearchView) searchItem.getActionView();
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView campoBusca = (SearchView) searchItem.getActionView();
 
-    campoBusca.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-    campoBusca.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            if (newText.toString() != null && !newText.toString().equals("")) {
-                adapter.getFilter().filter(newText);
-            }else {
-                adapter.atualiza(dao.todosFornecedoresPJ());
+        campoBusca.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        campoBusca.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
-            return false;
-        }
-    });
-    return true;
-   }
-//==================================================================================================
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.toString() != null && !newText.toString().equals("")) {
+                    adapter.getFilter().filter(newText);
+                } else {
+                    adapter.atualiza(dao.todosFornecedoresPJ());
+                }
+                return false;
+            }
+        });
+        return true;
+    }
+
+    //==================================================================================================
     //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
-    protected void onPreExecute(){}
+        protected void onPreExecute() {
+        }
 
-    protected String doInBackground(String... arg0) {
-        try{
-            URL url = new URL(linkMacro);
-            String idPlan= idPlanilha;
+        protected String doInBackground(String... arg0) {
+            try {
+                URL url = new URL(linkMacro);
+                String idPlan = idPlanilha;
 
-            JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
-            HttpURLConnection connection = executaConeccaoExternalServer(url);
-            escreveDadosNaPlanilha(enviaDados, connection);
-            return verificaLinhaVazia(connection);
-        }//end try
+                JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
+                HttpURLConnection connection = executaConeccaoExternalServer(url);
+                escreveDadosNaPlanilha(enviaDados, connection);
+                return verificaLinhaVazia(connection);
+            }//end try
 
-        catch(Exception e){
-            return new String("Exception: " + e.getMessage());
-        }//end catch
+            catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }//end catch
 
-    }//end doInBackGround
+        }//end doInBackGround
 
-    @Override
-    protected void onPostExecute(String resultado) {
+        @Override
+        protected void onPostExecute(String resultado) {
 //            Toast.makeText(getApplicationContext(),"Salvo Na GSheet!!!",Toast.LENGTH_LONG).show();
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-    }//end onPostExecute
-}//end sendRequest
-//==================================================================================================
+        }//end onPostExecute
+    }//end sendRequest
+
+    //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
             BufferedReader leValor = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer sb = new StringBuffer("");
-            String linha="";
+            String linha = "";
 
-            while((linha = leValor.readLine()) != null) {
+            while ((linha = leValor.readLine()) != null) {
                 sb.append(linha);
                 break;
             }//end while
@@ -249,7 +244,7 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
 
         }//end if
         else {
-            return new String("false : "+codigoWeb);
+            return new String("false : " + codigoWeb);
         }//end else
     }
 
@@ -277,16 +272,16 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
     private JSONObject enviaDadosParaPlanilha(String action) throws JSONException {
         JSONObject enviaDados = new JSONObject();
 
-        if(put == 3){
-            action ="deleteFornecedorPJ";
+        if (put == 3) {
+            action = "deleteFornecedorPJ";
         }
 
-        enviaDados.put("pasta",ID_PASTA);
-        enviaDados.put("planilha",FORNECEDORESPJ_PLAN);
-        enviaDados.put("action",action);
-        enviaDados.put("idFornecedorPJ",id);
+        enviaDados.put("pasta", ID_PASTA);
+        enviaDados.put("planilha", FORNECEDORESPJ_PLAN);
+        enviaDados.put("action", action);
+        enviaDados.put("idFornecedorPJ", id);
 
-        Log.e("params",enviaDados.toString());
+        Log.e("params", enviaDados.toString());
         return enviaDados;
     }
 
@@ -296,13 +291,13 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
 
         Iterator<String> itr = params.keys();
 
-        while(itr.hasNext()){
-            String key= itr.next();
+        while (itr.hasNext()) {
+            String key = itr.next();
             Object value = params.get(key);
 
             if (first) {
                 first = false;
-            }else {
+            } else {
                 result.append("&");
             }
             result.append(URLEncoder.encode(key, "UTF-8"));

@@ -25,8 +25,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.FornecedoresPJDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomFornecedorPJDAO;
+import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
+import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.ListaDeFornecedorPFActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +50,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class CadastroFornecedorPJActivity extends AppCompatActivity  {
+public class CadastroFornecedorPJActivity extends AppCompatActivity {
     public CadastroFornecedorPJActivity() throws SQLException {
     }
 
@@ -65,14 +68,15 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         formataTexto();
         configuraBotao();
     }
-//==================================================================================================
+
+    //==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private FornecedorPJ fornecedorPJ;
     private RoomFornecedorPJDAO dao;
 
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
-    String linkMacro= LINK_MACRO;
+    String linkMacro = LINK_MACRO;
     String idPlanilha = ID_PASTA;
     int put = 0;
 
@@ -102,7 +106,8 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
 
 
     private Button botao;
-//==================================================================================================
+
+    //==================================================================================================
     private void bindDosCampos() {
         campoRazaoSocial = findViewById(R.id.edit_razao_social);
         campoNomeFantasia = findViewById(R.id.edit_nome_fantasia);
@@ -124,7 +129,8 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
 
         botao = findViewById(R.id.botao_salvar);
     }
-//==================================================================================================
+
+    //==================================================================================================
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCNPJ.addTextChangedListener(MaskText.insert(MASK_CNPJ, campoCNPJ));
@@ -133,7 +139,8 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));
         campoCEP.addTextChangedListener(MaskText.insert(MASK_CEP, campoCEP));
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String razaoSocial = campoRazaoSocial.getText().toString();
         String nomeFantasia = campoNomeFantasia.getText().toString();
@@ -171,7 +178,8 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         fornecedorPJ.setCep(cep);
         fornecedorPJ.setComplemento(complemento);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void carregaCliente() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_FORNECEDORPJ)) {
@@ -181,6 +189,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
             fornecedorPJ = new FornecedorPJ();
         }
     }
+
     //==================================================================================================
     private void preencheCamposParaEdicao() {
         campoRazaoSocial.setText(fornecedorPJ.getRazaoSocial());
@@ -202,57 +211,74 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         campoComplemento.setText(fornecedorPJ.getComplemento());
     }
 //==================================================================================================
-    private void concluiCadastro()  {
+    private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
         if (fornecedorPJ.temIdValido()) {
             put = 2;
             dao.editaFornecedorPJ(fornecedorPJ);
             fornecedoresPJ = dao.todosFornecedoresPJ();
-            Toast.makeText(CadastroFornecedorPJActivity.this, "Editado com Sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroFornecedorPJActivity.this, "Editado com Sucesso!", Toast.LENGTH_LONG).show();
+            new SendRequest().execute();
+            finish();
         } else {
             put = 1;
-            dao.salvaFornecedorPJ(fornecedorPJ);
             fornecedoresPJ = dao.todosFornecedoresPJ();
-            Toast.makeText(CadastroFornecedorPJActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+            //VERIFICA REPETIDO
+            String sfornecedorPJ = fornecedorPJ.getRazaoSocial().trim();
+            FornecedorPJ ffornecedorPJ = new FornecedorPJ();
+            for (int i = 0; i < fornecedoresPJ.size(); i++) {
+                if (sfornecedorPJ.equals(fornecedoresPJ.get(i).getRazaoSocial().trim())) {
+                    ffornecedorPJ = fornecedoresPJ.get(i);
+                }
+            }
+            if (ffornecedorPJ.getRazaoSocial() == null || ffornecedorPJ.getRazaoSocial().equals("")) {
+                dao.salvaFornecedorPJ(fornecedorPJ);
+                fornecedoresPJ = dao.todosFornecedoresPJ();
+                new SendRequest().execute();
+                startActivity(new Intent(CadastroFornecedorPJActivity.this, ListaDeFornecedorPJActivity.class));
+                Toast.makeText(CadastroFornecedorPJActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Esse fornecedor já está cadastrado!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 //==================================================================================================
-    private void realizaVerificacao(){
+    private void realizaVerificacao() {
         String razaoSocial = campoRazaoSocial.getText().toString();
         String telefone = campoTelefone.getText().toString();
         String rua = campoRua.getText().toString();
         String bairro = campoBairro.getText().toString();
-        if(razaoSocial.equals(null) || razaoSocial.equals("")){
+        if (razaoSocial.equals(null) || razaoSocial.equals("")) {
             Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha a Razão Social", Toast.LENGTH_SHORT).show();
-        }else{
-            if(telefone.equals(null) || telefone.equals("")){
+        } else {
+            if (telefone.equals(null) || telefone.equals("")) {
                 Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha o telefone", Toast.LENGTH_SHORT).show();
-            }else{
-                if(rua.equals(null) || rua.equals("")){
+            } else {
+                if (rua.equals(null) || rua.equals("")) {
                     Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha a rua", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(bairro.equals(null) || bairro.equals("")){
+                } else {
+                    if (bairro.equals(null) || bairro.equals("")) {
                         Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         concluiCadastro();
-                        new SendRequest().execute();
-                        startActivity(new Intent(CadastroFornecedorPJActivity.this, ListaDeFornecedorPJActivity.class));
-                        finish();
                     }
                 }
             }
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
 //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
-        protected void onPreExecute(){}
+        protected void onPreExecute() {
+        }
 
         protected String doInBackground(String... arg0) {
-            try{
+            try {
                 URL url = new URL(linkMacro);
-                String idPlan= idPlanilha;
+                String idPlan = idPlanilha;
 
                 JSONObject enviaDados = enviaDadosParaPlanilha(idPlan);
                 HttpURLConnection connection = executaConeccaoExternalServer(url);
@@ -260,7 +286,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
                 return verificaLinhaVazia(connection);
             }//end try
 
-            catch(Exception e){
+            catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }//end catch
 
@@ -268,19 +294,20 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
 
         @Override
         protected void onPostExecute(String resultado) {
-            Toast.makeText(getApplicationContext(),"Salvo Na GSheet!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Salvo Na GSheet!", Toast.LENGTH_LONG).show();
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
         }//end onPostExecute
     }//end sendRequest
-//==================================================================================================
+
+    //==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
             BufferedReader leValor = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer sb = new StringBuffer("");
-            String linha="";
+            String linha = "";
 
-            while((linha = leValor.readLine()) != null) {
+            while ((linha = leValor.readLine()) != null) {
                 sb.append(linha);
                 break;
             }//end while
@@ -290,7 +317,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
 
         }//end if
         else {
-            return new String("false : "+codigoWeb);
+            return new String("false : " + codigoWeb);
         }//end else
     }
 
@@ -317,21 +344,21 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
     //ENVIA DADOS PARA A PLANILHA GOOGLE
     private JSONObject enviaDadosParaPlanilha(String action) throws JSONException {
         JSONObject enviaDados = new JSONObject();
-        if(put == 1) {
+        if (put == 1) {
             action = "addFornecedorPJ";
-            fornecedorPJ = fornecedoresPJ.get(fornecedoresPJ.size()-1);
+            fornecedorPJ = fornecedoresPJ.get(fornecedoresPJ.size() - 1);
             id = fornecedorPJ.getId();
         }
-        if(put == 2){
-            action ="updateFornecedorPJ";
+        if (put == 2) {
+            action = "updateFornecedorPJ";
             id = fornecedorPJ.getId();
         }
 
 
         enviaDados.put("pasta", ID_PASTA);
-        enviaDados.put("planilha",FORNECEDORESPJ_PLAN);
-        enviaDados.put("action",action);
-        enviaDados.put("idFornecedorPJ",id);
+        enviaDados.put("planilha", FORNECEDORESPJ_PLAN);
+        enviaDados.put("action", action);
+        enviaDados.put("idFornecedorPJ", id);
         enviaDados.put("razaoSocial", fornecedorPJ.getRazaoSocial());
         enviaDados.put("nomeFantasia", fornecedorPJ.getNomeFantasia());
         enviaDados.put("cnpj", fornecedorPJ.getCnpj());
@@ -350,7 +377,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         enviaDados.put("bairro", fornecedorPJ.getBairro());
         enviaDados.put("complemento", fornecedorPJ.getComplemento());
 
-        Log.e("params",enviaDados.toString());
+        Log.e("params", enviaDados.toString());
         return enviaDados;
     }
 
@@ -360,13 +387,13 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
 
         Iterator<String> itr = params.keys();
 
-        while(itr.hasNext()){
-            String key= itr.next();
+        while (itr.hasNext()) {
+            String key = itr.next();
             Object value = params.get(key);
 
             if (first) {
                 first = false;
-            }else {
+            } else {
                 result.append("&");
             }
             result.append(URLEncoder.encode(key, "UTF-8"));
@@ -376,7 +403,8 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity  {
         }
         return result.toString();
     }//end configuraData
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraBotao() {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
