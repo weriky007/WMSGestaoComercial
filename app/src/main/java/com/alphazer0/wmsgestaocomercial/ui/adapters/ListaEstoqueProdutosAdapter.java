@@ -1,16 +1,13 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -20,11 +17,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
-import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.InformacoesProduto;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +66,7 @@ public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, InformacoesProduto.class);
-                intent.putExtra(CHAVE_PRODUTO_OUTRO,produtos.get(holder.getAdapterPosition()));
+                intent.putExtra(CHAVE_PRODUTO,produtos.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
         });

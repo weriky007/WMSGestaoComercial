@@ -1,18 +1,24 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPJ;
 
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPJ;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 
 public class InformacaoFornecedorPJ extends AppCompatActivity {
-    private FornecedorPJ fornecedorPJRecebido= new FornecedorPJ();
+    private FornecedorPJ fornecedorPJRecebido = new FornecedorPJ();
     private TextView razaoSocial;
     private TextView nomeFantasia;
     private TextView cnpj;
@@ -28,7 +34,8 @@ public class InformacaoFornecedorPJ extends AppCompatActivity {
     private TextView celular2;
     private TextView telefoneFixo;
     private TextView email;
-//==================================================================================================
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +46,8 @@ public class InformacaoFornecedorPJ extends AppCompatActivity {
         insereDadosContato();
         insereDadosEndereco();
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void insereDados() {
         Intent recebeDados = new Intent();
         recebeDados.hasExtra(CHAVE_FORNECEDORPJ);
@@ -56,7 +64,8 @@ public class InformacaoFornecedorPJ extends AppCompatActivity {
         cnpj.setText(fornecedorPJRecebido.getCnpj());
         ie.setText(fornecedorPJRecebido.getIe());
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void insereDadosContato() {
         Intent recebeDados = new Intent();
         recebeDados.hasExtra(CHAVE_FORNECEDORPJ);
@@ -73,7 +82,8 @@ public class InformacaoFornecedorPJ extends AppCompatActivity {
         telefoneFixo.setText(fornecedorPJRecebido.getTelefone());
         email.setText(fornecedorPJRecebido.getEmail());
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void insereDadosEndereco() {
         Intent recebeDados = new Intent();
         recebeDados.hasExtra(CHAVE_FORNECEDORPJ);
@@ -95,6 +105,30 @@ public class InformacaoFornecedorPJ extends AppCompatActivity {
         bairro.setText(fornecedorPJRecebido.getBairro());
         cep.setText(fornecedorPJRecebido.getCep());
         complemento.setText(fornecedorPJRecebido.getComplemento());
+    }
+
+    //==================================================================================================
+    //MENU APPBAR EDITA
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edita, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.item_botao_edita) {
+            editar();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+//==================================================================================================
+    private void editar() {
+        Intent enviaDados = new Intent(this, CadastroFornecedorPJActivity.class);
+        enviaDados.putExtra(CHAVE_FORNECEDORPJ, fornecedorPJRecebido);
+        startActivity(enviaDados);
     }
 //==================================================================================================
 }

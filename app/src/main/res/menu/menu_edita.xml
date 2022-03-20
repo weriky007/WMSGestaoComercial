@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/item_botao_concluir_venda"
-        android:icon="@drawable/ic_action_completa_venda"
-        android:title="Concluir"
+        android:id="@+id/item_botao_edita"
+        android:icon="@drawable/ic_action_btn_editar"
+        android:title="Editar"
         app:showAsAction="always"/>
 </menu>

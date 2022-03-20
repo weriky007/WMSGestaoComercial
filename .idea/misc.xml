@@ -63,9 +63,11 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/layout_pagamento_cartao_credito_parcelas.xml" value="0.25" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/layout_pagamento_conta_cliente.xml" value="0.18" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/layout_pagamento_dinheiro.xml" value="0.2" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_edita.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_formulario_editar.xml" value="0.1" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_listas_activity.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_vendas_appbar.xml" value="0.1675929884566054" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_vendas_concluir.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

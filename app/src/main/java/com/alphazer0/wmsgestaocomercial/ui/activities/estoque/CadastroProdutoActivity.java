@@ -1,7 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.estoque;
 //==================================================================================================
 
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.ID_PASTA;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.LINK_MACRO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.PRODUTOS_PLAN;
@@ -22,7 +22,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.accessibility.AccessibilityViewCommand;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
@@ -173,8 +172,8 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     //==================================================================================================
     private void carregaProduto() {
         Intent dados = getIntent();
-        if (dados.hasExtra(CHAVE_PRODUTO_OUTRO)) {
-            produto = (Produto) dados.getSerializableExtra(CHAVE_PRODUTO_OUTRO);
+        if (dados.hasExtra(CHAVE_PRODUTO)) {
+            produto = (Produto) dados.getSerializableExtra(CHAVE_PRODUTO);
             preencheCamposParaEdicao();
         } else {
             produto = new Produto();

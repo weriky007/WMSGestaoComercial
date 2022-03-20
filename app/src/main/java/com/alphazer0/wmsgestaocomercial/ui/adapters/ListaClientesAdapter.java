@@ -1,7 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -20,10 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
-import com.alphazer0.wmsgestaocomercial.model.Venda;
-import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.CadastroClienteActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.InformacoesCliente;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 
 import java.util.ArrayList;
 import java.util.List;

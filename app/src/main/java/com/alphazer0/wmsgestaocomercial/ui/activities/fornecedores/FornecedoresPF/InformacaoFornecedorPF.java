@@ -2,16 +2,22 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.Fornecedores
 
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPF;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
+import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 
 public class InformacaoFornecedorPF extends AppCompatActivity {
     FornecedorPF fornecedorPFRecebido = new FornecedorPF();
@@ -32,7 +38,8 @@ public class InformacaoFornecedorPF extends AppCompatActivity {
     private TextView bairro;
     private TextView cep;
     private TextView complemento;
-//==================================================================================================
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +50,8 @@ public class InformacaoFornecedorPF extends AppCompatActivity {
         insereDadosContato();
         insereDadosEndereco();
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void insereDadosPessoais() {
         Intent recebeDados = new Intent();
         recebeDados.hasExtra(CHAVE_FORNECEDORPF);
@@ -64,7 +72,8 @@ public class InformacaoFornecedorPF extends AppCompatActivity {
         nomePai.setText(fornecedorPFRecebido.getNomePai());
         nomeMae.setText(fornecedorPFRecebido.getNomeMae());
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void insereDadosContato() {
         Intent recebeDados = new Intent();
         recebeDados.hasExtra(CHAVE_FORNECEDORPF);
@@ -81,7 +90,8 @@ public class InformacaoFornecedorPF extends AppCompatActivity {
         telefoneFixo.setText(fornecedorPFRecebido.getTelefone());
         email.setText(fornecedorPFRecebido.getEmail());
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void insereDadosEndereco() {
         Intent recebeDados = new Intent();
         recebeDados.hasExtra(CHAVE_FORNECEDORPF);
@@ -103,6 +113,30 @@ public class InformacaoFornecedorPF extends AppCompatActivity {
         bairro.setText(fornecedorPFRecebido.getBairro());
         cep.setText(fornecedorPFRecebido.getCep());
         complemento.setText(fornecedorPFRecebido.getComplemento());
+    }
+
+    //==================================================================================================
+    //MENU APPBAR EDITA
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edita, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.item_botao_edita) {
+            editar();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+//==================================================================================================
+    private void editar() {
+        Intent enviaDados = new Intent(this, CadastroFornecedorPFActivity.class);
+        enviaDados.putExtra(CHAVE_FORNECEDORPF, fornecedorPFRecebido);
+        startActivity(enviaDados);
     }
 //==================================================================================================
 }

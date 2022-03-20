@@ -1,19 +1,19 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.estoque;
 
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
-import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
-
-import org.w3c.dom.Text;
 
 public class InformacoesProduto extends AppCompatActivity {
     Produto produtoRecebido = new Produto();
@@ -26,7 +26,8 @@ public class InformacoesProduto extends AppCompatActivity {
     private TextView precoVenda;
     private TextView quantidade;
     private TextView medida;
-//==================================================================================================
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +36,13 @@ public class InformacoesProduto extends AppCompatActivity {
 
         insereDadosProduto();
     }
-//==================================================================================================
-    private void insereDadosProduto(){
+
+    //==================================================================================================
+    private void insereDadosProduto() {
         Intent recebeDados = new Intent();
-        recebeDados.hasExtra(CHAVE_PRODUTO_OUTRO);
+        recebeDados.hasExtra(CHAVE_PRODUTO);
         Bundle extra = getIntent().getExtras();
-        produtoRecebido = (Produto) extra.getSerializable(CHAVE_PRODUTO_OUTRO);
+        produtoRecebido = (Produto) extra.getSerializable(CHAVE_PRODUTO);
 
         codBarras = findViewById(R.id.info_produto_txt_codigo_barras);
         categoria = findViewById(R.id.info_produto_txt_categoria);
@@ -61,6 +63,30 @@ public class InformacoesProduto extends AppCompatActivity {
         precoVenda.setText(produtoRecebido.getPrecoVenda());
         quantidade.setText(produtoRecebido.getQuantidade());
         medida.setText(produtoRecebido.getUnidadeMedida());
+    }
+
+    //==================================================================================================
+    //MENU APPBAR EDITA
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edita, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.item_botao_edita) {
+            editar();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+//==================================================================================================
+    private void editar() {
+        Intent enviaDados = new Intent(this, CadastroProdutoActivity.class);
+        enviaDados.putExtra(CHAVE_PRODUTO, produtoRecebido);
+        startActivity(enviaDados);
     }
 //==================================================================================================
 }

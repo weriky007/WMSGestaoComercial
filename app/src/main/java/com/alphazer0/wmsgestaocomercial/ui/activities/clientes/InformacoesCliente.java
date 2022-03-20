@@ -4,8 +4,13 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -80,6 +85,7 @@ public class InformacoesCliente extends AppCompatActivity {
         telefoneFixo.setText(clienteRecebido.getTelefone());
         email.setText(clienteRecebido.getEmail());
     }
+
 //==================================================================================================
     private void insereDadosEndereco() {
         Intent recebeDados = new Intent();
@@ -102,6 +108,28 @@ public class InformacoesCliente extends AppCompatActivity {
         bairro.setText(clienteRecebido.getBairro());
         cep.setText(clienteRecebido.getCep());
         complemento.setText(clienteRecebido.getComplemento());
+    }
+//==================================================================================================
+    //MENU APPBAR EDITA
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edita, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.item_botao_edita) {
+           editar();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+//==================================================================================================
+    private void editar(){
+        Intent enviaDados = new Intent(this, CadastroClienteActivity.class);
+        enviaDados.putExtra(CHAVE_CLIENTE,clienteRecebido);
+        startActivity(enviaDados);
     }
 //==================================================================================================
 }

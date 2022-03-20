@@ -76,7 +76,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -169,14 +168,13 @@ public class VendasActivity extends AppCompatActivity {
     private String escolhaCcParcelamento;
     private String dataContaCliente;
     private Venda venda = new Venda();
-    ;
     private EditText vlRecebido;
     private TextView troco;
     private EditText parcelas;
     private EditText taxa;
     private CalendarView contaData;
 
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,20 +186,18 @@ public class VendasActivity extends AppCompatActivity {
         configuraFabAddProduto();
     }
 
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onResume() {
         super.onResume();
         produtosVendaAdapter.pegaTodosProdutos(listaCompras);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void bindDosElementos() {
         valorTotal = findViewById(R.id.valor);
         fabAdicionaProduto = findViewById(R.id.fab_adiciona_produto_venda);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraAdapter() {
         produtosVendaAdapter = new ListaProdutosVendasAdapter(listaCompras);
         //PEGA TODOS OS CLIENTES DO BANCO DE DADOS
@@ -228,9 +224,9 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     //CONFIGURA ALERTDIALOG TELA VENDAS
-    public void mostra() {
+    public void abreAddProdutoVenda() {
         View viewCriada = LayoutInflater.from(VendasActivity.this)
                 .inflate(R.layout.activity_fomulario_adiciona_produto_vendas, null);
 
@@ -292,7 +288,7 @@ public class VendasActivity extends AppCompatActivity {
         }
     }
 
-    //==================================================================================================
+//==================================================================================================
     //CONFIGURANDO AUTO PREENCHER DOS CAMPOS
     private void configuraAutoCompleteProdutos() {
         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
@@ -352,7 +348,7 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     //CONFIGURA LEITOR DE  CODIGO
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -383,8 +379,8 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
-    //MENU ITENS LISTA
+//==================================================================================================
+    //MENU ITENS LISTA REMOCAO
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -423,7 +419,7 @@ public class VendasActivity extends AppCompatActivity {
         configuraRemocaoProdutoDoCarrinhoCompras(produto);
     }
 
-    //==================================================================================================
+//==================================================================================================
     //MENU APPBAR CONCLUI VENDA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -435,12 +431,15 @@ public class VendasActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_botao_concluir_venda) {
-            concluiVenda();
+            if(listaCompras.size() > 0) {
+                concluiVenda();
+            }else{
+                Toast.makeText(context, "Adicione itens a lista de compras!", Toast.LENGTH_LONG).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //==================================================================================================
+//==================================================================================================
     //CONCLUINDO VENDA
     public void concluiVenda() {
         //CONFIGURA VIEW A SEREM INFLADAS
@@ -491,7 +490,7 @@ public class VendasActivity extends AppCompatActivity {
         configuraAlertDialog(inset, alertDialog);
     }//FIM CONCLUI VENDA
 
-    //==================================================================================================
+//==================================================================================================
     private void configuraAlertDialog(InsetDrawable inset, AlertDialog.Builder alertDialog) {
 
         //CONFIGURA BOTAO POSITIVO
@@ -614,7 +613,7 @@ public class VendasActivity extends AppCompatActivity {
                 .setBackgroundDrawable(inset);
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void checaParcelamentoCC(View layoutCC, View layoutCCParcelas, LinearLayout layoutParcelasCC) {
         radioGroupParcelaCC.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -664,7 +663,7 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void checaEscolhasPagamento(View layoutConcluiVenda, View layoutDinheiro, View layoutCC, View layoutCalendarioContaCliente, LinearLayout layoutPagamentoDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente) {
         radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -677,7 +676,7 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void switchLayouts(LinearLayout layoutPagamentoDinheiro, View layoutDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente, View layoutCC, View layoutCalendarioContaCliente) {
         switch (escolhaFormaPagamento) {
             case DINHEIRO:
@@ -710,30 +709,30 @@ public class VendasActivity extends AppCompatActivity {
         }//END SWITCH
     }
 
-    //==================================================================================================
+//==================================================================================================
     private LinearLayout configuraRecebimentoDinheiro(View view, View layoutDinheiro) {
         LinearLayout layoutFormasPagamentoDinheiro = view.findViewById(R.id.linear_layout_forma_pagamento_dinheiro);
         calculaRecebimentoEmDinheiro.calcula(context, layoutDinheiro, valorTotal);
         return layoutFormasPagamentoDinheiro;
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void configuraRemocaoProdutoDoCarrinhoCompras(Produto produto) {
         configuracaoIOEstoqueVendas.devolveItemAoEstoque(produtoDao, produto, produtos, total, valorTotal, produtosVendaAdapter, listaCompras);
     }
 
-    //==================================================================================================
+//==================================================================================================
     //JANELA ADICIONA PRODUTO AO CARRINHO
     private void configuraFabAddProduto() {
         fabAdicionaProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mostra();
+                abreAddProdutoVenda();
             }
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -764,7 +763,7 @@ public class VendasActivity extends AppCompatActivity {
         }//end onPostExecute
     }//end sendRequest
 
-    //==================================================================================================
+//==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {

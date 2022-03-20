@@ -1,7 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPF;
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO_OUTRO;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -20,9 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
-import com.alphazer0.wmsgestaocomercial.model.Produto;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.InformacaoFornecedorPF;
 
 import java.util.ArrayList;

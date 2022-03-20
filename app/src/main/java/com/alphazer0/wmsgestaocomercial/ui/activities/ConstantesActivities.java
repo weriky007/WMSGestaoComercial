@@ -25,26 +25,9 @@ public interface ConstantesActivities {
     String MASK_CEL = "(##)#####-####";
 //--------------------------------------------------------------------------------------------------
     String CHAVE_CLIENTE = "cliente";
-
     String CHAVE_FORNECEDORPF = "fornecedorPF";
     String CHAVE_FORNECEDORPJ = "fornecedorPJ";
-
-    String CHAVE_PRODUTO_ALIMENTICIO_SECO = "produtoSeco";
-    String CHAVE_PRODUTO_ALIMENTICIO_MOLHADO = "produtoMolhado";
-
-    String CHAVE_PRODUTO_COSMETICO = "cosmetico";
-    String CHAVE_PRODUTO_ELETRONICO= "eletronico";
-    String CHAVE_PRODUTO_LIMPEZA= "limpeza";
-    String CHAVE_PRODUTO_OUTRO= "outro";
-    String CHAVE_PRODUTO_VESTUARIO= "vestuario";
-
-    String SUBGRUPO_ALIMENTICIOS_MOLHADOS = "alimenticiosMolhados";
-    String SUBGRUPO_ALIMENTICIOS_SECOS = "alimenticiosSecos";
-    String SUBGRUPO_COSMETICOS = "cosmeticos";
-    String SUBGRUPO_ELETRONICOS = "eletronicos";
-    String SUBGRUPO_LIMPEZA = "limpeza";
-    String SUBGRUPO_OUTROS = "outros";
-    String SUBGRUPO_VESTUARIO = "vestuario";
+    String CHAVE_PRODUTO = "produto";
 //--------------------------------------------------------------------------------------------------
     String LINK_MACRO = "https://script.google.com/macros/s/AKfycbx6_ewJEXcPP5SN9AVty-FjaeyCN7wZ0BfyXNmZgb831FjLGypkY5i1vlK27QThSXzI/exec";
     String ID_PASTA = "https://docs.google.com/spreadsheets/d/1NPtdlfoN8qgqRx673davAuDR45J_VwaFbQPy_Xo3kK4/edit#gid=0";
