@@ -70,6 +70,9 @@
             android:name=".ui.activities.relatorios.RelatoriosPrincipal"
             android:excludeFromRecents="true" />
         <activity
+            android:name=".ui.activities.relatorios.VendasInfoActivity"
+            android:excludeFromRecents="true" />
+        <activity
             android:name=".ui.activities.relatorios.RelatorioTodasVendas"
             android:excludeFromRecents="true" />
 

@@ -139,5 +139,7 @@ public class Venda implements Serializable {
     public void setDataVencimento(String dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
+
+
 //==================================================================================================
 }

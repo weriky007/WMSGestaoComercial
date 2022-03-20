@@ -2,9 +2,6 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.relatorios;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,22 +9,23 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.VendasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomVendasDAO;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
-import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaVendasAdapter;
+import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaTodasVendasAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RelatorioTodasVendas extends AppCompatActivity {
+    public static final String HISTÓRICO_DE_VENDAS = "Histórico de Vendas";
     private RecyclerView listaTodasVendas;
     private List<Venda> vendas = new ArrayList<>();
     private RoomVendasDAO dao;
-    private ListaVendasAdapter adapter;
+    private ListaTodasVendasAdapter adapter;
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_relatorio_todas_vendas);
-        setTitle("Histórico de Vendas");
+        setTitle(HISTÓRICO_DE_VENDAS);
 
         configuraAdapter();
         configuraLista();
@@ -52,8 +50,12 @@ public class RelatorioTodasVendas extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAdapter(){
-        adapter = new ListaVendasAdapter(this,vendas);
+        adapter = new ListaTodasVendasAdapter(this,vendas);
         dao = VendasDatabase.getInstance(this).getVendaDAO();
     }
+//==================================================================================================
+    //MENU CLICK ITEM
+
+
 //==================================================================================================
 }

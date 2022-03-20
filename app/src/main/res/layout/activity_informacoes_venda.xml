@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/fundo_tela">
 
     <androidx.cardview.widget.CardView
@@ -25,7 +26,7 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="Data: "
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -34,7 +35,7 @@
                 android:id="@+id/info_txt_list_venda_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/info_list_venda_data"
                 app:layout_constraintBottom_toBottomOf="@+id/info_list_venda_data"/>
@@ -44,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hora: "
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/_27sdp"
                 app:layout_constraintStart_toEndOf="@+id/info_txt_list_venda_data"
@@ -54,7 +55,7 @@
                 android:id="@+id/info_txt_list_venda_hora"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/info_list_venda_hora"
                 app:layout_constraintBottom_toBottomOf="@+id/info_list_venda_hora"/>
@@ -63,7 +64,7 @@
                 android:id="@+id/info_vendas_cliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/_12sdp"
                 android:text="Cliente: "
                 app:layout_constraintTop_toBottomOf="@+id/info_list_venda_data"
                 app:layout_constraintStart_toStartOf="@+id/info_list_venda_data"
@@ -73,7 +74,7 @@
                 android:id="@+id/info_txt_list_venda_cliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/info_vendas_cliente"
                 app:layout_constraintBottom_toBottomOf="@+id/info_vendas_cliente"/>
@@ -82,7 +83,7 @@
                 android:id="@+id/item_list_vendas_valor_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/_12sdp"
                 android:text="Total: R$"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/info_vendas_cliente"
@@ -92,7 +93,7 @@
                 android:id="@+id/info_txt_list_valor_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/item_list_vendas_valor_total"
                 app:layout_constraintBottom_toBottomOf="@+id/item_list_vendas_valor_total"/>
@@ -101,32 +102,40 @@
                 android:id="@+id/info_list_vendas_tipo_pagamento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/_12sdp"
                 android:text="Tipo de Pagamento: "
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/item_list_vendas_valor_total"
-                app:layout_constraintStart_toStartOf="@+id/item_list_vendas_valor_total"
-                android:layout_marginBottom="@dimen/_8sdp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="@+id/item_list_vendas_valor_total" />
 
             <TextView
                 android:id="@+id/info_txt_list_vendas_tipo_pagamento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/info_list_vendas_tipo_pagamento"
                 app:layout_constraintBottom_toBottomOf="@+id/info_list_vendas_tipo_pagamento"/>
+
+            <TextView
+                android:id="@+id/info_txt_list_vendas_nparcelas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/info_list_vendas_tipo_pagamento"
+                app:layout_constraintStart_toStartOf="@+id/info_list_vendas_tipo_pagamento" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/info_list_produtos_venda"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_93sdp"
+        android:layout_marginTop="@dimen/_120sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         app:layout_constraintTop_toBottomOf="@id/cardview_info_produto_venda"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_produto"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

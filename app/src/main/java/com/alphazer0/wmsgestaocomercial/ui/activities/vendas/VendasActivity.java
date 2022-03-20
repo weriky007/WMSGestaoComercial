@@ -418,7 +418,6 @@ public class VendasActivity extends AppCompatActivity {
     private void remove(Produto produto) {
         configuraRemocaoProdutoDoCarrinhoCompras(produto);
     }
-
 //==================================================================================================
     //MENU APPBAR CONCLUI VENDA
     @Override
@@ -535,7 +534,7 @@ public class VendasActivity extends AppCompatActivity {
                                     Toast.makeText(context, "O valor Recebido Não pode ser menor do que o Total", Toast.LENGTH_SHORT).show();
                                 } else {
                                     //INSERINDO VALORES NA VENDA
-                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                     Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
@@ -545,7 +544,7 @@ public class VendasActivity extends AppCompatActivity {
 
                     if (escolhaFormaPagamento.equals(CARTAO_DE_DEBITO)) {
                         //INSERINDO VALORES NA VENDA
-                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                         Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -573,7 +572,7 @@ public class VendasActivity extends AppCompatActivity {
                                     }else{
                                     venda.setCliente(pegaClienteDoCampoCC);
                                     //INSERINDO VALORES NA VENDA
-                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                     Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                     finish();
                                 }}
@@ -593,7 +592,7 @@ public class VendasActivity extends AppCompatActivity {
                             } else {
                                 contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
                                 //INSERINDO VALORES NA VENDA
-                                insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, produtos, vendasDAO, dataContaCliente);
+                                insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                 Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
                                 finish();
                             }

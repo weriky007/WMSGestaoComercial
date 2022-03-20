@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaEstoqueProdutosAdapter extends RecyclerView.Adapter implements Filterable{
-    //==================================================================================================
+//==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
     private List<Produto> produtoPesquisa;
     private List<Produto> produtos;

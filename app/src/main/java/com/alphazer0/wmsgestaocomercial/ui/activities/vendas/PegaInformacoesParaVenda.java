@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 
 public class PegaInformacoesParaVenda {
-    public void pegaProduto(List<Produto> produto, List<String> filtroTituloProdutos, List<String> filtroCodigo, List<Produto> produtos, HashSet<String> hashSetTituloProdutos, HashSet<String> hashSetCodigos){
+    public void pegaProduto(List<Produto> produtosDao, List<String> filtroTituloProdutos, List<String> filtroCodigo, List<Produto> produtos, HashSet<String> hashSetTituloProdutos, HashSet<String> hashSetCodigos){
 
-        for (Produto filtroProduto : produto) {
+        for (Produto filtroProduto : produtosDao) {
             filtroTituloProdutos.add(filtroProduto.getProduto());
             filtroCodigo.add(filtroProduto.getIdCod());
             produtos.add(filtroProduto);

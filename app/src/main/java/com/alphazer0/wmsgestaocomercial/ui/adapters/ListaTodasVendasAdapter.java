@@ -1,24 +1,32 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_VENDA;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
+import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.InformacoesCliente;
+import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.VendasInfoActivity;
+
 import java.util.List;
 
-public class ListaVendasAdapter extends RecyclerView.Adapter {
+public class ListaTodasVendasAdapter extends RecyclerView.Adapter {
     private List<Venda> vendas;
     private Context context;
 //==================================================================================================
-    public ListaVendasAdapter(Context context, List<Venda> vendas) {
+    public ListaTodasVendasAdapter(Context context, List<Venda> vendas) {
         this.context = context;
         this.vendas = vendas;
     }
@@ -39,7 +47,17 @@ public class ListaVendasAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-       Venda venda = vendas.get(position);
+        CardView cardView = holder.itemView.findViewById(R.id.cardViewTodasVendas);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, VendasInfoActivity.class);
+                intent.putExtra(CHAVE_VENDA,vendas.get(holder.getAdapterPosition()));
+                context.startActivity(intent);
+            }
+        });
+
+         Venda venda = vendas.get(position);
          TextView dataHora = holder.itemView.findViewById(R.id.item_list_vendas_data_hora);
          TextView cliente = holder.itemView.findViewById(R.id.item_list_vendas_cliente);
          TextView vlTotal = holder.itemView.findViewById(R.id.item_list_vendas_valor_total);
@@ -89,7 +107,7 @@ public class ListaVendasAdapter extends RecyclerView.Adapter {
         }
         if(venda.getFormaPagamento().equals("Cartao de Credito")){
             if(!parcelasCC.equals("")) {
-                formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento() + " | " + "Parcelas: " + venda.getParcelasCC() + "\nValor: R$" + venda.getVlParcelas());
+                formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento() + " | " + "\nParcelas: " + venda.getParcelasCC() +" | "+ "Valor: R$" + venda.getVlParcelas());
             }else {
                 formaPagamento.setText("Forma pagamento: " + venda.getFormaPagamento());
             }}
