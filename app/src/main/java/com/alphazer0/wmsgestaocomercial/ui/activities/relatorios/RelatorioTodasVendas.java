@@ -27,7 +27,7 @@ public class RelatorioTodasVendas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_relatorio_todas_vendas);
-        setTitle("Historico de Vendas");
+        setTitle("Histórico de Vendas");
 
         configuraAdapter();
         configuraLista();
