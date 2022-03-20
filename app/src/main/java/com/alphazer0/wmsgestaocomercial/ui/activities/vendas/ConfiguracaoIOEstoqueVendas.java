@@ -95,7 +95,30 @@ public class ConfiguracaoIOEstoqueVendas {
             resultadoQuantidade = Integer.toString(result);
             produtoLocalizado2.setQuantidade(resultadoQuantidade);
             produtoDao.editaProduto(produtoLocalizado2);
+
             produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
+            listaCompras.add(produtoLocalizado);
+        }
+    }
+
+    public void insereProduto(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras){
+        String tituloProduto = campoProduto.getText().toString().trim();
+        String codigoBarras = campoCodigoBarras.getText().toString().trim();
+        Produto produtoLocalizado = new Produto();
+        Produto produtoLocalizado2 = new Produto();
+
+        for(int a =0; a<produtos.size();a++){
+            if(tituloProduto.equals(produtos.get(a).getProduto()) || codigoBarras.equals(produtos.get(a).getIdCod())){
+                produtoLocalizado =produtos.get(a);
+                produtoLocalizado2 =produtos.get(a);
+            }
+        }
+
+        int qtdBD = Integer.parseInt(produtoLocalizado2.getQuantidade());
+        int qtdVenda = Integer.parseInt(campoQuantidade.getText().toString());
+        if(qtdVenda > qtdBD){
+            Toast.makeText(context, "A quantidade não pode ser maior que o estoque"+" | "+"Qantidade Estoque: "+qtdBD, Toast.LENGTH_LONG).show();
+        }else {
             produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
             listaCompras.add(produtoLocalizado);
         }

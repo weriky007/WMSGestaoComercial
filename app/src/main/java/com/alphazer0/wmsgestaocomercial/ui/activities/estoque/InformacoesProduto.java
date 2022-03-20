@@ -78,6 +78,7 @@ public class InformacoesProduto extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_botao_edita) {
             editar();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

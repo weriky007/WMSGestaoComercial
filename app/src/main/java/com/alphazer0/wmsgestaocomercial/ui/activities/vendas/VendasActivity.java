@@ -51,6 +51,7 @@ import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomVendasDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.dao.ListaComprasDAO;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaProdutosVendasAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -111,6 +112,7 @@ public class VendasActivity extends AppCompatActivity {
     private ListaProdutosVendasAdapter produtosVendaAdapter;
     private ListaEstoqueProdutosAdapter produtosEstoqueAdapter;
     private RoomProdutoDAO produtoDao;
+    private ListaComprasDAO listaComprasDAO = new ListaComprasDAO();
     private RoomClienteDAO clienteDAO;
     private RoomVendasDAO vendasDAO;
     private final Context context = this;
@@ -190,7 +192,7 @@ public class VendasActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        produtosVendaAdapter.pegaTodosProdutos(listaCompras);
+        produtosVendaAdapter.pegaTodosProdutos(listaComprasDAO.todos());
     }
 //==================================================================================================
     private void bindDosElementos() {
@@ -247,6 +249,8 @@ public class VendasActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 realizaVerificacao();
+                listaComprasDAO.removeTodos(listaCompras);
+                listaComprasDAO.salva(listaCompras);
             }
         });
 
@@ -535,6 +539,7 @@ public class VendasActivity extends AppCompatActivity {
                                 } else {
                                     //INSERINDO VALORES NA VENDA
                                     insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                    listaComprasDAO.removeTodos(listaCompras);
                                     Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
@@ -545,38 +550,51 @@ public class VendasActivity extends AppCompatActivity {
                     if (escolhaFormaPagamento.equals(CARTAO_DE_DEBITO)) {
                         //INSERINDO VALORES NA VENDA
                         insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                        listaComprasDAO.removeTodos(listaCompras);
                         Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                         finish();
                     }
 
                     if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
-                        String cliente = campoClienteCC.getText().toString();
-                        String parcela = parcelas.getText().toString();
-                        String tax = taxa.getText().toString();
-                        double dtax = Double.parseDouble(tax);;
-                        double dparcela = Double.parseDouble(parcela);
-                        if (cliente == null || cliente.equals("")) {
-                            Toast.makeText(context, "Preencha o campo Cliente", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (parcela == null || parcela.equals("")) {
-                                Toast.makeText(context, "Preencha a Quantidade de Parcelas", Toast.LENGTH_SHORT).show();
+                        if(escolhaCcParcelamento.equals(A_VISTA)){
+                            //INSERINDO VALORES NA VENDA
+                            insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                            listaComprasDAO.removeTodos(listaCompras);
+                            Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                        if(escolhaCcParcelamento.equals(PARCELADO)) {
+                            String cliente = campoClienteCC.getText().toString();
+                            String parcela = parcelas.getText().toString();
+                            String tax = taxa.getText().toString();
+                            double dtax = Double.parseDouble(tax);
+                            double dparcela = Double.parseDouble(parcela);
+                            if (cliente == null || cliente.equals("")) {
+                                Toast.makeText(context, "Preencha o campo Cliente", Toast.LENGTH_SHORT).show();
                             } else {
-                                if(dparcela < 1){
-                                    Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
-                                }else{
-                                if (tax == null || tax.equals("")) {
-                                    Toast.makeText(context, "Preencha a taxa", Toast.LENGTH_SHORT).show();
+                                if (parcela == null || parcela.equals("")) {
+                                    Toast.makeText(context, "Preencha a Quantidade de Parcelas", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    if(dtax < 0){
-                                        Toast.makeText(context, "O valor não pode ser menor que Zero ", Toast.LENGTH_SHORT).show();
-                                    }else{
-                                    venda.setCliente(pegaClienteDoCampoCC);
-                                    //INSERINDO VALORES NA VENDA
-                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
-                                    Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
-                                    finish();
-                                }}
-                            }}
+                                    if (dparcela < 1) {
+                                        Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (tax == null || tax.equals("")) {
+                                            Toast.makeText(context, "Preencha a taxa", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            if (dtax < 0) {
+                                                Toast.makeText(context, "O valor não pode ser menor que Zero ", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                venda.setCliente(pegaClienteDoCampoCC);
+                                                //INSERINDO VALORES NA VENDA
+                                                insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                                listaComprasDAO.removeTodos(listaCompras);
+                                                Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                                                finish();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -593,6 +611,7 @@ public class VendasActivity extends AppCompatActivity {
                                 contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
                                 //INSERINDO VALORES NA VENDA
                                 insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                listaComprasDAO.removeTodos(listaCompras);
                                 Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
                                 finish();
                             }

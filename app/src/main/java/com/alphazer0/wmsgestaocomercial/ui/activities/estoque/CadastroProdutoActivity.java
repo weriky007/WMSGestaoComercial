@@ -148,9 +148,9 @@ public class CadastroProdutoActivity extends AppCompatActivity {
 
     //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
-        String codigoBarras = campoIdCod.getText().toString();
-        String categoria = campoCategoria.getText().toString();
-        String produto = campoProduto.getText().toString();
+        String codigoBarras = campoIdCod.getText().toString().trim().trim().trim();
+        String categoria = campoCategoria.getText().toString().trim().trim().trim();
+        String produto = campoProduto.getText().toString().trim().trim().trim();
         String marca = campoMarca.getText().toString();
         String discriminacao = campoDiscriminacao.getText().toString();
         String precoCompra = campoPrecoCompra.getText().toString();

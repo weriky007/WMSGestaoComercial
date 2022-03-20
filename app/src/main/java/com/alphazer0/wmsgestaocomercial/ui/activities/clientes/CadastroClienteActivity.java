@@ -152,7 +152,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
     //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
-        String nomeCompleto = campoNomeCompleto.getText().toString();
+        String nomeCompleto = campoNomeCompleto.getText().toString().trim().trim().trim();
         String dataNascimento = campoDataNascimento.getText().toString();
         String cpf = campoCpf.getText().toString();
         String rg = campoRg.getText().toString();

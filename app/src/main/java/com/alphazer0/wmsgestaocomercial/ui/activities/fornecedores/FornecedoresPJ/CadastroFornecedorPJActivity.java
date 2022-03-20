@@ -142,9 +142,9 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
 
     //==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
-        String razaoSocial = campoRazaoSocial.getText().toString();
-        String nomeFantasia = campoNomeFantasia.getText().toString();
-        String cnpj = campoCNPJ.getText().toString();
+        String razaoSocial = campoRazaoSocial.getText().toString().trim().trim().trim();
+        String nomeFantasia = campoNomeFantasia.getText().toString().trim().trim().trim();
+        String cnpj = campoCNPJ.getText().toString().trim().trim().trim();
         String ie = campoIE.getText().toString();
 
         String celular1 = campoCelular1.getText().toString();
