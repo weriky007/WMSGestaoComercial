@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ConfiguracaoIOEstoqueVendas {
 
-    public void devolveItemAoEstoque(RoomProdutoDAO produtoDao, Produto produto,List<Produto> produtos, BigDecimal total,TextView valorTotal,ListaProdutosVendasAdapter produtosVendaAdapter, List<Produto> listaCompras) {
+    public void devolveItemAoEstoque(RoomProdutoDAO produtoDao, Produto produto, List<Produto> produtos, BigDecimal total, TextView valorTotal, ListaProdutosVendasAdapter produtosVendaAdapter, List<Produto> listaCompras) {
 
         List<Produto> p = produtoDao.todosProdutos();
         int qtdProduto = 0;
@@ -30,8 +30,8 @@ public class ConfiguracaoIOEstoqueVendas {
         //fazer ele devolver o item ao estoque
         Produto produtoLocalizado = new Produto();
         Produto produtoLocalizado2 = new Produto();
-        for(int i = 0;i<p.size();i++){
-            if(produto.getIdCod().equals(produtos.get(i).getIdCod())) {
+        for (int i = 0; i < p.size(); i++) {
+            if (produto.getIdCod().equals(produtos.get(i).getIdCod())) {
                 qtdProduto = Integer.parseInt(produto.getQuantidade());
                 qtdProdutos = Integer.parseInt(produtos.get(i).getQuantidade());
                 produtoLocalizado = produtos.get(i);
@@ -43,7 +43,7 @@ public class ConfiguracaoIOEstoqueVendas {
         produtoLocalizado.setQuantidade(res);
         produtoDao.editaProduto(produtoLocalizado);
 
-        subtraiValorDoTotal(listaCompras,produto,valorTotal);
+        subtraiValorDoTotal(listaCompras, produto, valorTotal);
         produtosVendaAdapter.remove(produto);
         listaCompras.remove(produto);
         produtosVendaAdapter.notifyDataSetChanged();
@@ -54,8 +54,8 @@ public class ConfiguracaoIOEstoqueVendas {
         String svl = "";
         String total = valorTotal.getText().toString();
         Produto produtoF = new Produto();
-        for(int i=0;i<listaCompras.size();i++){
-            if(produto.equals(listaCompras.get(i))){
+        for (int i = 0; i < listaCompras.size(); i++) {
+            if (produto.equals(listaCompras.get(i))) {
                 produtoF = listaCompras.get(i);
             }
         }
@@ -72,55 +72,50 @@ public class ConfiguracaoIOEstoqueVendas {
 
         valorTotal.setText(vl.toString());
     }
+
 //==================================================================================================
-    public void diminuiItemDoEstoque(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras){
-        String tituloProduto = campoProduto.getText().toString().trim();
-        String codigoBarras = campoCodigoBarras.getText().toString().trim();
-        Produto produtoLocalizado = new Produto();
+    public void diminuiItemDoEstoque(Context context, String campoProduto, String campoCodigoBarras, List<Produto> produtos, String campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras) {
+        String tituloProduto = campoProduto;
+        String codigoBarras = campoCodigoBarras;;
+        produtos = produtoDao.todosProdutos();
         Produto produtoLocalizado2 = new Produto();
 
-        for(int a =0; a<produtos.size();a++){
-            if(tituloProduto.equals(produtos.get(a).getProduto()) || codigoBarras.equals(produtos.get(a).getIdCod())){
-                produtoLocalizado =produtos.get(a);
-                produtoLocalizado2 =produtos.get(a);
+        for (int a = 0; a < produtos.size(); a++) {
+            if (tituloProduto.equals(produtos.get(a).getProduto()) || codigoBarras.equals(produtos.get(a).getIdCod())) {
+                produtoLocalizado2 = produtos.get(a);
             }
         }
 
         int qtdBD = Integer.parseInt(produtoLocalizado2.getQuantidade());
-        int qtdVenda = Integer.parseInt(campoQuantidade.getText().toString());
-        if(qtdVenda > qtdBD){
-            Toast.makeText(context, "A quantidade não pode ser maior que o estoque"+" | "+"Qantidade Estoque: "+qtdBD, Toast.LENGTH_LONG).show();
-        }else {
+        int qtdVenda = Integer.parseInt(campoQuantidade);
+
             int result = qtdBD - qtdVenda;
             resultadoQuantidade = Integer.toString(result);
             produtoLocalizado2.setQuantidade(resultadoQuantidade);
             produtoDao.editaProduto(produtoLocalizado2);
-
-            produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
-            listaCompras.add(produtoLocalizado);
-        }
     }
-
-    public void insereProduto(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras){
+//==================================================================================================
+    public void insereProduto(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras) {
         String tituloProduto = campoProduto.getText().toString().trim();
         String codigoBarras = campoCodigoBarras.getText().toString().trim();
         Produto produtoLocalizado = new Produto();
-        Produto produtoLocalizado2 = new Produto();
+        Produto produtoBD = new Produto();
 
-        for(int a =0; a<produtos.size();a++){
-            if(tituloProduto.equals(produtos.get(a).getProduto()) || codigoBarras.equals(produtos.get(a).getIdCod())){
-                produtoLocalizado =produtos.get(a);
-                produtoLocalizado2 =produtos.get(a);
+        for (int a = 0; a < produtos.size(); a++) {
+            if (tituloProduto.equals(produtos.get(a).getProduto()) || codigoBarras.equals(produtos.get(a).getIdCod())) {
+                produtoLocalizado = produtos.get(a);
+                produtoBD = produtos.get(a);
             }
         }
 
-        int qtdBD = Integer.parseInt(produtoLocalizado2.getQuantidade());
+        int qtdBD = Integer.parseInt(produtoBD.getQuantidade());
         int qtdVenda = Integer.parseInt(campoQuantidade.getText().toString());
-        if(qtdVenda > qtdBD){
-            Toast.makeText(context, "A quantidade não pode ser maior que o estoque"+" | "+"Qantidade Estoque: "+qtdBD, Toast.LENGTH_LONG).show();
-        }else {
+        if (qtdVenda > qtdBD) {
+            Toast.makeText(context, "A quantidade não pode ser maior que o estoque" + " | " + "Qantidade Estoque: " + qtdBD, Toast.LENGTH_LONG).show();
+        } else {
             produtoLocalizado.setQuantidade(campoQuantidade.getText().toString());
             listaCompras.add(produtoLocalizado);
         }
     }
+//==================================================================================================
 }

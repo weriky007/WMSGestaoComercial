@@ -175,8 +175,11 @@ public class VendasActivity extends AppCompatActivity {
     private EditText parcelas;
     private EditText taxa;
     private CalendarView contaData;
+    private String codigoBarras;
+    private String produto;
+    private String quantidade;
 
-//==================================================================================================
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,9 +269,9 @@ public class VendasActivity extends AppCompatActivity {
 
     //VERIFICACAO DOS CAMPOS DE ADICAO DA LISTA DE COMPRAS
     private void realizaVerificacao() {
-        String codigoBarras = campoCodigoBarras.getText().toString();
-        String produto = campoProduto.getText().toString();
-        String quantidade = campoQuantidade.getText().toString();
+        codigoBarras = campoCodigoBarras.getText().toString();
+        produto = campoProduto.getText().toString();
+        quantidade = campoQuantidade.getText().toString();
 
         if (codigoBarras == null || codigoBarras.equals("")) {
             Toast.makeText(context, "Preencha o Código de Barras", Toast.LENGTH_SHORT).show();
@@ -284,7 +287,7 @@ public class VendasActivity extends AppCompatActivity {
                         Toast.makeText(context, "O valor tem que ser maior que 0", Toast.LENGTH_SHORT).show();
                     }else {
                         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
-                        configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
+                        configuracaoIOEstoqueVendas.insereProduto(context, campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
                         calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
                     }
                 }
@@ -540,6 +543,7 @@ public class VendasActivity extends AppCompatActivity {
                                     //INSERINDO VALORES NA VENDA
                                     insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                     listaComprasDAO.removeTodos(listaCompras);
+                                    configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
                                     Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
@@ -551,6 +555,7 @@ public class VendasActivity extends AppCompatActivity {
                         //INSERINDO VALORES NA VENDA
                         insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                         listaComprasDAO.removeTodos(listaCompras);
+                        configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
                         Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -560,6 +565,7 @@ public class VendasActivity extends AppCompatActivity {
                             //INSERINDO VALORES NA VENDA
                             insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                             listaComprasDAO.removeTodos(listaCompras);
+                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
                             Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                             finish();
                         }
@@ -588,6 +594,7 @@ public class VendasActivity extends AppCompatActivity {
                                                 //INSERINDO VALORES NA VENDA
                                                 insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                                 listaComprasDAO.removeTodos(listaCompras);
+                                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
                                                 Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                                 finish();
                                             }
@@ -612,6 +619,7 @@ public class VendasActivity extends AppCompatActivity {
                                 //INSERINDO VALORES NA VENDA
                                 insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                 listaComprasDAO.removeTodos(listaCompras);
+                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
                                 Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
                                 finish();
                             }
