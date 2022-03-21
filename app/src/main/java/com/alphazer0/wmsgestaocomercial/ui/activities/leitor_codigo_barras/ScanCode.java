@@ -10,7 +10,7 @@ public class ScanCode {
         integrator.setCaptureActivity(CaptureCodeActivity.class);
         integrator.setOrientationLocked(false);
         integrator.setDesiredBarcodeFormats(integrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Ligar|Desligar luz:Vol+|Vol-");
+        integrator.setPrompt("Ligar|Desligar Lanterna:Vol+|Vol-");
         integrator.initiateScan();
     }
 }
