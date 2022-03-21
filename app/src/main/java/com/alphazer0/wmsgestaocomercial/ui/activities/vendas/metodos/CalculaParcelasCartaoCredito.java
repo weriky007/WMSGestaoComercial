@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos;
 
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;

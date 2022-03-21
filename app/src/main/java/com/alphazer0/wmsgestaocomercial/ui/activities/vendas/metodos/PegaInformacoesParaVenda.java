@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import java.util.ArrayList;

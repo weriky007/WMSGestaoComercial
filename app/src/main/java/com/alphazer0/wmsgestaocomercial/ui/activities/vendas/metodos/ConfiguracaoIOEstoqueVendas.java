@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos;
 
 import android.app.AlertDialog;
 import android.content.Context;

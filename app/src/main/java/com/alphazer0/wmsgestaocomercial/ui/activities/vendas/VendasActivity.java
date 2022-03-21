@@ -52,6 +52,17 @@ import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.dao.ListaComprasDAO;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.BuscaCodigoDeBarras;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.BuscaProduto;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.CalculaParcelasCartaoCredito;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.CalculaRecebimentoEmDinheiro;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.CalculaValorTotalDaVenda;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ConfiguraDataHora;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ConfiguraLeitorCodigoDeBarras;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ConfiguracaoIOEstoqueVendas;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ContaDoCliente;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.InsereValoresNaVenda;
+import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.PegaInformacoesParaVenda;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaProdutosVendasAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -629,8 +640,6 @@ public class VendasActivity extends AppCompatActivity {
                                 Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
                                 finish();
                             }
-
-
                         }
                     }
 
@@ -644,7 +653,6 @@ public class VendasActivity extends AppCompatActivity {
                 .getWindow()
                 .setBackgroundDrawable(inset);
     }
-
 //==================================================================================================
     private void checaParcelamentoCC(View layoutCC, View layoutCCParcelas, LinearLayout layoutParcelasCC) {
         radioGroupParcelaCC.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

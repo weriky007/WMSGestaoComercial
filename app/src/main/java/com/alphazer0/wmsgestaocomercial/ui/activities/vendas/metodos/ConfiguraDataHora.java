@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
