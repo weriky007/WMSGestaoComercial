@@ -27,6 +27,7 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ProdutosDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomProdutoDAO;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
+import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -56,6 +57,8 @@ import javax.net.ssl.HttpsURLConnection;
 public class CadastroProdutoActivity extends AppCompatActivity {
 
     private int verificaExistente;
+    private ScanCode scanCode = new ScanCode();
+    private Activity activity = this;
 
     public CadastroProdutoActivity() throws SQLException {
     }
@@ -431,17 +434,10 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         });
 
 
-        final Activity activity = this;
         btnLerCodigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-                integrator.setPrompt("Ativar/Desativar Lanterna: Volume+/-");
-                integrator.setCameraId(0);
-                integrator.setTorchEnabled(true);
-                integrator.setBeepEnabled(true);
-                integrator.initiateScan();
+                scanCode.scanCode(activity);
             }
         });
     }

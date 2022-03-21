@@ -58,11 +58,11 @@ import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.CalculaParc
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.CalculaRecebimentoEmDinheiro;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.CalculaValorTotalDaVenda;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ConfiguraDataHora;
-import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ConfiguraLeitorCodigoDeBarras;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ConfiguracaoIOEstoqueVendas;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.ContaDoCliente;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.InsereValoresNaVenda;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.metodos.PegaInformacoesParaVenda;
+import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaProdutosVendasAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -159,12 +159,12 @@ public class VendasActivity extends AppCompatActivity {
     private CalculaValorTotalDaVenda calculaValorTotalDaVenda = new CalculaValorTotalDaVenda();
     private BuscaCodigoDeBarras buscaCodigoDeBarras = new BuscaCodigoDeBarras();
     private BuscaProduto buscaProduto = new BuscaProduto();
-    private ConfiguraLeitorCodigoDeBarras configuraLeitorCodigoDeBarras = new ConfiguraLeitorCodigoDeBarras();
     private ContaDoCliente contaDoCliente = new ContaDoCliente();
     private CalculaRecebimentoEmDinheiro calculaRecebimentoEmDinheiro = new CalculaRecebimentoEmDinheiro();
     private CalculaParcelasCartaoCredito calculaParcelasCartaoCredito = new CalculaParcelasCartaoCredito();
     private ConfiguraDataHora configuraDataHora = new ConfiguraDataHora();
     private InsereValoresNaVenda insereValoresNaVenda = new InsereValoresNaVenda();
+    private ScanCode scanCode = new ScanCode();
 
     //CONFIGURACAO SCRIPT E PLANILHA BASE DADOS
     String linkMacro = LINK_MACRO;
@@ -189,6 +189,8 @@ public class VendasActivity extends AppCompatActivity {
     private String codigoBarras;
     private String produto;
     private String quantidade;
+
+    private Activity activity = this;
 
     //==================================================================================================
     @Override
@@ -388,14 +390,15 @@ public class VendasActivity extends AppCompatActivity {
     }
 
     private void configuraLeitor() {
-        final Activity activity = this;
-        fabLerCodigo.setOnClickListener(new View.OnClickListener() {
+                fabLerCodigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                configuraLeitorCodigoDeBarras.configuraLeitor(activity);
+              scanCode.scanCode(activity);
             }
         });
     }
+
+
 //==================================================================================================
     //CONFIGURA BOTAO VOLTAR DO ANDROID
     @Override
