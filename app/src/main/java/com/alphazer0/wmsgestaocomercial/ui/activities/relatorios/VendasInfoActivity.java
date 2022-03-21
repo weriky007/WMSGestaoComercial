@@ -1,11 +1,9 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.relatorios;
 
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_FORNECEDORPJ;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_VENDA;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.VendasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomVendasDAO;
-import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaInfoProdutosVendaAdapter;
@@ -37,7 +34,7 @@ public class VendasInfoActivity extends AppCompatActivity {
     private TextView cliente;
     private TextView total;
     private TextView tipoPagamento;
-    private TextView nParcelas;
+    private TextView condicional;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class VendasInfoActivity extends AppCompatActivity {
         cliente = findViewById(R.id.info_txt_list_venda_cliente);
         total = findViewById(R.id.info_txt_list_valor_total);
         tipoPagamento = findViewById(R.id.info_txt_list_vendas_tipo_pagamento);
-        nParcelas = findViewById(R.id.info_txt_list_vendas_nparcelas);
+        condicional = findViewById(R.id.info_txt_list_vendas_nparcelas);
 
         data.setText(vendaRecebida.getData());
         hora.setText(vendaRecebida.getHora());
@@ -73,9 +70,12 @@ public class VendasInfoActivity extends AppCompatActivity {
         String snParcelas = vendaRecebida.getParcelasCC();
         try{
         if(snParcelas != null || !snParcelas.equals("")) {
-            nParcelas.setText("Parcelas: "+vendaRecebida.getParcelasCC()+" | "+"Valor: R$"+vendaRecebida.getVlParcelas());
+            condicional.setText("Parcelas: "+vendaRecebida.getParcelasCC()+" | "+"Valor: R$"+vendaRecebida.getVlParcelas());
         }}catch (NullPointerException n){
             n.printStackTrace();
+        }
+        if (tipoPagamento.getText().equals("Conta Cliente")){
+            condicional.setText("Data vencimento: "+vendaRecebida.getDataVencimento());
         }
     }
 

@@ -385,7 +385,13 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
+//==================================================================================================
+    //CONFIGURA BOTAO VOLTAR DO ANDROID
+    @Override
+    public void onBackPressed() {
+        listaComprasDAO.removeTodos(listaCompras);
+        finish();
+    }
 //==================================================================================================
     //MENU ITENS LISTA REMOCAO
     @Override
@@ -503,7 +509,7 @@ public class VendasActivity extends AppCompatActivity {
         alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
             //CONFIGURA DATA E HORA
             SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat formataHora = new SimpleDateFormat("hh:mm:ss");
+            SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
             Date dataAtual = new Date();
             Date horaAtual = new Date();
             String dataFormatada = formataData.format(dataAtual);
@@ -688,7 +694,6 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
 //==================================================================================================
     private void checaEscolhasPagamento(View layoutConcluiVenda, View layoutDinheiro, View layoutCC, View layoutCalendarioContaCliente, LinearLayout layoutPagamentoDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente) {
         radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -837,6 +842,11 @@ public class VendasActivity extends AppCompatActivity {
 
         if (put == 3) {
             action = DELETE_PRODUTO;
+        }
+        if (put == 1) {
+            action = "addVenda";
+            venda = vendas.get(vendas.size() - 1);
+            id = venda.getId();
         }
 
         enviaDados.put(PASTA, ID_PASTA);
