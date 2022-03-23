@@ -13,6 +13,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.TITULO_APPBAR_CADASTRO_CLIENTE;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,11 +60,10 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle saveIntanceState) {
-        ActionBar bar = getSupportActionBar();
-//        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFB0000")));
         super.onCreate(saveIntanceState);
         setTitle(TITULO_APPBAR_CADASTRO_CLIENTE);
         setContentView(R.layout.activity_formulario_dados_cliente);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         ClientesDatabase dataBase = ClientesDatabase.getInstance(this);
         dao = dataBase.getClienteDAO();

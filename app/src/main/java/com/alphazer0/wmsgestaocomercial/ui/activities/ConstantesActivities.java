@@ -37,5 +37,6 @@ public interface ConstantesActivities {
     String FORNECEDORESPF_PLAN="FornecedoresPF";
     String FORNECEDORESPJ_PLAN="FornecedoresPJ";
     String PRODUTOS_PLAN="Produtos";
+    String VENDAS_PLAN="Vendas";
 //--------------------------------------------------------------------------------------------------
 }

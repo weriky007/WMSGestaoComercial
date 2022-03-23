@@ -4,12 +4,14 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.vendas;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.ID_PASTA;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.LINK_MACRO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.PRODUTOS_PLAN;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.VENDAS_PLAN;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
@@ -191,6 +193,7 @@ public class VendasActivity extends AppCompatActivity {
     private String quantidade;
 
     private Activity activity = this;
+    private int verificaConcluirCompra;
 
     //==================================================================================================
     @Override
@@ -198,6 +201,7 @@ public class VendasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendas);
         setTitle(VENDAS);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         bindDosElementos();
         configuraAdapter();
         configuraLista();
@@ -520,141 +524,151 @@ public class VendasActivity extends AppCompatActivity {
     private void configuraAlertDialog(InsetDrawable inset, AlertDialog.Builder alertDialog) {
 
         //CONFIGURA BOTAO POSITIVO
-        alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
-            //CONFIGURA DATA E HORA
-            SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
-            Date dataAtual = new Date();
-            Date horaAtual = new Date();
-            String dataFormatada = formataData.format(dataAtual);
-            String horaFormatada = formataHora.format(horaAtual);
+            alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
+                //CONFIGURA DATA E HORA
+                SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
+                Date dataAtual = new Date();
+                Date horaAtual = new Date();
+                String dataFormatada = formataData.format(dataAtual);
+                String horaFormatada = formataHora.format(horaAtual);
 
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String vlTotal = valorTotal.getText().toString();
-                double dvlTotal = Double.parseDouble(vlTotal);
-                String pegaClienteDoCampoCC = campoClienteCC.getText().toString();
-
-                if (vlTotal.equals("0.00") && dvlTotal <= 0) {
-                    Toast.makeText(context, "Adicione produtos a lista", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if (escolhaFormaPagamento.equals(DINHEIRO)) {
-                        String svlRecebido = vlRecebido.getText().toString();
-                        String sTroco = troco.getText().toString();
-                        String svlTotal = valorTotal.getText().toString();
-
-                        if (svlRecebido.equals(null) || svlRecebido.equals("")) {
-                            Toast.makeText(context, "Preecha o valor Recebido", Toast.LENGTH_SHORT).show();
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String pegaClienteDoCampoCC = campoClienteCC.getText().toString();
+                    put = 1;
+                    try {
+                        if (escolhaFormaPagamento.equals("") || escolhaFormaPagamento == null) {
+                            Toast.makeText(context, "Escolha uma forma de Pagamento", Toast.LENGTH_SHORT).show();
                         } else {
-                            double dvlRecebido = Double.parseDouble(svlRecebido);
-                            if(dvlRecebido == 0 || dvlRecebido <0){
-                                Toast.makeText(context, "O valor tem que ser maior que 0", Toast.LENGTH_SHORT).show();
-                            }else{
-                            if (sTroco.equals("0.00")) {
-                                Toast.makeText(context, "Clique em OK para calcular o troco", Toast.LENGTH_SHORT).show();
-                            } else {
-                                double dtotal = Double.parseDouble(svlTotal);
-                                double dvalorRecebido = Double.parseDouble(svlRecebido);
 
-                                if (dvalorRecebido < dtotal) {
-                                    Toast.makeText(context, "O valor Recebido Não pode ser menor do que o Total", Toast.LENGTH_SHORT).show();
+                            if (escolhaFormaPagamento.equals(DINHEIRO)) {
+                                String svlRecebido = vlRecebido.getText().toString();
+                                String sTroco = troco.getText().toString();
+                                String svlTotal = valorTotal.getText().toString();
+
+                                if (svlRecebido.equals(null) || svlRecebido.equals("")) {
+                                    Toast.makeText(context, "Preecha o valor Recebido", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    //INSERINDO VALORES NA VENDA
-                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
-                                    listaComprasDAO.removeTodos(listaCompras);
-                                    configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
-                                    Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
-                                    finish();
-                                }
-                            }
-                        }}
-                    }
-
-                    if (escolhaFormaPagamento.equals(CARTAO_DE_DEBITO)) {
-                        //INSERINDO VALORES NA VENDA
-                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
-                        listaComprasDAO.removeTodos(listaCompras);
-                        configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
-                        Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
-
-                    if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
-                        if(escolhaCcParcelamento.equals(A_VISTA)){
-                            //INSERINDO VALORES NA VENDA
-                            insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
-                            listaComprasDAO.removeTodos(listaCompras);
-                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
-                            Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                        if(escolhaCcParcelamento.equals(PARCELADO)) {
-                            String cliente = campoClienteCC.getText().toString();
-                            String parcela = parcelas.getText().toString();
-                            String tax = taxa.getText().toString();
-                            double dtax = Double.parseDouble(tax);
-                            double dparcela = Double.parseDouble(parcela);
-                            if (cliente == null || cliente.equals("")) {
-                                Toast.makeText(context, "Preencha o campo Cliente", Toast.LENGTH_SHORT).show();
-                            } else {
-                                if (parcela == null || parcela.equals("")) {
-                                    Toast.makeText(context, "Preencha a Quantidade de Parcelas", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    if (dparcela < 1) {
-                                        Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                                    double dvlRecebido = Double.parseDouble(svlRecebido);
+                                    if (dvlRecebido == 0 || dvlRecebido < 0) {
+                                        Toast.makeText(context, "O valor tem que ser maior que 0", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        if (tax == null || tax.equals("")) {
-                                            Toast.makeText(context, "Preencha a taxa", Toast.LENGTH_SHORT).show();
+                                        if (sTroco.equals("0.00")) {
+                                            Toast.makeText(context, "Clique em OK para calcular o troco", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            if (dtax < 0) {
-                                                Toast.makeText(context, "O valor não pode ser menor que Zero ", Toast.LENGTH_SHORT).show();
+                                            double dtotal = Double.parseDouble(svlTotal);
+                                            double dvalorRecebido = Double.parseDouble(svlRecebido);
+
+                                            if (dvalorRecebido < dtotal) {
+                                                Toast.makeText(context, "O valor Recebido Não pode ser menor do que o Total", Toast.LENGTH_SHORT).show();
                                             } else {
-                                                venda.setCliente(pegaClienteDoCampoCC);
                                                 //INSERINDO VALORES NA VENDA
                                                 insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                                 listaComprasDAO.removeTodos(listaCompras);
-                                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
+                                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidade, resultadoQuantidade, produtoDao, listaCompras);
+                                                new SendRequest().execute();
                                                 Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                                                verificaConcluirCompra = 1;
                                                 finish();
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                    }
 
-                    if (escolhaFormaPagamento.equals(CONTA_CLIENTE)) {
-                        String cliente = campoClienteConta.getText().toString();
-                        String a = "";
-                        a = dataContaCliente;
-                        if (cliente == null || cliente.equals("")) {
-                            Toast.makeText(context, "Preencha o Campo Cliente", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (a == null || a.equals("")) {
-                                Toast.makeText(context, "Escolha uma data de vencimento", Toast.LENGTH_SHORT).show();
-                            } else {
-                                contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
+                            if (escolhaFormaPagamento.equals(CARTAO_DE_DEBITO)) {
                                 //INSERINDO VALORES NA VENDA
                                 insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                 listaComprasDAO.removeTodos(listaCompras);
-                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produto,codigoBarras,produtos,quantidade,resultadoQuantidade,produtoDao,listaCompras);
-                                Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
+                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidade, resultadoQuantidade, produtoDao, listaCompras);
+                                new SendRequest().execute();
+                                Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                 finish();
                             }
+
+                            if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
+                                if (escolhaCcParcelamento.equals(A_VISTA)) {
+                                    //INSERINDO VALORES NA VENDA
+                                    insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                    listaComprasDAO.removeTodos(listaCompras);
+                                    configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidade, resultadoQuantidade, produtoDao, listaCompras);
+                                    new SendRequest().execute();
+                                    Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                                if (escolhaCcParcelamento.equals(PARCELADO)) {
+                                    String cliente = campoClienteCC.getText().toString();
+                                    String parcela = parcelas.getText().toString();
+                                    String tax = taxa.getText().toString();
+                                    double dtax = Double.parseDouble(tax);
+                                    double dparcela = Double.parseDouble(parcela);
+                                    if (cliente == null || cliente.equals("")) {
+                                        Toast.makeText(context, "Preencha o campo Cliente", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (parcela == null || parcela.equals("")) {
+                                            Toast.makeText(context, "Preencha a Quantidade de Parcelas", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            if (dparcela < 1) {
+                                                Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                if (tax == null || tax.equals("")) {
+                                                    Toast.makeText(context, "Preencha a taxa", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    if (dtax < 0) {
+                                                        Toast.makeText(context, "O valor não pode ser menor que Zero ", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        venda.setCliente(pegaClienteDoCampoCC);
+                                                        //INSERINDO VALORES NA VENDA
+                                                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                                        listaComprasDAO.removeTodos(listaCompras);
+                                                        configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidade, resultadoQuantidade, produtoDao, listaCompras);
+                                                        new SendRequest().execute();
+                                                        Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
+                                                        finish();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (escolhaFormaPagamento.equals(CONTA_CLIENTE)) {
+                                String cliente = campoClienteConta.getText().toString();
+                                String a = "";
+                                a = dataContaCliente;
+                                if (cliente == null || cliente.equals("")) {
+                                    Toast.makeText(context, "Preencha o Campo Cliente", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (a == null || a.equals("")) {
+                                        Toast.makeText(context, "Escolha uma data de vencimento", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
+                                        //INSERINDO VALORES NA VENDA
+                                        insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                        listaComprasDAO.removeTodos(listaCompras);
+                                        configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidade, resultadoQuantidade, produtoDao, listaCompras);
+                                        new SendRequest().execute();
+                                        Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }
+                            }
                         }
+                    }catch (NullPointerException n){
+                        n.printStackTrace();
                     }
-
                 }
-            }
-        });
+            });
 
-        //CONFIGURA  BOTAO NEGATIVO
-        alertDialog.setNegativeButton(CANCELAR, null)
-                .show()
-                .getWindow()
-                .setBackgroundDrawable(inset);
+        
+            //CONFIGURA  BOTAO NEGATIVO
+            alertDialog.setNegativeButton(CANCELAR, null)
+                    .show()
+                    .getWindow()
+                    .setBackgroundDrawable(inset);
+
     }
 //==================================================================================================
     private void checaParcelamentoCC(View layoutCC, View layoutCCParcelas, LinearLayout layoutParcelasCC) {
@@ -861,9 +875,18 @@ public class VendasActivity extends AppCompatActivity {
         }
 
         enviaDados.put(PASTA, ID_PASTA);
-        enviaDados.put(PLANILHA, PRODUTOS_PLAN);
+        enviaDados.put(PLANILHA, VENDAS_PLAN);
         enviaDados.put(ACTION, action);
-        enviaDados.put(ID_PRODUTO, id);
+        enviaDados.put("idVenda",venda.getId());
+        enviaDados.put("dataVenda",venda.getData());
+        enviaDados.put("horaVenda",venda.getHora());
+        enviaDados.put("clienteVenda",venda.getCliente());
+        enviaDados.put("valorVenda",venda.getVlTotal());
+        enviaDados.put("formaPagamentoVenda",venda.getFormaPagamento());
+        enviaDados.put("qtdParcelas",venda.getParcelasCC());
+        enviaDados.put("vlParcelas",venda.getVlParcelas());
+        enviaDados.put("dataVencimento",venda.getDataVencimento());
+        enviaDados.put("produto",listaCompras);
 
         Log.e("params", enviaDados.toString());
         return enviaDados;

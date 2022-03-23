@@ -3,6 +3,7 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.relatorios;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_VENDA;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ public class VendasInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacoes_venda);
         setTitle(INFORMAÇÕES_VENDA);
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         insereDados();
         configuraAdapter();
         configuraLista();

@@ -3,6 +3,7 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.clientes;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import com.alphazer0.wmsgestaocomercial.model.Cliente;
 
 public class InformacoesCliente extends AppCompatActivity {
 
+    public static final String INFORMAÇÕES_CLIENTE = "Informações Cliente";
     private Cliente clienteRecebido = new Cliente();
     private TextView nome;
     private TextView dataNascimento;
@@ -41,7 +43,8 @@ public class InformacoesCliente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacoes_cliente);
-        setTitle("Informações Cliente");
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+        setTitle(INFORMAÇÕES_CLIENTE);
 
         insereDadosPessoais();
         insereDadosContato();

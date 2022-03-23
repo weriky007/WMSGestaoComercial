@@ -9,6 +9,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,6 +71,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         super.onCreate(saveIntanceState);
         setTitle(TITULO_APPBAR_CADASTRO_DE_PRODUTOS);
         setContentView(R.layout.activity_formulario_dados_produtos);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         ProdutosDatabase dataBase = ProdutosDatabase.getInstance(this);
         dao = dataBase.getProdutoDAO();

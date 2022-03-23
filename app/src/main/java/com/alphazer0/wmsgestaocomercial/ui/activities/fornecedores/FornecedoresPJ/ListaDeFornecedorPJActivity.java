@@ -10,6 +10,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,6 +75,7 @@ public class ListaDeFornecedorPJActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_fornecedorespj);
         setTitle(TITULO_APPBAR_LISTA_DE_FORNECEDORES_PJ);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         configuraAdapter();
         configuraLista();

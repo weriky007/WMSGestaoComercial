@@ -3,6 +3,7 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.TITULO_APPBAR_FORNECEDORES;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class FornecedoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fornecedores);
         setTitle(TITULO_APPBAR_FORNECEDORES);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         bindDosElementos();
         configuraContadorFornecedores();
         configuraBotoes();

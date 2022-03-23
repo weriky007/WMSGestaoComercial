@@ -1,4 +1,5 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.relatorios;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,7 @@ public class RelatorioTodasVendas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_relatorio_todas_vendas);
         setTitle(HISTÓRICO_DE_VENDAS);
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         configuraAdapter();
         configuraLista();
     }

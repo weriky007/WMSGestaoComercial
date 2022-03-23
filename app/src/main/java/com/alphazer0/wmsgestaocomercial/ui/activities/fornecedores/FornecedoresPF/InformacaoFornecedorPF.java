@@ -5,6 +5,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
 
 public class InformacaoFornecedorPF extends AppCompatActivity {
+    public static final String INFORMAÇÕES_FORNECEDOR_PF = "Informações FornecedorPF";
     FornecedorPF fornecedorPFRecebido = new FornecedorPF();
     private TextView nome;
     private TextView dataNascimento;
@@ -44,7 +46,8 @@ public class InformacaoFornecedorPF extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacoes_fornecedorpf);
-        setTitle("Informações FornecedorPF");
+        setTitle(INFORMAÇÕES_FORNECEDOR_PF);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         insereDadosPessoais();
         insereDadosContato();

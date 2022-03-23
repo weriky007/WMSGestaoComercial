@@ -12,6 +12,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.TITULO_APPBAR_CADASTRO_FORNECEDOR_PJ;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +60,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
         super.onCreate(saveIntanceState);
         setTitle(TITULO_APPBAR_CADASTRO_FORNECEDOR_PJ);
         setContentView(R.layout.activity_formulario_dados_fornecedorpj);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         FornecedoresPJDatabase dataBase = FornecedoresPJDatabase.getInstance(this);
         dao = dataBase.getFornecedorPJDAO();

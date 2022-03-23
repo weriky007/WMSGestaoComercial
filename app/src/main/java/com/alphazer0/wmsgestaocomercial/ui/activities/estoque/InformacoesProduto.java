@@ -3,6 +3,7 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.estoque;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_PRODUTO;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.model.Produto;
 
 public class InformacoesProduto extends AppCompatActivity {
+    public static final String INFORMAÇÕES_PRODUTO = "Informações Produto";
     Produto produtoRecebido = new Produto();
     private TextView codBarras;
     private TextView categoria;
@@ -32,7 +34,8 @@ public class InformacoesProduto extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacoes_estoque_produto);
-        setTitle("Informações Produto");
+        setTitle(INFORMAÇÕES_PRODUTO);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         insereDadosProduto();
     }
