@@ -269,7 +269,7 @@ public class VendasActivity extends AppCompatActivity {
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+             //ESTA SOBREESCRITO ABAIXO
             }
         });
        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
@@ -283,6 +283,8 @@ public class VendasActivity extends AppCompatActivity {
         alertDialog.show();
         alertDialog.getWindow().setBackgroundDrawable(inset);
         Button btn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+
+        //SOBREESCREVENDO O CLICK DO BOTAO POSITIVO
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -542,11 +544,9 @@ public class VendasActivity extends AppCompatActivity {
 
         //CONFIGURA BOTAO POSITIVO
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,CONCLUIR, new DialogInterface.OnClickListener() {
-
-
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                 //ESTA SOBREESCRITO ABAIXO
                 }
             });
 
@@ -559,8 +559,11 @@ public class VendasActivity extends AppCompatActivity {
                     dialogInterface.dismiss();
                 }
             });
+
             alertDialog.show();
             alertDialog.getWindow().setBackgroundDrawable(inset);
+
+            //SOBREESCREVENDO O CLICK DO BOTAO POSITIVO
             Button btn  = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
