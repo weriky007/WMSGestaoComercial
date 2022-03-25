@@ -332,7 +332,6 @@ public class VendasActivity extends AppCompatActivity {
                                 configuracaoIOEstoqueVendas.insereProduto(context, campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
                                 calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
                                 dialog.dismiss();
-
                         }
                     }
                 }
@@ -779,7 +778,7 @@ public class VendasActivity extends AppCompatActivity {
         });
     }
 
-    //==================================================================================================
+//==================================================================================================
     private void checaEscolhasPagamento(View layoutConcluiVenda, View layoutDinheiro, View layoutCC, View layoutCalendarioContaCliente, LinearLayout layoutPagamentoDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente) {
         radioGroupFormasPagamento.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -791,8 +790,7 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void switchLayouts(LinearLayout layoutPagamentoDinheiro, View layoutDinheiro, LinearLayout layoutPagamentoCC, LinearLayout layoutPagamentoContaCliente, View layoutCC, View layoutCalendarioContaCliente) {
         switch (escolhaFormaPagamento) {
             case DINHEIRO:
