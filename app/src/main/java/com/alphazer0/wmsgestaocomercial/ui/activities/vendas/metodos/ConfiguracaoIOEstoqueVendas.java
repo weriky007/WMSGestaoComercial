@@ -96,7 +96,7 @@ public class ConfiguracaoIOEstoqueVendas {
     }
 //==================================================================================================
     public void insereProduto(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras) {
-        String tituloProduto = campoProduto.getText().toString().trim();
+        String tituloProduto = campoProduto.getText().toString().trim().trim().trim();
         String codigoBarras = campoCodigoBarras.getText().toString().trim();
         Produto produtoLocalizado = new Produto();
         Produto produtoBD = new Produto();
