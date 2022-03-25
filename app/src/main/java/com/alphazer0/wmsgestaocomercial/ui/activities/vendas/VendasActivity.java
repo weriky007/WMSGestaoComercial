@@ -260,21 +260,36 @@ public class VendasActivity extends AppCompatActivity {
 
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(VendasActivity.this);
 
-        alertDialog.setMessage(ADICIONAR_PRODUTO).setView(viewCriada);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setMessage(ADICIONAR_PRODUTO);
+        alertDialog.setView(viewCriada);
 
         //ADICIONANDO O PRODUTO A LISTA DE COMPRAS
-        alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                realizaVerificacao();
+
+            }
+        });
+       alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialogInterface, int i) {
+               alertDialog.dismiss();
+           }
+       });
+
+        alertDialog.show();
+        alertDialog.getWindow().setBackgroundDrawable(inset);
+        Button btn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                realizaVerificacao(alertDialog);
                 listaComprasDAO.removeTodos(listaCompras);
                 listaComprasDAO.salva(listaCompras);
             }
         });
-
-        alertDialog.setNegativeButton(CANCELAR, null).show().getWindow().setBackgroundDrawable(inset);
     }
 
     private void bindViewsVenda(View viewCriada) {
@@ -285,7 +300,7 @@ public class VendasActivity extends AppCompatActivity {
     }
 
     //VERIFICACAO DOS CAMPOS DE ADICAO DA LISTA DE COMPRAS
-    private void realizaVerificacao() {
+    private void realizaVerificacao(AlertDialog dialog) {
         codigoBarras = campoCodigoBarras.getText().toString();
         produto = campoProduto.getText().toString();
         quantidade = campoQuantidade.getText().toString();
@@ -306,6 +321,7 @@ public class VendasActivity extends AppCompatActivity {
                         pegaInformacoesParaVenda.pegaProduto(produtoDao.todosProdutos(), filtroTituloProdutos, filtroCodigo, produtos, hashSetTituloProdutos, hashSetCodigos);
                         configuracaoIOEstoqueVendas.insereProduto(context, campoProduto, campoCodigoBarras, produtos, campoQuantidade, resultadoQuantidade, produtoDao, listaCompras);
                         calculaValorTotalDaVenda.calculaTotal(listaCompras, total, valorTotal, campoCodigoBarras, campoProduto, campoQuantidade, produtosVendaAdapter);
+                        dialog.dismiss();
                     }
                 }
             }
@@ -482,7 +498,7 @@ public class VendasActivity extends AppCompatActivity {
         //CONFIG STILO DO ALERTDIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(VendasActivity.this);
+        AlertDialog alertDialog = new AlertDialog.Builder(VendasActivity.this).create();
 
         //BIND DOS RADIOSGROUPS
         radioGroupFormasPagamento = layoutConcluiVenda.findViewById(R.id.formas_de_pagamento);
@@ -508,8 +524,8 @@ public class VendasActivity extends AppCompatActivity {
         checaParcelamentoCC(layoutCC, layoutCCParcelas, layoutParcelasCC);
 
         //TITULO ALERTDIALOG
-        alertDialog.setTitle(CONCLUIR_VENDA)
-                .setView(layoutConcluiVenda);
+        alertDialog.setTitle(CONCLUIR_VENDA);
+        alertDialog.setView(layoutConcluiVenda);
 
         vlRecebido = layoutDinheiro.findViewById(R.id.edit_valor_recebido);
         troco = layoutDinheiro.findViewById(R.id.troco_valor);
@@ -521,22 +537,42 @@ public class VendasActivity extends AppCompatActivity {
     }//FIM CONCLUI VENDA
 
 //==================================================================================================
-    private void configuraAlertDialog(InsetDrawable inset, AlertDialog.Builder alertDialog) {
+    private void configuraAlertDialog(InsetDrawable inset, AlertDialog alertDialog) {
 
         //CONFIGURA BOTAO POSITIVO
-            alertDialog.setPositiveButton(CONCLUIR, new DialogInterface.OnClickListener() {
-                //CONFIGURA DATA E HORA
-                SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
-                Date dataAtual = new Date();
-                Date horaAtual = new Date();
-                String dataFormatada = formataData.format(dataAtual);
-                String horaFormatada = formataHora.format(horaAtual);
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,CONCLUIR, new DialogInterface.OnClickListener() {
+
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+        
+            //CONFIGURA  BOTAO NEGATIVO
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(inset);
+            Button btn  = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //CONFIGURA DATA E HORA
+                    SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
+                    Date dataAtual = new Date();
+                    Date horaAtual = new Date();
+                    String dataFormatada = formataData.format(dataAtual);
+                    String horaFormatada = formataHora.format(horaAtual);
                     String pegaClienteDoCampoCC = campoClienteCC.getText().toString();
                     put = 1;
+
                     try {
                         if (escolhaFormaPagamento.equals("") || escolhaFormaPagamento == null) {
                             Toast.makeText(context, "Escolha uma forma de Pagamento", Toast.LENGTH_SHORT).show();
@@ -661,13 +697,6 @@ public class VendasActivity extends AppCompatActivity {
                     }
                 }
             });
-
-        
-            //CONFIGURA  BOTAO NEGATIVO
-            alertDialog.setNegativeButton(CANCELAR, null)
-                    .show()
-                    .getWindow()
-                    .setBackgroundDrawable(inset);
 
     }
 //==================================================================================================
