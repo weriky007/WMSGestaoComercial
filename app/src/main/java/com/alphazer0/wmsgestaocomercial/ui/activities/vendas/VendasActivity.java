@@ -275,6 +275,7 @@ public class VendasActivity extends AppCompatActivity {
        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
            @Override
            public void onClick(DialogInterface dialogInterface, int i) {
+               Toast.makeText(context, "Cancelado!", Toast.LENGTH_SHORT).show();
                alertDialog.dismiss();
            }
        });
@@ -554,6 +555,7 @@ public class VendasActivity extends AppCompatActivity {
             alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    Toast.makeText(context, "Cancelado!", Toast.LENGTH_SHORT).show();
                     dialogInterface.dismiss();
                 }
             });
