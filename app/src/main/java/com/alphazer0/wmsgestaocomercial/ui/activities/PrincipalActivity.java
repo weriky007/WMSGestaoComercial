@@ -24,7 +24,7 @@ public class PrincipalActivity extends AppCompatActivity {
     private ImageButton btnEstoque;
     private ImageButton btnContas;
     private ImageButton btnRelatorios;
-
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class PrincipalActivity extends AppCompatActivity {
         bindElementos();
         configuraBotoes();
     }
-
+//==================================================================================================
     private void bindElementos(){
         btnFornecedores = findViewById(R.id.btnPrincipalFornecedoresActivity);
         btnClientes = findViewById(R.id.btnPrincipalClientesActivity);
@@ -42,7 +42,7 @@ public class PrincipalActivity extends AppCompatActivity {
         btnContas = findViewById(R.id.btnPrincipalContasActivity);
         btnRelatorios = findViewById(R.id.btnPrincipalRelatoriosActivity);
     }
-
+//==================================================================================================
     private void configuraBotoes(){
         btnFornecedores.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,4 +86,5 @@ public class PrincipalActivity extends AppCompatActivity {
             }
         });
     }
+//==================================================================================================
 }
