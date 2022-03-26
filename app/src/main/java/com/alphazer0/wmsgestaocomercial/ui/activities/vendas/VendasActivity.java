@@ -965,7 +965,7 @@ public class VendasActivity extends AppCompatActivity {
         enviaDados.put("vlParcelas", venda.getVlParcelas());
         enviaDados.put("dataVencimento", venda.getDataVencimento());
         for(int i = 0;i<listaCompras.size();i++) {
-            sprodutos.add(listaCompras.get(i).getProduto()+" | Qtd:"+listaCompras.get(i).getQuantidade());
+            sprodutos.add(listaCompras.get(i).getProduto()+"|Qtd:"+listaCompras.get(i).getQuantidade());
         }
         enviaDados.put("produto",sprodutos);
 
