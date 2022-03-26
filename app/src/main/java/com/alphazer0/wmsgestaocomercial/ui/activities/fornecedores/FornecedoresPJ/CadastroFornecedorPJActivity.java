@@ -70,8 +70,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
         formataTexto();
         configuraBotao();
     }
-
-    //==================================================================================================
+//==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private FornecedorPJ fornecedorPJ;
     private RoomFornecedorPJDAO dao;
@@ -108,8 +107,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
 
 
     private Button botao;
-
-    //==================================================================================================
+//==================================================================================================
     private void bindDosCampos() {
         campoRazaoSocial = findViewById(R.id.edit_razao_social);
         campoNomeFantasia = findViewById(R.id.edit_nome_fantasia);
@@ -131,8 +129,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
 
         botao = findViewById(R.id.botao_salvar);
     }
-
-    //==================================================================================================
+//==================================================================================================
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCNPJ.addTextChangedListener(MaskText.insert(MASK_CNPJ, campoCNPJ));
@@ -141,8 +138,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));
         campoCEP.addTextChangedListener(MaskText.insert(MASK_CEP, campoCEP));
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String razaoSocial = campoRazaoSocial.getText().toString().trim().trim().trim();
         String nomeFantasia = campoNomeFantasia.getText().toString().trim().trim().trim();
@@ -180,8 +176,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
         fornecedorPJ.setCep(cep);
         fornecedorPJ.setComplemento(complemento);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void carregaCliente() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_FORNECEDORPJ)) {
@@ -191,8 +186,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
             fornecedorPJ = new FornecedorPJ();
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void preencheCamposParaEdicao() {
         campoRazaoSocial.setText(fornecedorPJ.getRazaoSocial());
         campoNomeFantasia.setText(fornecedorPJ.getNomeFantasia());
@@ -247,30 +241,76 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void realizaVerificacao() {
-        String razaoSocial = campoRazaoSocial.getText().toString();
-        String telefone = campoTelefone.getText().toString();
-        String rua = campoRua.getText().toString();
-        String bairro = campoBairro.getText().toString();
-        if (razaoSocial.equals(null) || razaoSocial.equals("")) {
-            Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha a Razão Social", Toast.LENGTH_SHORT).show();
-        } else {
-            if (telefone.equals(null) || telefone.equals("")) {
-                Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha o telefone", Toast.LENGTH_SHORT).show();
-            } else {
-                if (rua.equals(null) || rua.equals("")) {
-                    Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha a rua", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (bairro.equals(null) || bairro.equals("")) {
-                        Toast.makeText(CadastroFornecedorPJActivity.this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
-                    } else {
-                        concluiCadastro();
+        String srazaoSocial = campoRazaoSocial.getText().toString().trim().trim().trim();
+        String snomeFantasia = campoNomeFantasia.getText().toString().trim().trim().trim();
+        String scnpj = campoCNPJ.getText().toString().trim().trim().trim();
+        String ie = campoIE.getText().toString().trim().trim().trim();
+
+        String stelefone = campoTelefone.getText().toString().trim().trim().trim();
+        String semail = campoEmail.getText().toString().trim().trim().trim();
+        String srua = campoRua.getText().toString().trim().trim().trim();
+        String snumero = campoNumero.getText().toString().trim().trim().trim();
+        String squadra = campoQuadra.getText().toString().trim().trim().trim();
+        String slote = campoLote.getText().toString().trim().trim().trim();
+        String sbairro = campoBairro.getText().toString().trim().trim().trim();
+        String scep = campoCEP.getText().toString().trim().trim().trim();
+        String scomplemento = campoComplemento.getText().toString().trim().trim().trim();
+
+        if(srazaoSocial.equals("") || srazaoSocial == null){
+            Toast.makeText(this, "Preencha o campo Razão Social", Toast.LENGTH_SHORT).show();
+        }else{
+            if(snomeFantasia.equals("") || snomeFantasia == null){
+                Toast.makeText(this, "Preencha o campo Nome Fantasia", Toast.LENGTH_SHORT).show();
+            }else{
+                if(scnpj.equals("") || scnpj == null){
+                    Toast.makeText(this, "Preencha o campo CNPJ", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(ie.equals("") || ie == null){
+                        Toast.makeText(this, "Preencha o campo Inscrição Estadual", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if(stelefone.equals("") || stelefone  == null){
+                            Toast.makeText(this, "Preencha o campo Telefone Fixo", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(semail.equals("") || semail == null){
+                                Toast.makeText(this, "Preencha o campo E-mail", Toast.LENGTH_SHORT).show();
+                            }else{
+                                if(srua.equals("") || srua == null){
+                                    Toast.makeText(this, "Preencha o campo Rua", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if(snumero.equals("")||snumero == null){
+                                        Toast.makeText(this, "Preencha o campo Rua", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        if(squadra.equals("")||squadra == null){
+                                            Toast.makeText(this, "Preencha o campo Quadra", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            if(slote.equals("")||slote == null){
+                                                Toast.makeText(this, "Preencha o campo Lote", Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                if(sbairro.equals("")||sbairro == null){
+                                                    Toast.makeText(this, "Preencha o campo Bairro", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    if(scep.equals("") || scep == null){
+                                                        Toast.makeText(this, "Preencha o campo CEP", Toast.LENGTH_SHORT).show();
+                                                    }else{
+                                                        if(scomplemento.equals("") || scomplemento == null){
+                                                            Toast.makeText(this, "Preencha o campo Complemento", Toast.LENGTH_SHORT).show();
+                                                        }else{
+                                                            concluiCadastro();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
 //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -300,8 +340,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
         }//end onPostExecute
     }//end sendRequest
-
-    //==================================================================================================
+//==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
@@ -405,8 +444,7 @@ public class CadastroFornecedorPJActivity extends AppCompatActivity {
         }
         return result.toString();
     }//end configuraData
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraBotao() {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
