@@ -81,8 +81,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         configuraBotoes();
         configuraAutoComplete();
     }
-
-    //==================================================================================================
+//==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private Produto produto;
     private RoomProdutoDAO dao;
@@ -113,8 +112,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     private EditText campoUnidadeMedida;
 
     private Button botao;
-
-    //==================================================================================================
+//==================================================================================================
     private void bindDosCampos() {
         campoIdCod = findViewById(R.id.edit_codigo_barras_produto);
         campoCategoria = findViewById(R.id.edit_categoria_produto);
@@ -129,8 +127,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         btnLerCodigo = findViewById(R.id.fab_scan_produto);
         botao = findViewById(R.id.botao_salvar_produto);
     }
-
-    //==================================================================================================
+//==================================================================================================
     //AUTOCOMPLETE
     private void pegaCategorias(List<Produto> produto) {
 
@@ -150,8 +147,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         campoCategoria.setAdapter(adapterCategorias);
         campoCategoria.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String codigoBarras = campoIdCod.getText().toString().trim().trim().trim();
         String categoria = campoCategoria.getText().toString().trim().trim().trim();
@@ -173,8 +169,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         this.produto.setQuantidade(quantidade);
         this.produto.setUnidadeMedida(unidadeMedida);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void carregaProduto() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_PRODUTO)) {
@@ -184,8 +179,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             produto = new Produto();
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void preencheCamposParaEdicao() {
         campoIdCod.setText(produto.getIdCod());
         campoCategoria.setText(produto.getCategoria());
@@ -197,7 +191,6 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         campoQuantidade.setText(produto.getQuantidade());
         campoUnidadeMedida.setText(produto.getUnidadeMedida());
     }
-
 //==================================================================================================
     private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
@@ -276,8 +269,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             }
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     // INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -307,8 +299,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
         }//end onPostExecute
     }//end sendRequest
-
-    //==================================================================================================
+//==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
@@ -404,8 +395,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         }
         return result.toString();
     }//end configuraData
-
-    //==================================================================================================
+//==================================================================================================
     //PEGA O RESULTADO DO SCANNER
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

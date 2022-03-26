@@ -37,7 +37,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_razao_social"
+                        android:id="@+id/edit_pf_nome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome Completo"
@@ -51,7 +51,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_nome_fantasia"
+                        android:id="@+id/edit_pf_data_nascimento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Data de Nascimento"
@@ -65,7 +65,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_cnpj"
+                        android:id="@+id/edit_pf_cpf"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="CPF"
@@ -79,7 +79,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_ie"
+                        android:id="@+id/edit_pf_rg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="RG"

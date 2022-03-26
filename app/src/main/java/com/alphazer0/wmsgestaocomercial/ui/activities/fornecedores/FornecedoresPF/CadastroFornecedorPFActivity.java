@@ -69,8 +69,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         formataTexto();
         configuraBotao();
     }
-
-    //==================================================================================================
+//==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private FornecedorPF fornecedorPF;
     private RoomFornecedorPFDAO dao;
@@ -109,33 +108,31 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
 
 
     private Button botao;
-
-    //==================================================================================================
+//==================================================================================================
     private void bindDosCampos() {
-        campoNomeCompleto = findViewById(R.id.edit_razao_social);
-        campoDataNascimento = findViewById(R.id.edit_nome_fantasia);
-        campoCpf = findViewById(R.id.edit_cnpj);
-        campoRg = findViewById(R.id.edit_ie);
-        campoNomePai = findViewById(R.id.edit_cliente_nome_pai);
-        campoNomeMae = findViewById(R.id.edit_cliente_nome_mae);
+        campoNomeCompleto = findViewById(R.id.edit_pf_nome);
+        campoDataNascimento = findViewById(R.id.edit_pf_data_nascimento);
+        campoCpf = findViewById(R.id.edit_pf_cpf);
+        campoRg = findViewById(R.id.edit_pf_rg);
+        campoNomePai = findViewById(R.id.edit_pf_nome_pai);
+        campoNomeMae = findViewById(R.id.edit_pf_nome_mae);
 
-        campoCelular1 = findViewById(R.id.edit_campo_cel1);
-        campoCelular2 = findViewById(R.id.edit_campo_cel2);
-        campoTelefone = findViewById(R.id.edit_campo_telefone);
-        campoEmail = findViewById(R.id.edit_campo_email);
+        campoCelular1 = findViewById(R.id.edit_pf_campo_cel1);
+        campoCelular2 = findViewById(R.id.edit_pf_campo_cel2);
+        campoTelefone = findViewById(R.id.edit_pf_campo_telefone);
+        campoEmail = findViewById(R.id.edit_pf_campo_email);
 
-        campoRua = findViewById(R.id.edit_campo_rua);
-        campoNumero = findViewById(R.id.edit_campo_numero);
-        campoQuadra = findViewById(R.id.edit_campo_quadra);
-        campoLote = findViewById(R.id.edit_campo_lote);
-        campoBairro = findViewById(R.id.edit_campo_bairro);
-        campoCEP = findViewById(R.id.edit_campo_cep);
-        campoComplemento = findViewById(R.id.edit_campo_complemento);
+        campoRua = findViewById(R.id.edit_pf_campo_rua);
+        campoNumero = findViewById(R.id.edit_pf_campo_numero);
+        campoQuadra = findViewById(R.id.edit_pf_campo_quadra);
+        campoLote = findViewById(R.id.edit_pf_campo_lote);
+        campoBairro = findViewById(R.id.edit_pf_campo_bairro);
+        campoCEP = findViewById(R.id.edit_pf_campo_cep);
+        campoComplemento = findViewById(R.id.edit_pf_campo_complemento);
 
         botao = findViewById(R.id.botao_salvar);
     }
-
-    //==================================================================================================
+//==================================================================================================
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCpf.addTextChangedListener(MaskText.insert(MASK_CPF, campoCpf));
@@ -145,8 +142,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));
         campoCEP.addTextChangedListener(MaskText.insert(MASK_CEP, campoCEP));
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String nomeCompleto = campoNomeCompleto.getText().toString().trim().trim().trim();
         String dataNascimento = campoDataNascimento.getText().toString();
@@ -188,8 +184,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         fornecedorPF.setCep(cep);
         fornecedorPF.setComplemento(complemento);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void carregaCliente() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_FORNECEDORPF)) {
@@ -199,8 +194,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
             fornecedorPF = new FornecedorPF();
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void preencheCamposParaEdicao() {
         campoNomeCompleto.setText(fornecedorPF.getNomeCompleto());
         campoDataNascimento.setText(fornecedorPF.getDataNascimento());
@@ -222,7 +216,6 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         campoCEP.setText(fornecedorPF.getCep());
         campoComplemento.setText(fornecedorPF.getComplemento());
     }
-
 //==================================================================================================
     private void concluiCadastro() {
         recebeDadosDigitadosNosCampos();
@@ -281,8 +274,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
             }
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
 //INICIANDO COMUNICACAO WEB
     public class SendRequest extends AsyncTask<String, Void, String> {
 
@@ -312,8 +304,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
         }//end onPostExecute
     }//end sendRequest
-
-    //==================================================================================================
+//==================================================================================================
     private String verificaLinhaVazia(HttpURLConnection connection) throws IOException {
         int codigoWeb = connection.getResponseCode();
         if (codigoWeb == HttpsURLConnection.HTTP_OK) {
@@ -418,8 +409,7 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         }
         return result.toString();
     }//end configuraData
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraBotao() {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override

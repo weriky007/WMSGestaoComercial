@@ -37,7 +37,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_razao_social"
+                        android:id="@+id/edit_pf_nome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome Completo"
@@ -51,7 +51,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_nome_fantasia"
+                        android:id="@+id/edit_pf_data_nascimento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Data de Nascimento"
@@ -65,7 +65,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_cnpj"
+                        android:id="@+id/edit_pf_cpf"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="CPF"
@@ -79,7 +79,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_ie"
+                        android:id="@+id/edit_pf_rg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="RG"
@@ -93,7 +93,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_cliente_nome_pai"
+                        android:id="@+id/edit_pf_nome_pai"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome do Pai"
@@ -107,7 +107,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_cliente_nome_mae"
+                        android:id="@+id/edit_pf_nome_mae"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome da Mãe"
@@ -143,7 +143,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_cel1"
+                        android:id="@+id/edit_pf_campo_cel1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Celular 1:"
@@ -157,7 +157,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_cel2"
+                        android:id="@+id/edit_pf_campo_cel2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Celular 2:"
@@ -171,7 +171,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_telefone"
+                        android:id="@+id/edit_pf_campo_telefone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Telefone fixo:"
@@ -185,7 +185,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_email"
+                        android:id="@+id/edit_pf_campo_email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="E-mail:"
@@ -223,7 +223,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_rua"
+                        android:id="@+id/edit_pf_campo_rua"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Rua:" />
@@ -236,7 +236,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_numero"
+                        android:id="@+id/edit_pf_campo_numero"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Numero:"
@@ -250,7 +250,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_quadra"
+                        android:id="@+id/edit_pf_campo_quadra"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Quadra:" />
@@ -263,7 +263,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_lote"
+                        android:id="@+id/edit_pf_campo_lote"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Lote:" />
@@ -276,7 +276,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_bairro"
+                        android:id="@+id/edit_pf_campo_bairro"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Bairro:"
@@ -290,7 +290,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_cep"
+                        android:id="@+id/edit_pf_campo_cep"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="CEP:"
@@ -304,7 +304,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_campo_complemento"
+                        android:id="@+id/edit_pf_campo_complemento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Complemento:" />
