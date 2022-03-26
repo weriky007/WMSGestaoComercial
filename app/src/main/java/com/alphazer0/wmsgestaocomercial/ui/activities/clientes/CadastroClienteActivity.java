@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -30,9 +29,6 @@ import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
-import com.alphazer0.wmsgestaocomercial.model.Produto;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,8 +69,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
         formataTexto();
         configuraBotao();
     }
-
-    //==================================================================================================
+//==================================================================================================
     //REFERENCIANDO OS ELEMENTOS
     private Cliente cliente;
     private RoomClienteDAO dao;
@@ -113,15 +108,14 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
 
     private Button botao;
-
-    //==================================================================================================
+//==================================================================================================
     private void bindDosCampos() {
-        campoNomeCompleto = findViewById(R.id.edit_razao_social);
-        campoDataNascimento = findViewById(R.id.edit_nome_fantasia);
-        campoCpf = findViewById(R.id.edit_cnpj);
-        campoRg = findViewById(R.id.edit_ie);
-        campoNomePai = findViewById(R.id.edit_nome_pai);
-        campoNomeMae = findViewById(R.id.edit_nome_mae);
+        campoNomeCompleto = findViewById(R.id.edit_cliente_nome);
+        campoDataNascimento = findViewById(R.id.edit_cliente_data_nascimento);
+        campoCpf = findViewById(R.id.edit_cliente_cpf);
+        campoRg = findViewById(R.id.edit_cliente_rg);
+        campoNomePai = findViewById(R.id.edit_cliente_nome_pai);
+        campoNomeMae = findViewById(R.id.edit_cliente_nome_mae);
 
         campoCelular1 = findViewById(R.id.edit_campo_cel1);
         campoCelular2 = findViewById(R.id.edit_campo_cel2);
@@ -138,8 +132,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
         botao = findViewById(R.id.botao_salvar);
     }
-
-    //==================================================================================================
+//==================================================================================================
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCpf.addTextChangedListener(MaskText.insert(MASK_CPF, campoCpf));
@@ -149,8 +142,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));
         campoCEP.addTextChangedListener(MaskText.insert(MASK_CEP, campoCEP));
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void recebeDadosDigitadosNosCampos() {
         String nomeCompleto = campoNomeCompleto.getText().toString().trim().trim().trim();
         String dataNascimento = campoDataNascimento.getText().toString();
@@ -192,8 +184,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
         cliente.setCep(cep);
         cliente.setComplemento(complemento);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void carregaCliente() {
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_CLIENTE)) {
@@ -203,8 +194,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
             cliente = new Cliente();
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void preencheCamposParaEdicao() {
         campoNomeCompleto.setText(cliente.getNomeCompleto());
         campoDataNascimento.setText(cliente.getDataNascimento());
@@ -261,24 +251,75 @@ public class CadastroClienteActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void realizaVerificacao() {
-        String nome = campoNomeCompleto.getText().toString();
-        String celular = campoCelular1.getText().toString();
-        String rua = campoRua.getText().toString();
-        String bairro = campoBairro.getText().toString();
+        String nome = campoNomeCompleto.getText().toString().trim().trim().trim();
+        String dataNascimento = campoDataNascimento.getText().toString().trim().trim().trim();
+        String cpf = campoCpf.getText().toString().trim().trim().trim();
+        String rg = campoRg.getText().toString().trim().trim().trim();
+        String nomePai = campoNomePai.getText().toString().trim().trim().trim();
+        String nomeMae = campoNomeMae.getText().toString().trim().trim().trim();
 
-        if (nome.equals(null) || nome.equals("")) {
-            Toast.makeText(CadastroClienteActivity.this, "Preencha o nome do cliente", Toast.LENGTH_SHORT).show();
-        } else {
-            if (celular.equals(null) || celular.equals("")) {
-                Toast.makeText(CadastroClienteActivity.this, "Preencha o celular do cliente", Toast.LENGTH_SHORT).show();
-            } else {
-                if (rua.equals(null) || rua.equals("")) {
-                    Toast.makeText(CadastroClienteActivity.this, "Preencha a rua", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (bairro.equals(null) || bairro.equals("")) {
-                        Toast.makeText(CadastroClienteActivity.this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
-                    } else {
-                        concluiCadastro();
+        String celular = campoCelular1.getText().toString().trim().trim().trim();
+        String rua = campoRua.getText().toString().trim().trim().trim();
+        String numero = campoNumero.getText().toString().trim().trim().trim();
+        String quadra = campoQuadra.getText().toString().trim().trim().trim();
+        String lote = campoLote.getText().toString().trim().trim().trim();
+        String bairro = campoBairro.getText().toString().trim().trim().trim();
+        String cep = campoCEP.getText().toString().trim().trim().trim();
+        String complemento = campoComplemento.getText().toString().trim().trim().trim();
+
+        if(nome.equals("") || nome == null){
+            Toast.makeText(this, "Preencha o campo Nome", Toast.LENGTH_SHORT).show();
+        }else{
+            if (dataNascimento.equals("") || dataNascimento == null){
+                Toast.makeText(this, "Preencha o campo Data Nascimento", Toast.LENGTH_SHORT).show();
+            }else{
+                if(cpf.equals("") || cpf == null){
+                    Toast.makeText(this, "Preencha o campo CPF", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(rg.equals("") || rg == null){
+                        Toast.makeText(this, "Preencha o campo RG", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if(nomePai.equals("") || nomePai == null){
+                            Toast.makeText(this, "Preencha o campo Nome Pai", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(nomeMae.equals("") || nomeMae == null){
+                                Toast.makeText(this, "Preencha o campo Nome Mãe", Toast.LENGTH_SHORT).show();
+                            }else{
+                                if(celular.equals("") || celular == null){
+                                    Toast.makeText(this, "Preencha o campo Celular", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if(rua.equals("") || rua == null){
+                                        Toast.makeText(this, "Preencha o campo Rua", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        if(numero.equals("") || numero == null){
+                                            Toast.makeText(this, "Preencha o campo Número", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            if(quadra.equals("") || quadra == null){
+                                                Toast.makeText(this, "Preencha o campo Quadra", Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                if(lote.equals("") || lote == null){
+                                                    Toast.makeText(this, "Preencha o campo Lote", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    if(bairro.equals("") || bairro == null){
+                                                        Toast.makeText(this, "Preencha o campo Bairro", Toast.LENGTH_SHORT).show();
+                                                    }else{
+                                                        if(cep.equals("") || cep == null){
+                                                            Toast.makeText(this, "Preencha o campo CEP", Toast.LENGTH_SHORT).show();
+                                                        }else{
+                                                            if(complemento.equals("") || complemento == null){
+                                                                Toast.makeText(this, "Preencha o campo Complemento", Toast.LENGTH_SHORT).show();
+                                                            }else{
+                                                                concluiCadastro();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -419,8 +460,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
         }
         return result.toString();
     }//end configuraData
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraBotao() {
         botao.setOnClickListener(new View.OnClickListener() {
             @Override

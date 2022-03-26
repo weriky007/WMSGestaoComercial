@@ -93,7 +93,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_nome_pai"
+                        android:id="@+id/edit_cliente_nome_pai"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome do Pai"
@@ -107,7 +107,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_nome_mae"
+                        android:id="@+id/edit_cliente_nome_mae"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome da Mãe"

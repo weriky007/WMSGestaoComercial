@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -30,11 +29,6 @@ import com.alphazer0.wmsgestaocomercial.database.FornecedoresPFDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomFornecedorPFDAO;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
-import com.alphazer0.wmsgestaocomercial.model.Produto;
-import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.CadastroClienteActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.CadastroProdutoActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,8 +116,8 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
         campoDataNascimento = findViewById(R.id.edit_nome_fantasia);
         campoCpf = findViewById(R.id.edit_cnpj);
         campoRg = findViewById(R.id.edit_ie);
-        campoNomePai = findViewById(R.id.edit_nome_pai);
-        campoNomeMae = findViewById(R.id.edit_nome_mae);
+        campoNomePai = findViewById(R.id.edit_cliente_nome_pai);
+        campoNomeMae = findViewById(R.id.edit_cliente_nome_mae);
 
         campoCelular1 = findViewById(R.id.edit_campo_cel1);
         campoCelular2 = findViewById(R.id.edit_campo_cel2);

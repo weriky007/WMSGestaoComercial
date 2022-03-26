@@ -37,7 +37,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_razao_social"
+                        android:id="@+id/edit_cliente_nome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome Completo"
@@ -51,7 +51,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_nome_fantasia"
+                        android:id="@+id/edit_cliente_data_nascimento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Data de Nascimento"
@@ -65,7 +65,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_cnpj"
+                        android:id="@+id/edit_cliente_cpf"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="CPF"
@@ -79,11 +79,10 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_ie"
+                        android:id="@+id/edit_cliente_rg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="RG"
-                        android:inputType="number" />
+                        android:hint="RG" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -93,7 +92,7 @@
                     app:boxBackgroundColor="@color/zxing_transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <EditText
-                        android:id="@+id/edit_nome_pai"
+                        android:id="@+id/edit_cliente_nome_pai"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome do Pai"
@@ -108,7 +107,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <EditText
-                        android:id="@+id/edit_nome_mae"
+                        android:id="@+id/edit_cliente_nome_mae"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Nome da Mãe"
@@ -308,7 +307,8 @@
                         android:id="@+id/edit_campo_complemento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Complemento:" />
+                        android:hint="Complemento:"
+                        android:inputType="textCapWords"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
