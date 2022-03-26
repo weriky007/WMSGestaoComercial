@@ -251,24 +251,75 @@ public class CadastroFornecedorPFActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void realizaVerificacao() {
-        String nome = campoNomeCompleto.getText().toString();
-        String celular = campoCelular1.getText().toString();
-        String rua = campoRua.getText().toString();
-        String bairro = campoBairro.getText().toString();
+        String nome = campoNomeCompleto.getText().toString().trim().trim().trim();
+        String dataNascimento = campoDataNascimento.getText().toString().trim().trim().trim();
+        String cpf = campoCpf.getText().toString().trim().trim().trim();
+        String rg = campoRg.getText().toString().trim().trim().trim();
+        String nomePai = campoNomePai.getText().toString().trim().trim().trim();
+        String nomeMae = campoNomeMae.getText().toString().trim().trim().trim();
 
-        if (nome.equals(null) || nome.equals("")) {
-            Toast.makeText(this, "Preencha o nome ", Toast.LENGTH_SHORT).show();
-        } else {
-            if (celular.equals(null) || celular.equals("")) {
-                Toast.makeText(this, "Preencha o celular", Toast.LENGTH_SHORT).show();
-            } else {
-                if (rua.equals(null) || rua.equals("")) {
-                    Toast.makeText(this, "Preencha a rua", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (bairro.equals(null) || bairro.equals("")) {
-                        Toast.makeText(this, "Preencha o bairro", Toast.LENGTH_SHORT).show();
-                    } else {
-                        concluiCadastro();
+        String celular = campoCelular1.getText().toString().trim().trim().trim();
+        String rua = campoRua.getText().toString().trim().trim().trim();
+        String numero = campoNumero.getText().toString().trim().trim().trim();
+        String quadra = campoQuadra.getText().toString().trim().trim().trim();
+        String lote = campoLote.getText().toString().trim().trim().trim();
+        String bairro = campoBairro.getText().toString().trim().trim().trim();
+        String cep = campoCEP.getText().toString().trim().trim().trim();
+        String complemento = campoComplemento.getText().toString().trim().trim().trim();
+
+        if(nome.equals("") || nome == null){
+            Toast.makeText(this, "Preencha o campo Nome", Toast.LENGTH_SHORT).show();
+        }else{
+            if (dataNascimento.equals("") || dataNascimento == null){
+                Toast.makeText(this, "Preencha o campo Data Nascimento", Toast.LENGTH_SHORT).show();
+            }else{
+                if(cpf.equals("") || cpf == null){
+                    Toast.makeText(this, "Preencha o campo CPF", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(rg.equals("") || rg == null){
+                        Toast.makeText(this, "Preencha o campo RG", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if(nomePai.equals("") || nomePai == null){
+                            Toast.makeText(this, "Preencha o campo Nome Pai", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(nomeMae.equals("") || nomeMae == null){
+                                Toast.makeText(this, "Preencha o campo Nome Mãe", Toast.LENGTH_SHORT).show();
+                            }else{
+                                if(celular.equals("") || celular == null){
+                                    Toast.makeText(this, "Preencha o campo Celular", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if(rua.equals("") || rua == null){
+                                        Toast.makeText(this, "Preencha o campo Rua", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        if(numero.equals("") || numero == null){
+                                            Toast.makeText(this, "Preencha o campo Número", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            if(quadra.equals("") || quadra == null){
+                                                Toast.makeText(this, "Preencha o campo Quadra", Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                if(lote.equals("") || lote == null){
+                                                    Toast.makeText(this, "Preencha o campo Lote", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    if(bairro.equals("") || bairro == null){
+                                                        Toast.makeText(this, "Preencha o campo Bairro", Toast.LENGTH_SHORT).show();
+                                                    }else{
+                                                        if(cep.equals("") || cep == null){
+                                                            Toast.makeText(this, "Preencha o campo CEP", Toast.LENGTH_SHORT).show();
+                                                        }else{
+                                                            if(complemento.equals("") || complemento == null){
+                                                                Toast.makeText(this, "Preencha o campo Complemento", Toast.LENGTH_SHORT).show();
+                                                            }else{
+                                                                concluiCadastro();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
