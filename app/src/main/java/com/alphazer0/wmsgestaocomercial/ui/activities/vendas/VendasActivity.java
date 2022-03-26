@@ -84,6 +84,7 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -195,7 +196,11 @@ public class VendasActivity extends AppCompatActivity {
     private Activity activity = this;
     private int verificaConcluirCompra;
     private TextView vlParcela;
-//==================================================================================================
+    private String scampoCliente;
+    private String sclienteBD;
+    private Date dateSelect;
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -643,8 +648,8 @@ public class VendasActivity extends AppCompatActivity {
                                 finish();
                             }
                             if (escolhaCcParcelamento.equals(PARCELADO)) {
-                                String scampoCliente = campoClienteCC.getText().toString().trim().trim().trim();
-                                String sclienteBD = "";
+                                scampoCliente = campoClienteCC.getText().toString().trim().trim().trim();
+                                sclienteBD = "";
                                 String sparcela = parcelas.getText().toString();
                                 String stax = taxa.getText().toString();
                                 double dtax = 0;
@@ -700,24 +705,38 @@ public class VendasActivity extends AppCompatActivity {
 
                         //REALIZA VERIFICACAO DA CONTA CLIENTE
                         if (escolhaFormaPagamento.equals(CONTA_CLIENTE)) {
-                            String cliente = campoClienteConta.getText().toString();
+                            String cliente = campoClienteConta.getText().toString().trim().trim().trim();
                             String a = "";
+                            sclienteBD = "";
                             a = dataContaCliente;
+                            clientes = clienteDAO.todosClientes();
+
                             if (cliente == null || cliente.equals("")) {
                                 Toast.makeText(context, "Preencha o Campo Cliente", Toast.LENGTH_SHORT).show();
                             } else {
+                                for(int i = 0; i < clientes.size();i++){
+                                    if(cliente.equals(clientes.get(i).getNomeCompleto())){
+                                        sclienteBD = clientes.get(i).getNomeCompleto();
+                                    }
+                                }
+                                if(!sclienteBD.equals(cliente)){
+                                    Toast.makeText(context, "Cliente Inexistente", Toast.LENGTH_SHORT).show();
+                                }else{
                                 if (a == null || a.equals("")) {
                                     Toast.makeText(context, "Escolha uma data de vencimento", Toast.LENGTH_SHORT).show();
                                 } else {
+                                    if(dateSelect.before(dataAtual)){
+                                        Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
+                                    }else{
                                     contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
                                     //INSERINDO VALORES NA VENDA
                                     insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                     listaComprasDAO.removeTodos(listaCompras);
                                     configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidade, resultadoQuantidade, produtoDao, listaCompras);
                                     new SendRequest().execute();
-                                    Toast.makeText(context, "Compra concluida com sucesso!" + dataContaCliente, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                     finish();
-                                }
+                                }}}
                             }
                         }
                     }
@@ -726,7 +745,6 @@ public class VendasActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 //==================================================================================================
     private void checaParcelamentoCC(View layoutCC, View layoutCCParcelas, LinearLayout layoutParcelasCC) {
@@ -815,7 +833,15 @@ public class VendasActivity extends AppCompatActivity {
                 calendarContaCliente.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int ano, int mes, int dia) {
-                        dataContaCliente = dia + "/" + (mes + 1) + "/" + ano;
+                        String a = dia + "/" + (mes + 1) + "/" + ano;
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        dateSelect = new Date();
+                        try {
+                            dateSelect = formatter.parse(a);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                           dataContaCliente = dia + "/" + (mes + 1) + "/" + ano;
                     }
                 });
                 break;
