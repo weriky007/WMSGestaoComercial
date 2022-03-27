@@ -68,10 +68,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:completionThreshold="1"
-                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     android:hint="   Produto"
                     android:inputType="textCapWords"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:digits="abcdefghijklmnopqrstuvwxyzç ABCDEFGHIJKLMNOPQRSTUVWXYZÇ 0123456789áéíóúâêôãõ"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

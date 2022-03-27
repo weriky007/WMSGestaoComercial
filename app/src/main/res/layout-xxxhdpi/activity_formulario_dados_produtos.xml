@@ -97,7 +97,7 @@
                         android:textAlignment="center"
                         android:completionThreshold="1"
                         android:inputType="textCapWords"
-                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+                        android:digits="abcdefghijklmnopqrstuvwxyzç ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789Ç áéíóúÁÉÍÓÚ ãõ"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -117,7 +117,8 @@
                         android:layout_height="match_parent"
                         android:textAlignment="center"
                         android:hint="Produto"
-                        android:inputType="textCapWords" />
+                        android:inputType="textCapWords"
+                        android:digits="abcdefghijklmnopqrstuvwxyzç ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789Ç áéíóúÁÉÍÓÚ ãõ"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +136,8 @@
                         android:layout_height="match_parent"
                         android:textAlignment="center"
                         android:hint="Marca"
-                        android:inputType="textCapWords" />
+                        android:inputType="textCapWords"
+                        android:digits="abcdefghijklmnopqrstuvwxyzç ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789Ç áéíóúÁÉÍÓÚ ãõ"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

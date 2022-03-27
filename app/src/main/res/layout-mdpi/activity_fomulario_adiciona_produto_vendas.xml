@@ -70,7 +70,7 @@
                     android:textAlignment="center"
                     android:completionThreshold="1"
                     android:inputType="textCapWords"
-                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+                    android:digits="abcdefghijklmnopqrstuvwxyzç ABCDEFGHIJKLMNOPQRSTUVWXYZÇ 0123456789áéíóúâêôãõ"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

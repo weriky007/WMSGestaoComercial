@@ -4,11 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_appbar_concluir.xml" value="0.188" />
-        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_fomulario_adiciona_produto_vendas.xml" value="0.2" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_fomulario_adiciona_produto_vendas.xml" value="0.18" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_cliente.xml" value="0.1" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_fornecedorpf.xml" value="0.49" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_fornecedorpj.xml" value="0.153125" />
-        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_produtos.xml" value="0.22" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_produtos.xml" value="0.5" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-ldpi/activity_fomulario_adiciona_produto_vendas.xml" value="0.75" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-ldpi/activity_formulario_dados_cliente.xml" value="0.9074074074074074" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-ldpi/activity_formulario_dados_fornecedorpf.xml" value="0.20416666666666666" />
@@ -18,7 +18,7 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-mdpi/activity_formulario_dados_cliente.xml" value="0.2763671875" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-mdpi/activity_formulario_dados_fornecedorpf.xml" value="0.8166666666666667" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-mdpi/activity_formulario_dados_fornecedorpj.xml" value="0.49" />
-        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-mdpi/activity_formulario_dados_produtos.xml" value="0.8166666666666667" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-mdpi/activity_formulario_dados_produtos.xml" value="0.5429864253393665" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-mdpi/activity_informacoes_fornecedorpj.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-xhdpi/activity_fomulario_adiciona_produto_vendas.xml" value="0.15454545454545454" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-xhdpi/activity_formulario_dados_cliente.xml" value="0.153125" />
