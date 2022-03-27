@@ -56,10 +56,6 @@ public class PrincipalActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_principal, menu);
-//        MenuItem config = menu.add(0,0,0,"Configurações");
-//        config.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-//        MenuItem manual = menu.add(0,1,1,"Manual");
-//        manual.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         return true;
     }
 
