@@ -152,12 +152,12 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         String codigoBarras = campoIdCod.getText().toString().trim().trim().trim();
         String categoria = campoCategoria.getText().toString().trim().trim().trim();
         String produto = campoProduto.getText().toString().trim().trim().trim();
-        String marca = campoMarca.getText().toString();
-        String discriminacao = campoDiscriminacao.getText().toString();
-        String precoCompra = campoPrecoCompra.getText().toString();
-        String precoVenda = campoPrecoVenda.getText().toString();
-        String quantidade = campoQuantidade.getText().toString();
-        String unidadeMedida = campoUnidadeMedida.getText().toString();
+        String marca = campoMarca.getText().toString().trim().trim().trim();
+        String discriminacao = campoDiscriminacao.getText().toString().trim().trim().trim();
+        String precoCompra = campoPrecoCompra.getText().toString().trim().trim().trim();
+        String precoVenda = campoPrecoVenda.getText().toString().trim().trim().trim();
+        String quantidade = campoQuantidade.getText().toString().trim().trim().trim();
+        String unidadeMedida = campoUnidadeMedida.getText().toString().trim().trim().trim();
 
         this.produto.setIdCod(codigoBarras);
         this.produto.setCategoria(categoria);
@@ -181,15 +181,15 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void preencheCamposParaEdicao() {
-        campoIdCod.setText(produto.getIdCod());
-        campoCategoria.setText(produto.getCategoria());
-        campoProduto.setText(produto.getProduto());
-        campoMarca.setText(produto.getMarca());
-        campoDiscriminacao.setText(produto.getDiscriminacao());
-        campoPrecoCompra.setText(produto.getPrecoCompra());
-        campoPrecoVenda.setText(produto.getPrecoVenda());
-        campoQuantidade.setText(produto.getQuantidade());
-        campoUnidadeMedida.setText(produto.getUnidadeMedida());
+        campoIdCod.setText(produto.getIdCod().trim().trim().trim());
+        campoCategoria.setText(produto.getCategoria().trim().trim().trim());
+        campoProduto.setText(produto.getProduto().trim().trim().trim());
+        campoMarca.setText(produto.getMarca().trim().trim().trim());
+        campoDiscriminacao.setText(produto.getDiscriminacao().trim().trim().trim());
+        campoPrecoCompra.setText(produto.getPrecoCompra().trim().trim().trim());
+        campoPrecoVenda.setText(produto.getPrecoVenda().trim().trim().trim());
+        campoQuantidade.setText(produto.getQuantidade().trim().trim().trim());
+        campoUnidadeMedida.setText(produto.getUnidadeMedida().trim().trim().trim());
     }
 //==================================================================================================
     private void concluiCadastro() {
@@ -205,10 +205,10 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             put = 1;
             produtos = dao.todosProdutos();
             //VERIFICA REPETIDO
-            String sproduto = produto.getProduto().trim();
+            String sproduto = produto.getProduto().trim().trim().trim();
             Produto pproduto = new Produto();
             for (int i = 0; i < produtos.size(); i++) {
-                if (sproduto.equals(produtos.get(i).getProduto().trim())) {
+                if (sproduto.equals(produtos.get(i).getProduto().trim().trim().trim())) {
                     pproduto = produtos.get(i);
                 }
             }
@@ -226,13 +226,13 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void realizaVerificacao() {
-        String codigo = campoIdCod.getText().toString();
-        String categoria = campoCategoria.getText().toString();
-        String produto = campoProduto.getText().toString();
-        String marca = campoMarca.getText().toString();
-        String vlCompra = campoPrecoCompra.getText().toString();
-        String vlVenda = campoPrecoVenda.getText().toString();
-        String quantidade = campoQuantidade.getText().toString();
+        String codigo = campoIdCod.getText().toString().trim().trim().trim();
+        String categoria = campoCategoria.getText().toString().trim().trim().trim();
+        String produto = campoProduto.getText().toString().trim().trim().trim();
+        String marca = campoMarca.getText().toString().trim().trim().trim();
+        String vlCompra = campoPrecoCompra.getText().toString().trim().trim().trim();
+        String vlVenda = campoPrecoVenda.getText().toString().trim().trim().trim();
+        String quantidade = campoQuantidade.getText().toString().trim().trim().trim();
 
         if (codigo.equals(null) || codigo.equals("")) {
             Toast.makeText(CadastroProdutoActivity.this, "Preencha o código de barras", Toast.LENGTH_LONG).show();

@@ -17,12 +17,12 @@ import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaEstoqueProdutosAdapter;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaProdutosVendasAdapter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConfiguracaoIOEstoqueVendas {
-
+//==================================================================================================
     public void devolveItemAoEstoque(RoomProdutoDAO produtoDao, Produto produto, List<Produto> produtos, BigDecimal total, TextView valorTotal, ListaProdutosVendasAdapter produtosVendaAdapter, List<Produto> listaCompras) {
-
         List<Produto> p = produtoDao.todosProdutos();
         int qtdProduto = 0;
         int qtdProdutos = 0;
@@ -48,7 +48,7 @@ public class ConfiguracaoIOEstoqueVendas {
         listaCompras.remove(produto);
         produtosVendaAdapter.notifyDataSetChanged();
     }
-
+//==================================================================================================
     public void subtraiValorDoTotal(List<Produto> listaCompras, Produto produto, TextView valorTotal) {
         String sqtd = "";
         String svl = "";
@@ -72,27 +72,29 @@ public class ConfiguracaoIOEstoqueVendas {
 
         valorTotal.setText(vl.toString());
     }
-
 //==================================================================================================
-    public void diminuiItemDoEstoque(Context context, String campoProduto, String campoCodigoBarras, List<Produto> produtos, String campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras) {
-        String tituloProduto = campoProduto;
-        String codigoBarras = campoCodigoBarras;;
-        produtos = produtoDao.todosProdutos();
-        Produto produtoLocalizado2 = new Produto();
+    public void diminuiItemDoEstoque(Context context,List<Produto> produtos, RoomProdutoDAO produtoDao, List<Produto> listaCompras) {
+      List<Produto> produtosBD = produtoDao.todosProdutos();
+      Produto produto = new Produto();
+      int qtdBD = 0;
+      int qtdListaCompras = 0;
+      int resultado = 0;
+      String sresultado = "";
 
-        for (int a = 0; a < produtos.size(); a++) {
-            if (tituloProduto.equals(produtos.get(a).getProduto()) || codigoBarras.equals(produtos.get(a).getIdCod())) {
-                produtoLocalizado2 = produtos.get(a);
-            }
-        }
+      for(int i = 0;i<listaCompras.size(); i++){
+          for(Produto prod : produtosBD){
+              if(listaCompras.get(i).getProduto().equals(prod.getProduto())){
+                  qtdBD = Integer.parseInt(prod.getQuantidade());
+                  qtdListaCompras = Integer.parseInt(listaCompras.get(i).getQuantidade());
+                  resultado = qtdBD - qtdListaCompras;
+                  sresultado = Integer.toString(resultado);
 
-        int qtdBD = Integer.parseInt(produtoLocalizado2.getQuantidade());
-        int qtdVenda = Integer.parseInt(campoQuantidade);
-
-            int result = qtdBD - qtdVenda;
-            resultadoQuantidade = Integer.toString(result);
-            produtoLocalizado2.setQuantidade(resultadoQuantidade);
-            produtoDao.editaProduto(produtoLocalizado2);
+                  produto =  prod;
+                  produto.setQuantidade(sresultado);
+                  produtoDao.editaProduto(produto);
+              }
+          }
+      }
     }
 //==================================================================================================
     public void insereProduto(Context context, MultiAutoCompleteTextView campoProduto, EditText campoCodigoBarras, List<Produto> produtos, EditText campoQuantidade, String resultadoQuantidade, RoomProdutoDAO produtoDao, List<Produto> listaCompras) {

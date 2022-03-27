@@ -611,8 +611,8 @@ public class VendasActivity extends AppCompatActivity {
                                         } else {
                                             //INSERINDO VALORES NA VENDA
                                             insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produtos,produtoDao,listaCompras);
                                             listaComprasDAO.removeTodos(listaCompras);
-                                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidadeCompra, resultadoQuantidade, produtoDao, listaCompras);
                                             new SendRequest().execute();
                                             Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                             verificaConcluirCompra = 1;
@@ -627,8 +627,8 @@ public class VendasActivity extends AppCompatActivity {
                         if (escolhaFormaPagamento.equals(CARTAO_DE_DEBITO)) {
                             //INSERINDO VALORES NA VENDA
                             insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produtos,produtoDao,listaCompras);
                             listaComprasDAO.removeTodos(listaCompras);
-                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidadeCompra, resultadoQuantidade, produtoDao, listaCompras);
                             new SendRequest().execute();
                             Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                             finish();
@@ -639,8 +639,8 @@ public class VendasActivity extends AppCompatActivity {
                             if (escolhaCcParcelamento.equals(A_VISTA)) {
                                 //INSERINDO VALORES NA VENDA
                                 insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produtos,produtoDao,listaCompras);
                                 listaComprasDAO.removeTodos(listaCompras);
-                                configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidadeCompra, resultadoQuantidade, produtoDao, listaCompras);
                                 new SendRequest().execute();
                                 Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                 finish();
@@ -686,8 +686,8 @@ public class VendasActivity extends AppCompatActivity {
                                                             venda.setCliente(pegaClienteDoCampoCC);
                                                             //INSERINDO VALORES NA VENDA
                                                             insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produtos,produtoDao,listaCompras);
                                                             listaComprasDAO.removeTodos(listaCompras);
-                                                            configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidadeCompra, resultadoQuantidade, produtoDao, listaCompras);
                                                             new SendRequest().execute();
                                                             Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                                             finish();
@@ -729,8 +729,8 @@ public class VendasActivity extends AppCompatActivity {
                                     contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
                                     //INSERINDO VALORES NA VENDA
                                     insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
+                                    configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produtos,produtoDao,listaCompras);
                                     listaComprasDAO.removeTodos(listaCompras);
-                                    configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context, produto, codigoBarras, produtos, quantidadeCompra, resultadoQuantidade, produtoDao, listaCompras);
                                     new SendRequest().execute();
                                     Toast.makeText(context, "Compra concluida com sucesso!", Toast.LENGTH_LONG).show();
                                     finish();
