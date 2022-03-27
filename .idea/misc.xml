@@ -3,7 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_add.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_add_produto_venda.xml" value="0.1" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_appbar_concluir.xml" value="0.188" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_clientes.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_configuracao.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_contas.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_editar.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_fornecedores.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_historico_vendas.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_menu_principal_activity.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_menu_principal_config.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_menu_principal_manual.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_menu_principal_notifi.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_produtos.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_relatorios.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_btn_vendas.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_conclui_venda.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_fab_novo_cliente.xml" value="0.1" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/drawable-anydpi/ic_action_preco.xml" value="0.1" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_fomulario_adiciona_produto_vendas.xml" value="0.18" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_cliente.xml" value="0.1" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_fornecedorpf.xml" value="0.49" />
@@ -66,9 +84,12 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/layout_pagamento_cartao_credito_parcelas.xml" value="0.25" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/layout_pagamento_conta_cliente.xml" value="0.18" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/layout_pagamento_dinheiro.xml" value="0.2" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_activity_principal.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_edita.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_formulario_cliente_activity.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_formulario_editar.xml" value="0.1" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_listas_activity.xml" value="0.1675929884566054" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_principal_activity.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_vendas_appbar.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/menu/menu_vendas_concluir.xml" value="0.20416666666666666" />
       </map>
