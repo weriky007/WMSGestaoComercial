@@ -66,10 +66,10 @@ public class PrincipalActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case 0:
+            case R.id.img_botao_manual:
                 Toast.makeText(this, ""+item.getItemId(), Toast.LENGTH_SHORT).show();
                 break;
-            case 1:
+            case R.id.img_botao_config:
                 Toast.makeText(this, ""+item.getItemId(), Toast.LENGTH_SHORT).show();
                 break;
         }
