@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageButton
             android:id="@+id/btnPrincipalFornecedoresActivity"
@@ -163,6 +163,27 @@
             app:layout_constraintEnd_toEndOf="@+id/btnPrincipalRelatoriosActivity"
             app:layout_constraintStart_toStartOf="@+id/btnPrincipalRelatoriosActivity"
             app:layout_constraintTop_toBottomOf="@+id/btnPrincipalRelatoriosActivity" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_grafic"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_270sdp"
+            android:layout_marginTop="@dimen/_27sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewContas"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <LinearLayout
+                android:id="@+id/linear_grafic_principal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

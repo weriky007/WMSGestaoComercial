@@ -81,6 +81,10 @@
             android:name=".ui.activities.relatorios.RelatorioTodasVendas"
             android:excludeFromRecents="true" />
 
+        <activity
+            android:name=".ui.activities.contas.ContasPrincipal"
+            android:excludeFromRecents="true" />
+
     </application>
 
 </manifest>

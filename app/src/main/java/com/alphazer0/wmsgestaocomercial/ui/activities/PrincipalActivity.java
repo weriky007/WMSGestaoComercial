@@ -2,12 +2,14 @@ package com.alphazer0.wmsgestaocomercial.ui.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,11 +17,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasPrincipal;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.RelatorioTodasVendas;
 import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.RelatoriosPrincipal;
 import com.alphazer0.wmsgestaocomercial.ui.activities.vendas.VendasActivity;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
 
 public class PrincipalActivity extends AppCompatActivity {
 
@@ -30,6 +37,7 @@ public class PrincipalActivity extends AppCompatActivity {
     private ImageButton btnEstoque;
     private ImageButton btnContas;
     private ImageButton btnRelatorios;
+    private XYPlot grafico;
 
 //==================================================================================================
     @Override
@@ -37,9 +45,23 @@ public class PrincipalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
         setTitle(WMS_GESTÃO_COMERCIAL);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         bindElementos();
         configuraBotoes();
+
+        configuraGrafico();
+    }
+//==================================================================================================
+    private void configuraGrafico() {
+        View layoutGrafico = getLayoutInflater().inflate(R.layout.grafico,null);
+        LinearLayout layoutGrafic = findViewById(R.id.linear_grafic_principal);
+        layoutGrafic.addView(layoutGrafico);
+        grafico = layoutGrafico.findViewById(R.id.grafico_linhas);
+
+        XYSeries s1 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Serie 1",1,5,2,8,3,9);
+        XYSeries s2 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Serie 2",1,3,5,6,2,11);
+        grafico.addSeries(s1,new LineAndPointFormatter(Color.GREEN,Color.GREEN,null,null));
+        grafico.addSeries(s2,new LineAndPointFormatter(Color.RED,Color.RED,null,null));
     }
 //==================================================================================================
     private void bindElementos() {
@@ -104,7 +126,7 @@ public class PrincipalActivity extends AppCompatActivity {
         btnContas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(PrincipalActivity.this, ContasPrincipal.class));
             }
         });
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardview_grafico_principal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linear_grafic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/fundo_tela">
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/grafico_linhas"
+            style="@style/APDefacto.Light"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_270sdp"
+            title = " Um Simples XY Plot "
+            rangeTitle = " range "
+            domainTitle = "domínio "
+            lineLabels = " left|bottom "
+            lineLabelRotationBottom = " -45 "/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
