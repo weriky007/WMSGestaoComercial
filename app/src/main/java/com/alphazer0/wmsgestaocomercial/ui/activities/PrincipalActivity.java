@@ -58,10 +58,12 @@ public class PrincipalActivity extends AppCompatActivity {
         layoutGrafic.addView(layoutGrafico);
         grafico = layoutGrafico.findViewById(R.id.grafico_linhas);
 
-        XYSeries s1 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Serie 1",1,5,2,8,3,9);
-        XYSeries s2 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Serie 2",1,3,5,6,2,11);
+        XYSeries s1 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Jan",1,5,2,8,3,9);
+        XYSeries s2 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Fev",1,3,5,6,2,11);
+        XYSeries s3 = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Mar",2,5,1,9,4,8);
         grafico.addSeries(s1,new LineAndPointFormatter(Color.GREEN,Color.GREEN,null,null));
         grafico.addSeries(s2,new LineAndPointFormatter(Color.RED,Color.RED,null,null));
+        grafico.addSeries(s3,new LineAndPointFormatter(Color.BLUE,Color.BLUE,null,null));
     }
 //==================================================================================================
     private void bindElementos() {
