@@ -244,6 +244,9 @@ public class PrincipalActivity extends AppCompatActivity {
                 if(mes >= 1000){
                     ysize = 100;
                 }
+                if(mes>=2000){
+                    ysize = 200;
+                }
 
             }
         }
