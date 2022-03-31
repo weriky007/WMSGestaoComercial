@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview_grafico_principal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,10 +17,8 @@
             style="@style/APDefacto.Light"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_270sdp"
-            title = " Um Simples XY Plot "
-            rangeTitle = " range "
-            domainTitle = "domínio "
-            lineLabels = " left|bottom "
-            lineLabelRotationBottom = " -45 "/>
+            ap:title="Vendas por Mês"
+            ap:paddingRight="@dimen/_8sdp"
+            ap:lineLabels="left"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
