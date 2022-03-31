@@ -184,19 +184,22 @@ public class PrincipalActivity extends AppCompatActivity {
         Number[] K  = {0,nov};
         Number[] L  = {0,dez};
 
-        XYSeries a = new SimpleXYSeries(Arrays.asList(A),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"01");
-        XYSeries b = new SimpleXYSeries(Arrays.asList(B),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"02");
-        XYSeries c = new SimpleXYSeries(Arrays.asList(C),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"03");
-        XYSeries d = new SimpleXYSeries(Arrays.asList(D),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"04");
-        XYSeries e = new SimpleXYSeries(Arrays.asList(E),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"05");
-        XYSeries f = new SimpleXYSeries(Arrays.asList(F),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"06");
-        XYSeries g = new SimpleXYSeries(Arrays.asList(G),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"07");
-        XYSeries h = new SimpleXYSeries(Arrays.asList(H),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"08");
-        XYSeries i = new SimpleXYSeries(Arrays.asList(I),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"09");
-        XYSeries j = new SimpleXYSeries(Arrays.asList(J),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"10");
-        XYSeries k = new SimpleXYSeries(Arrays.asList(K),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"11");
-        XYSeries l = new SimpleXYSeries(Arrays.asList(L),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"12");
-//        XYSeries s2 = new SimpleXYSeries(xdat,yval,"test");
+        Number[] meses = {jan,fev,mar,abr,mai,jun,jul,ago,set,out,nov,dez};
+        //Number[] meses = {51,28,36,29,55,69,49,42,60,30,27,30};
+
+        XYSeries a = new SimpleXYSeries(Arrays.asList(meses[0]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"01");
+        XYSeries b = new SimpleXYSeries(Arrays.asList(meses[1]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"02");
+        XYSeries c = new SimpleXYSeries(Arrays.asList(meses[2]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"03");
+        XYSeries d = new SimpleXYSeries(Arrays.asList(meses[3]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"04");
+        XYSeries e = new SimpleXYSeries(Arrays.asList(meses[4]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"05");
+        XYSeries f = new SimpleXYSeries(Arrays.asList(meses[5]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"06");
+        XYSeries g = new SimpleXYSeries(Arrays.asList(meses[6]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"07");
+        XYSeries h = new SimpleXYSeries(Arrays.asList(meses[7]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"08");
+        XYSeries i = new SimpleXYSeries(Arrays.asList(meses[8]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"09");
+        XYSeries j = new SimpleXYSeries(Arrays.asList(meses[9]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"10");
+        XYSeries k = new SimpleXYSeries(Arrays.asList(meses[10]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"11");
+        XYSeries l = new SimpleXYSeries(Arrays.asList(meses[11]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"12");
+
 
         MeuGraficoFormater bf1 = new  MeuGraficoFormater ( Color.RED , Color.WHITE );
         MeuGraficoFormater bf2 = new  MeuGraficoFormater ( Color.GREEN , Color.WHITE );
@@ -211,27 +214,47 @@ public class PrincipalActivity extends AppCompatActivity {
         MeuGraficoFormater bf11 = new  MeuGraficoFormater ( Color.GREEN , Color.WHITE );
         MeuGraficoFormater bf12 = new  MeuGraficoFormater ( Color.RED , Color.WHITE );
 
-        grafico.addSeries(l,bf12);
-        grafico.addSeries(k,bf11);
-        grafico.addSeries(j,bf10);
-        grafico.addSeries(i,bf9);
-        grafico.addSeries(h,bf8);
-        grafico.addSeries(g,bf7);
-        grafico.addSeries(f,bf6);
-        grafico.addSeries(e,bf5);
-        grafico.addSeries(d,bf4);
-        grafico.addSeries(c,bf3);
-        grafico.addSeries(b,bf2);
         grafico.addSeries(a,bf1);
+        grafico.addSeries(b,bf2);
+        grafico.addSeries(c,bf3);
+        grafico.addSeries(d,bf4);
+        grafico.addSeries(e,bf5);
+        grafico.addSeries(f,bf6);
+        grafico.addSeries(g,bf7);
+        grafico.addSeries(h,bf8);
+        grafico.addSeries(i,bf9);
+        grafico.addSeries(j,bf10);
+        grafico.addSeries(k,bf11);
+        grafico.addSeries(l,bf12);
 
-        PanZoom.attach(grafico);
-        grafico.setRangeStep(StepMode.INCREMENT_BY_VAL,15);//QUANTIDADE VALORES VERTICAL Y
+        int ysize = 3;
+        int[] intmeses = new int[meses.length];
+        for(int m = 0;m < meses.length; m++){
+            intmeses[m] = (int) meses[m];
+            for(int mes:intmeses){
+
+                if(mes >=100 && mes < 500){
+                    ysize = 10;
+                }
+
+                if(mes >=500 && mes <1000 ){
+                    ysize = 50;
+                }
+
+                if(mes >= 1000){
+                    ysize = 100;
+                }
+
+            }
+        }
+        //PanZoom.attach(grafico);
+        grafico.setRangeStep(StepMode.INCREMENT_BY_VAL,ysize);//QUANTIDADE VALORES VERTICAL Y
         grafico.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);//QUANTIDADE VALORES HORIZONTAL X
-        grafico.setDomainBoundaries(-9,12, BoundaryMode.FIXED); // Tamanho fixo horizontal
+        grafico.setDomainBoundaries(-25,24, BoundaryMode.FIXED); // Tamanho fixo horizontal
 
         MeuGraficoRender meuGraficoRender = grafico.getRenderer(MeuGraficoRender.class);
         meuGraficoRender.setBarOrientation(BarRenderer.BarOrientation.SIDE_BY_SIDE);//ORGANIZA AS COLUNAS
-        meuGraficoRender.setBarGroupWidth(BarRenderer.BarGroupWidthMode.FIXED_GAP,500);//LARGURA DAS COLUNAS
+        meuGraficoRender.setBarGroupWidth(BarRenderer.BarGroupWidthMode.FIXED_GAP,10);//LARGURA DAS COLUNAS
         grafico.getLegend().position(-400, HorizontalPositioning.ABSOLUTE_FROM_CENTER,360, VerticalPositioning.ABSOLUTE_FROM_CENTER);
         grafico.getLegend().setTableModel(new DynamicTableModel(6, 2));
         grafico.getLegend().setSize(new Size(100,SizeMode.ABSOLUTE,900,SizeMode.ABSOLUTE));
