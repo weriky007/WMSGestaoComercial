@@ -23,7 +23,7 @@
         android:id="@+id/textViewRelatorios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Histórico Vendas"
+        android:text="Vendas"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:textSize="@dimen/_10sdp"

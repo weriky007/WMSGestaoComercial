@@ -26,10 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.menu.Configuracao"
+            android:excludeFromRecents="true"/>
 
         <activity android:name=".ui.activities.fornecedores.FornecedoresActivity"
             android:excludeFromRecents="true"/>
-
         <activity android:name=".ui.activities.fornecedores.FornecedoresPF.ListaDeFornecedorPFActivity"
             android:excludeFromRecents="true"/>
         <activity android:name=".ui.activities.fornecedores.FornecedoresPF.InformacaoFornecedorPF"
@@ -79,6 +80,9 @@
             android:excludeFromRecents="true" />
         <activity
             android:name=".ui.activities.relatorios.RelatorioTodasVendas"
+            android:excludeFromRecents="true" />
+        <activity
+            android:name=".ui.activities.relatorios.RelatoriosVendas"
             android:excludeFromRecents="true" />
 
         <activity

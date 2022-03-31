@@ -15,9 +15,14 @@
         android:title="">
         <menu>
             <item
+                android:id="@+id/img_botao_dados"
+                android:icon="@drawable/ic_action_btn_menu_principal_perfil"
+                android:title="Perfil"/>
+
+            <item
                 android:id="@+id/img_botao_manual"
                 android:icon="@drawable/ic_action_btn_menu_principal_manual"
-                android:title="Manual"/>
+                android:title="Manual de Uso"/>
 
             <item
                 android:id="@+id/img_botao_config"
