@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ContasAReceber extends AppCompatActivity {
+public class ContasAReceberActivity extends AppCompatActivity {
 
     public static final String CONTAS_A_RECEBER = "Contas a Receber";
     private TextView vlTotalContasAReceber;

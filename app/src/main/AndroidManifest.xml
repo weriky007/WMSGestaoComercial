@@ -86,13 +86,13 @@
             android:excludeFromRecents="true" />
 
         <activity
-            android:name=".ui.activities.contas.ContasPrincipal"
+            android:name=".ui.activities.contas.ContasPrincipalActivity"
             android:excludeFromRecents="true" />
         <activity
-            android:name=".ui.activities.contas.ContasAPagar"
+            android:name=".ui.activities.contas.ContasAPagarActivity"
             android:excludeFromRecents="true" />
         <activity
-            android:name=".ui.activities.contas.ContasAReceber"
+            android:name=".ui.activities.contas.ContasAReceberActivity"
             android:excludeFromRecents="true" />
 
     </application>

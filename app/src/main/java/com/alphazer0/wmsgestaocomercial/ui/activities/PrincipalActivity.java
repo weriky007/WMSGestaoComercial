@@ -20,7 +20,7 @@ import com.alphazer0.wmsgestaocomercial.database.VendasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomVendasDAO;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasPrincipal;
+import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasPrincipalActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.RelatoriosPrincipal;
@@ -29,14 +29,11 @@ import com.androidplot.ui.DynamicTableModel;
 import com.androidplot.ui.HorizontalPositioning;
 import com.androidplot.ui.SeriesRenderer;
 import com.androidplot.ui.Size;
-import com.androidplot.ui.SizeMetric;
 import com.androidplot.ui.SizeMode;
 import com.androidplot.ui.VerticalPositioning;
-import com.androidplot.util.AttrUtils;
 import com.androidplot.xy.BarFormatter;
 import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.PanZoom;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.StepMode;
 import com.androidplot.xy.XYPlot;
@@ -327,7 +324,7 @@ public class PrincipalActivity extends AppCompatActivity {
         btnContas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PrincipalActivity.this, ContasPrincipal.class));
+                startActivity(new Intent(PrincipalActivity.this, ContasPrincipalActivity.class));
             }
         });
 

@@ -6,19 +6,17 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
-import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasAPagar;
 
 import java.util.List;
 
 @Dao
 public interface RoomContaAPagarDAO {
     @Insert
-    void salvaContaAPagar(ContasAPagar contasAPagar);
+    void salvaContaAPagar(ContaAPagar contaAPagar);
 
     @Query("SELECT * FROM contaapagar")
-    List<ContasAPagar> todasContasAPagar();
+    List<ContaAPagar> todasContasAPagar();
 
     @Delete
     void removeContaAPagar(ContaAPagar contaAPagar);

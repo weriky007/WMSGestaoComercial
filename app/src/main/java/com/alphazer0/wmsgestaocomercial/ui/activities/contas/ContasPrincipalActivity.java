@@ -3,15 +3,13 @@ package com.alphazer0.wmsgestaocomercial.ui.activities.contas;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 
-public class ContasPrincipal extends AppCompatActivity {
+public class ContasPrincipalActivity extends AppCompatActivity {
 
     public static final String CONTAS = "Contas";
     private ImageButton btnContasPagar;
@@ -32,14 +30,14 @@ public class ContasPrincipal extends AppCompatActivity {
         btnContasPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ContasPrincipal.this,ContasAPagar.class));
+                startActivity(new Intent(ContasPrincipalActivity.this, ContasAPagarActivity.class));
             }
         });
 
         btnContasReceber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ContasPrincipal.this, ContasAReceber.class));
+                startActivity(new Intent(ContasPrincipalActivity.this, ContasAReceberActivity.class));
             }
         });
     }

@@ -6,20 +6,18 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
-import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasAPagar;
-import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasAReceber;
+import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasAReceberActivity;
 
 import java.util.List;
 
 @Dao
 public interface RoomContaAReceberDAO {
     @Insert
-    void salvaContaAReceber(ContasAReceber contasAReceber);
+    void salvaContaAReceber(ContaAReceber contaAReceber);
 
     @Query("SELECT * FROM contaareceber")
-    List<ContasAReceber> todasContasAReceber();
+    List<ContaAReceber> todasContaAReceber();
 
     @Delete
     void removeContaAReceber(ContaAReceber contaAReceber);
