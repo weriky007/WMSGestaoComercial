@@ -184,8 +184,8 @@ public class PrincipalActivity extends AppCompatActivity {
         Number[] K  = {0,nov};
         Number[] L  = {0,dez};
 
-        Number[] meses = {jan,fev,mar,abr,mai,jun,jul,ago,set,out,nov,dez};
-        //Number[] meses = {51,28,36,29,55,69,49,42,60,30,27,30};
+        //Number[] meses = {jan,fev,mar,abr,mai,jun,jul,ago,set,out,nov,dez};
+        Number[] meses = {51,28,36,29,55,69,49,42,60,30,27,30};
 
         XYSeries a = new SimpleXYSeries(Arrays.asList(meses[0]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"01");
         XYSeries b = new SimpleXYSeries(Arrays.asList(meses[1]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"02");
