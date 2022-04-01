@@ -5,5 +5,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/fundo_tela">
 
+    <ImageButton
+        android:id="@+id/btn_contas_a_pagar"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/botao_arredondado"
+        android:backgroundTint="#673AB7"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_action_btn_contas_a_pagar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/text_contas_a_pagar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contas a pagar"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_contas_a_pagar"
+        app:layout_constraintStart_toStartOf="@+id/btn_contas_a_pagar"
+        app:layout_constraintTop_toBottomOf="@+id/btn_contas_a_pagar" />
+
+    <ImageButton
+        android:id="@+id/btn_contas_a_receber"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/botao_arredondado"
+        android:backgroundTint="#673AB7"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_action_btn_contas_a_receber"
+        app:layout_constraintStart_toEndOf="@+id/btn_contas_a_pagar"
+        app:layout_constraintTop_toTopOf="@+id/btn_contas_a_pagar"/>
+
+    <TextView
+        android:id="@+id/text_contas_a_receber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contas a receber"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_contas_a_receber"
+        app:layout_constraintStart_toStartOf="@+id/btn_contas_a_receber"
+        app:layout_constraintTop_toBottomOf="@+id/btn_contas_a_receber" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
