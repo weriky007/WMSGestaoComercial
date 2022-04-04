@@ -137,7 +137,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                realizaVerificacao(alertDialog);
-//                listaComprasDAO.removeTodos(listaCompras);
+//                dao.removeTodos(listaCompras);
 //                listaComprasDAO.salva(listaCompras);
             }
         });
