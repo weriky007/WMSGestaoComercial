@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_add_conta_a_pagar"
+        android:id="@+id/cardview_add_conta_a_receber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/model_conta_a_pagar_codigo_barras"
+                android:id="@+id/model_conta_a_receber_codigo_barras"
                 android:layout_width="@dimen/_225sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -27,7 +27,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
                 <EditText
-                    android:id="@+id/edit_d_conta_a_pagar_codigo_barras"
+                    android:id="@+id/edit_d_conta_a_receber_codigo_barras"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Codigo de Barras"
@@ -35,7 +35,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_scan_d_conta_pagar"
+                android:id="@+id/fab_scan_d_conta_receber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -43,9 +43,9 @@
                 android:src="@drawable/ic_action_codigo_barras"
                 android:tint="#F89402"
                 app:backgroundTint="#673AB7"
-                app:layout_constraintTop_toTopOf="@+id/model_conta_a_pagar_codigo_barras"
-                app:layout_constraintStart_toEndOf="@+id/model_conta_a_pagar_codigo_barras"
-                app:layout_constraintBottom_toBottomOf="@+id/model_conta_a_pagar_codigo_barras"
+                app:layout_constraintTop_toTopOf="@+id/model_conta_a_receber_codigo_barras"
+                app:layout_constraintStart_toEndOf="@+id/model_conta_a_receber_codigo_barras"
+                app:layout_constraintBottom_toBottomOf="@+id/model_conta_a_receber_codigo_barras"
                 android:layout_marginStart="@dimen/_1sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
@@ -53,17 +53,17 @@
                 app:rippleColor="#F8F3F3" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/model_vendas_conta_a_pagar"
+                android:id="@+id/model_vendas_conta_a_receber"
                 android:layout_width="@dimen/_220sdp"
                 android:layout_height="@dimen/_60sdp"
                 app:boxBackgroundColor="@color/zxing_transparent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginStart="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/model_conta_a_pagar_codigo_barras"
+                app:layout_constraintTop_toBottomOf="@+id/model_conta_a_receber_codigo_barras"
                 android:layout_marginTop="@dimen/_8sdp">
                 <EditText
-                    android:id="@+id/edit_conta_a_pagar"
+                    android:id="@+id/edit_conta_a_receber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="   Conta"
@@ -74,7 +74,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/model_valor_conta_a_pagar"
+                android:id="@+id/model_valor_conta_a_receber"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -82,10 +82,10 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 app:boxBackgroundColor="@color/zxing_transparent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintTop_toBottomOf="@+id/model_vendas_conta_a_pagar"
-                app:layout_constraintStart_toStartOf="@+id/model_vendas_conta_a_pagar">
+                app:layout_constraintTop_toBottomOf="@+id/model_vendas_conta_a_receber"
+                app:layout_constraintStart_toStartOf="@+id/model_vendas_conta_a_receber">
                 <EditText
-                    android:id="@+id/edit_valor_conta_a_pagar"
+                    android:id="@+id/edit_valor_conta_a_receber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_action_preco"
@@ -94,7 +94,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/model_data_conta_a_pagar"
+                android:id="@+id/model_data_conta_a_receber"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -103,10 +103,10 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 app:boxBackgroundColor="@color/zxing_transparent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintTop_toBottomOf="@+id/model_vendas_conta_a_pagar"
-                app:layout_constraintStart_toEndOf="@+id/model_valor_conta_a_pagar">
+                app:layout_constraintTop_toBottomOf="@+id/model_vendas_conta_a_receber"
+                app:layout_constraintStart_toEndOf="@+id/model_valor_conta_a_receber">
                 <EditText
-                    android:id="@+id/edit_data_conta_a_pagar"
+                    android:id="@+id/edit_data_conta_a_receber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Data de Vencimento"

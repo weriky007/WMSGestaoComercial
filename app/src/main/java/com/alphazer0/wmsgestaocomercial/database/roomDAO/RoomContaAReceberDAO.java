@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
-import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasAReceberActivity;
 
 import java.util.List;
 

@@ -30,14 +30,14 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         btnContasPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ContasPrincipalActivity.this, ContasAPagarActivity.class));
+                startActivity(new Intent(ContasPrincipalActivity.this, ListaContasAPagarActivity.class));
             }
         });
 
         btnContasReceber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ContasPrincipalActivity.this, ContasAReceberActivity.class));
+                startActivity(new Intent(ContasPrincipalActivity.this, ListaContasAReceberActivity.class));
             }
         });
     }
