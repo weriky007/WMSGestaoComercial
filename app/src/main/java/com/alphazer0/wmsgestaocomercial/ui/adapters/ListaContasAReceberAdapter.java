@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -11,9 +13,10 @@ import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListaContasAReceberAdapter extends BaseAdapter {
+public class ListaContasAReceberAdapter extends BaseAdapter implements Filterable {
     private List<ContaAReceber> contasAReceber;
     private List<ContaAReceber> contasAReceberPesquisa;
 
@@ -48,28 +51,71 @@ public class ListaContasAReceberAdapter extends BaseAdapter {
         return viewCriada;
     }
 //==================================================================================================
-    private void vincula(View viewCriada, ContaAPagar contaAPagarDevolvida) {
+    private void vincula(View viewCriada, ContaAReceber contaAReceberDevolvida) {
         //BIND
-        TextView produto = viewCriada.findViewById(R.id.item_produto_vendas_produto);
-        TextView marca = viewCriada.findViewById(R.id.item_produto_vendas_marca);
-        TextView quantidadeValorUnitario = viewCriada.findViewById(R.id.item_produto_vendas_quantidade_valor_unitario);
+        TextView contaReceber = viewCriada.findViewById(R.id.item_conta_a_receber);
+        TextView dataVencimento = viewCriada.findViewById(R.id.item_conta_a_receber_data);
+        TextView codigoBarras = viewCriada.findViewById(R.id.item_conta_a_receber_cod_barras);
+        TextView valorConta = viewCriada.findViewById(R.id.item_conta_a_receber_valor);
 
-        produto.setText(produtoDevolvido.getProduto());
-        marca.setText(produtoDevolvido.getMarca());
-
-        String q = produtoDevolvido.getQuantidade();
-        String v = produtoDevolvido.getPrecoVenda();
-
-        BigDecimal qtd = new BigDecimal(q);
-        BigDecimal vd = new BigDecimal(v);
-        BigDecimal result = qtd.multiply(vd);
-
-        String newPv = result.toString();
-        quantidadeValorUnitario.setText("Quantidade:" + qtd + " | " + "Total: R$" + newPv);
+        contaReceber.setText(contaAReceberDevolvida.getConta());
+        dataVencimento.setText(contaAReceberDevolvida.getDataVencimento());
+        codigoBarras.setText(contaAReceberDevolvida.getCodigoBarras());
+        valorConta.setText(contaAReceberDevolvida.getVlConta());
     }
 
-    private View criaView(ViewGroup listViewProdutos) {
-        return LayoutInflater.from(listViewProdutos.getContext()).inflate(R.layout.item_produto_vendas, listViewProdutos, false);
+    private View criaView(ViewGroup listViewContasAReceber) {
+        return LayoutInflater.from(listViewContasAReceber.getContext()).inflate(R.layout.item_conta_a_receber, listViewContasAReceber, false);
     }
+//==================================================================================================
+    public void atualizaListaContasAPagar(List<ContaAReceber> contaAReceber) {
+        this.contasAReceber.clear();
+        this.contasAReceber.addAll(contaAReceber);
+        notifyDataSetChanged();
+    }
+//==================================================================================================
+    public void remove(ContaAReceber contaAReceber) {
+        contasAReceber.remove(contaAReceber);
+        notifyDataSetChanged();
+    }
+//==================================================================================================
+    //INICIANDO CONFIGURACAO DO FILTRO
+    @Override
+    public Filter getFilter() {
+        return filtroContaAPagar;
+    }
+
+    //CONFIGURACAO DO FILTRO
+    private Filter filtroContaAPagar = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ContaAReceber> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(contasAReceber);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (ContaAReceber item : contasAReceber) {
+                    if (item.getConta().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            contasAReceberPesquisa.clear();
+            contasAReceberPesquisa.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+
+    };
 //==================================================================================================
 }
