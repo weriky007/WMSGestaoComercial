@@ -7,6 +7,20 @@ import java.io.Serializable;
 
 @Entity
 public class TotalContasAPagar implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    private int id = 0;
+    private String total = "";
+
+    public TotalContasAPagar(String total) {
+        this.total = total;
+    }
+
+    public TotalContasAPagar() {
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
 }
