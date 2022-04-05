@@ -56,7 +56,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setTitle(CONTAS_A_PAGAR);
-        setContentView(R.layout.activity_contas_a_pagar);
+        setContentView(R.layout.activity_lista_contas_a_pagar);
         mantemAtelaEmModoRetrato();
 
         bind();
@@ -136,9 +136,14 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                realizaVerificacao(alertDialog);
-//                dao.removeTodos(listaCompras);
-//                listaComprasDAO.salva(listaCompras);
+               ContaAPagar contaAPagar = new ContaAPagar();
+               contaAPagar.setConta(campoConta.getText().toString());
+               contaAPagar.setCodigoBarras(campoCodBarras.getText().toString());
+               contaAPagar.setDataVencimento(campoDataVencimento.getText().toString());
+               contaAPagar.setVlConta(campoValor.getText().toString());
+               dao.salvaContaAPagar(contaAPagar);
+               adapter.atualizaListaContasAPagar(dao.todasContasAPagar());
+               alertDialog.dismiss();
             }
         });
     }

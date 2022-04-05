@@ -68,7 +68,7 @@ public class ListaContasAReceberAdapter extends BaseAdapter implements Filterabl
         return LayoutInflater.from(listViewContasAReceber.getContext()).inflate(R.layout.item_conta_a_receber, listViewContasAReceber, false);
     }
 //==================================================================================================
-    public void atualizaListaContasAPagar(List<ContaAReceber> contaAReceber) {
+    public void atualizaListaContasAReceber(List<ContaAReceber> contaAReceber) {
         this.contasAReceber.clear();
         this.contasAReceber.addAll(contaAReceber);
         notifyDataSetChanged();

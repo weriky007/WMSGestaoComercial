@@ -20,14 +20,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
-import com.alphazer0.wmsgestaocomercial.database.ContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ContasAReceberDatabase;
-import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAReceberDAO;
-import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
-import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAPagarAdapter;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAReceberAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -60,13 +56,19 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(CONTAS_A_RECEBER);
-        setContentView(R.layout.activity_contas_a_receber);
+        setContentView(R.layout.activity_lista_contas_a_receber);
         telaEmModoRetrado();
 
         bind();
         configuraAdapter();
         configuraLista();
         configuraFabAddContaAReceber();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        adapter.atualizaListaContasAReceber(dao.todasContaAReceber());
     }
 //==================================================================================================
     private void telaEmModoRetrado() {
@@ -132,9 +134,14 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                realizaVerificacao(alertDialog);
-//                listaComprasDAO.removeTodos(listaCompras);
-//                listaComprasDAO.salva(listaCompras);
+              ContaAReceber contaAReceber = new ContaAReceber();
+              contaAReceber.setConta(campoConta.getText().toString());
+              contaAReceber.setCodigoBarras(campoCodBarras.getText().toString());
+              contaAReceber.setDataVencimento(campoDataVencimento.getText().toString());
+              contaAReceber.setVlConta(campoValor.getText().toString());
+              dao.salvaContaAReceber(contaAReceber);
+              adapter.atualizaListaContasAReceber(dao.todasContaAReceber());
+              alertDialog.dismiss();
             }
         });
     }

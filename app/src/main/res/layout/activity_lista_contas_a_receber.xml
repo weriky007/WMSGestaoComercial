@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lista_contas_a_pagar_activity"
+    android:id="@+id/lista_contas_a_receber_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,7 +10,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_conta_pagar"
+        android:id="@+id/cardview_conta_receber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/total"
+                android:id="@+id/total_contas_a_receber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total: R$"
@@ -31,17 +31,17 @@
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/valor_contas_a_pagar"/>
+                app:layout_constraintEnd_toStartOf="@+id/valor_contas_a_receber"/>
 
             <TextView
-                android:id="@+id/valor_contas_a_pagar"
+                android:id="@+id/valor_contas_a_receber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00"
                 android:textStyle="bold"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                app:layout_constraintTop_toTopOf="@id/total"
+                app:layout_constraintTop_toTopOf="@id/total_contas_a_receber"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -54,21 +54,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/zxing_transparent"
-        android:layout_below="@+id/cardview_conta_pagar"
+        android:layout_below="@+id/cardview_conta_receber"
+        android:layout_margin="@dimen/_8sdp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="-1dp">
 
         <ListView
-            android:id="@+id/list_view_lista_contas_a_pagar"
+            android:id="@+id/list_view_lista_contas_a_receber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/_8sdp" />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_adiciona_conta_a_pagar"
+        android:id="@+id/fab_adiciona_conta_a_receber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
