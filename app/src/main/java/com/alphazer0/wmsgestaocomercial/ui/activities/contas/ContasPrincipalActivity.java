@@ -1,6 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.contas;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,14 +17,20 @@ public class ContasPrincipalActivity extends AppCompatActivity {
     private ImageButton btnContasReceber;
 //==================================================================================================
     @Override
-    protected  void onCreate(Bundle savedIntanceState){
+    protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
         setTitle(CONTAS);
         setContentView(R.layout.activity_contas_principal);
+        mantemAtelaEmModoRetrato();
         configuraBotoes();
     }
+
 //==================================================================================================
-    private void configuraBotoes(){
+    private void mantemAtelaEmModoRetrato() {
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+    }
+
+    private void configuraBotoes() {
         btnContasPagar = findViewById(R.id.btn_contas_a_pagar);
         btnContasReceber = findViewById(R.id.btn_contas_a_receber);
 

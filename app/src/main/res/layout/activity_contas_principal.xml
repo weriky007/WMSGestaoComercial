@@ -107,4 +107,24 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_contas_pagas" />
 
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_grafic_contas"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_270sdp"
+        android:layout_marginTop="@dimen/_27sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        app:layout_constraintTop_toBottomOf="@+id/text_contas_pagas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout
+            android:id="@+id/linear_grafic_contas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

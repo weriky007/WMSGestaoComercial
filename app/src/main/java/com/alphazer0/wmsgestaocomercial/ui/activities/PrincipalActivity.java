@@ -77,7 +77,7 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraGrafico() throws ParseException {
-        View layoutGrafico = getLayoutInflater().inflate(R.layout.grafico,null);
+        View layoutGrafico = getLayoutInflater().inflate(R.layout.grafico_principal_activity,null);
         LinearLayout layoutGrafic = findViewById(R.id.linear_grafic_principal);
         layoutGrafic.addView(layoutGrafico);
         grafico = layoutGrafico.findViewById(R.id.grafico_linhas);

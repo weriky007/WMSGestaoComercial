@@ -74,6 +74,7 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_formulario_dados_fornecedorpj.xml" value="0.18636363636363637" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_fornecedores.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_informacoes_cliente.xml" value="0.18" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_informacoes_estoque_produto.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_informacoes_fornecedorpf.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_informacoes_produto.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_informacoes_venda.xml" value="0.25" />
@@ -90,6 +91,7 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_relatorios_vendas.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/activity_vendas.xml" value="0.2" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/grafico.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/grafico_contas_principal_activity.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_cliente.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_conta_a_pagar.xml" value="0.16" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_conta_a_receber.xml" value="0.20416666666666666" />
@@ -114,7 +116,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
