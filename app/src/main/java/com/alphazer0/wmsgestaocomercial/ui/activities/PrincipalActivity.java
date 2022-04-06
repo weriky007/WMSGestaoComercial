@@ -198,12 +198,12 @@ public class PrincipalActivity extends AppCompatActivity {
         XYSeries l = new SimpleXYSeries(Arrays.asList(meses[11]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"12");
 
 
-        MeuGraficoFormater bf1 = new  MeuGraficoFormater ( Color.RED , Color.WHITE );
-        MeuGraficoFormater bf2 = new  MeuGraficoFormater ( Color.GREEN , Color.WHITE );
-        MeuGraficoFormater bf3 = new  MeuGraficoFormater ( Color.BLUE , Color.WHITE );
-        MeuGraficoFormater bf4 = new  MeuGraficoFormater ( Color.YELLOW , Color.WHITE );
-        MeuGraficoFormater bf5 = new  MeuGraficoFormater ( Color.MAGENTA , Color.WHITE );
-        MeuGraficoFormater bf6 = new  MeuGraficoFormater ( Color.CYAN , Color.WHITE );
+        MeuGraficoFormater bf1 = new  MeuGraficoFormater ( Color.rgb(106,90,205) , Color.WHITE );
+        MeuGraficoFormater bf2 = new  MeuGraficoFormater ( Color.rgb(0,191,255) , Color.WHITE );
+        MeuGraficoFormater bf3 = new  MeuGraficoFormater ( Color.rgb(139,0,139) , Color.WHITE );
+        MeuGraficoFormater bf4 = new  MeuGraficoFormater ( Color.rgb(173,255,47) , Color.WHITE );
+        MeuGraficoFormater bf5 = new  MeuGraficoFormater ( Color.rgb(218,165,32) , Color.WHITE );
+        MeuGraficoFormater bf6 = new  MeuGraficoFormater ( Color.rgb(210,105,30) , Color.WHITE );
         MeuGraficoFormater bf7 = new  MeuGraficoFormater ( Color.CYAN , Color.WHITE );
         MeuGraficoFormater bf8 = new  MeuGraficoFormater ( Color.MAGENTA , Color.WHITE );
         MeuGraficoFormater bf9 = new  MeuGraficoFormater ( Color.YELLOW , Color.WHITE );
