@@ -147,16 +147,18 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
                //CALCULA TOTAL DE CONTAS A PAGAR
                listaContasAPagar =  dao.todasContasAPagar();
-               String svalorRecebido = "0";
-               BigDecimal calc = new BigDecimal("0");
-               BigDecimal bvalorRecebido = new BigDecimal("0");
                BigDecimal btotal = new BigDecimal("0");
+               BigDecimal bvlTotal = new BigDecimal("0");
+               String svalorRecebido = "";
                 for(int i = 0; i<listaContasAPagar.size();i++){
                   svalorRecebido = listaContasAPagar.get(i).getVlConta();
+                  BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
+                  bvlTotal = bvlTotal.add(bvalorRecebido);
                 }
-               calc = calc.add(bvalorRecebido);
-               String a = calc.toString();
-               vlTotalContasAPagar.setText(a);
+               btotal = btotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
+               btotal = btotal.add(bvlTotal);
+
+               vlTotalContasAPagar.setText(btotal.toString());
                alertDialog.dismiss();
             }
         });
