@@ -22,7 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAPagarDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
+import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAPagarAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,7 +44,8 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private ListView listViewContasAPagar;
     private List<ContaAPagar> listaContasAPagar = new ArrayList<>();
     private ListaContasAPagarAdapter adapter;
-    private RoomContaAPagarDAO dao;
+    private RoomContaAPagarDAO contaAPagarDAO;
+    private RoomTotalContasAPagarDAO totalContasAPagarDAO;
     private final Context context = this;
 
     private EditText campoCodBarras;
@@ -69,7 +72,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        adapter.atualizaListaContasAPagar(dao.todasContasAPagar());
+        adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
     }
 //==================================================================================================
     private void mantemAtelaEmModoRetrato(){
@@ -82,7 +85,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
     private void configuraAdapter() {
         adapter = new ListaContasAPagarAdapter(listaContasAPagar);
-        dao = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
+        contaAPagarDAO = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
     }
 
     private void configuraLista() {
@@ -142,11 +145,11 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                contaAPagar.setCodigoBarras(campoCodBarras.getText().toString());
                contaAPagar.setDataVencimento(campoDataVencimento.getText().toString());
                contaAPagar.setVlConta(campoValor.getText().toString());
-               dao.salvaContaAPagar(contaAPagar);
-               adapter.atualizaListaContasAPagar(dao.todasContasAPagar());
+               contaAPagarDAO.salvaContaAPagar(contaAPagar);
+               adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
 
                //CALCULA TOTAL DE CONTAS A PAGAR
-               listaContasAPagar =  dao.todasContasAPagar();
+               listaContasAPagar =  contaAPagarDAO.todasContasAPagar();
                BigDecimal btotal = new BigDecimal("0");
                BigDecimal bvlTotal = new BigDecimal("0");
                String svalorRecebido = "";
@@ -157,8 +160,11 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 }
                btotal = btotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
                btotal = btotal.add(bvlTotal);
-
-               vlTotalContasAPagar.setText(btotal.toString());
+               String stotal = btotal.toString();
+               vlTotalContasAPagar.setText(stotal);
+               TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
+               totalContasAPagar.setTotal(stotal);
+               totalContasAPagarDAO.salvaTotal(totalContasAPagar);//CORRIGIR NULL
                alertDialog.dismiss();
             }
         });
