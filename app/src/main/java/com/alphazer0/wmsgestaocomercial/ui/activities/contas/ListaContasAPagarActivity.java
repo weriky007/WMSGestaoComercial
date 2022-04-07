@@ -27,6 +27,7 @@ import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanC
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAPagarAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     public static final String CANCELAR = "Cancelar";
     private TextView vlTotalContasAPagar;
     private FloatingActionButton fabAddContaAPagar;
-    private ListView listaContasAPagar;
-    private List<ContaAPagar> contasAPagar = new ArrayList<>();
+    private ListView listViewContasAPagar;
+    private List<ContaAPagar> listaContasAPagar = new ArrayList<>();
     private ListaContasAPagarAdapter adapter;
     private RoomContaAPagarDAO dao;
     private final Context context = this;
@@ -51,7 +52,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private FloatingActionButton fabLerCodigo;
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
-//==================================================================================================
+ //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -80,13 +81,13 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter() {
-        adapter = new ListaContasAPagarAdapter(contasAPagar);
+        adapter = new ListaContasAPagarAdapter(listaContasAPagar);
         dao = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
     }
 
     private void configuraLista() {
-        listaContasAPagar = findViewById(R.id.list_view_lista_contas_a_pagar);
-        listaContasAPagar.setAdapter(adapter);
+        listViewContasAPagar = findViewById(R.id.list_view_lista_contas_a_pagar);
+        listViewContasAPagar.setAdapter(adapter);
     }
 //==================================================================================================
     private void configuraFabAddContaAPagar(){
@@ -143,6 +144,19 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                contaAPagar.setVlConta(campoValor.getText().toString());
                dao.salvaContaAPagar(contaAPagar);
                adapter.atualizaListaContasAPagar(dao.todasContasAPagar());
+
+               //CALCULA TOTAL DE CONTAS A PAGAR
+               listaContasAPagar =  dao.todasContasAPagar();
+               String svalorRecebido = "0";
+               BigDecimal calc = new BigDecimal("0");
+               BigDecimal bvalorRecebido = new BigDecimal("0");
+               BigDecimal btotal = new BigDecimal("0");
+                for(int i = 0; i<listaContasAPagar.size();i++){
+                  svalorRecebido = listaContasAPagar.get(i).getVlConta();
+                }
+               calc = calc.add(bvalorRecebido);
+               String a = calc.toString();
+               vlTotalContasAPagar.setText(a);
                alertDialog.dismiss();
             }
         });

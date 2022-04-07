@@ -37,7 +37,6 @@
                 android:id="@+id/valor_contas_a_pagar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
                 android:textStyle="bold"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
