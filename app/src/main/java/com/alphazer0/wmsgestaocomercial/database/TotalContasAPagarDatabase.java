@@ -8,9 +8,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.alphazer0.wmsgestaocomercial.database.converter.ConversorCalendar;
-import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
-import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 
 @Database(entities = {TotalContasAPagar.class},version = 2, exportSchema = false)

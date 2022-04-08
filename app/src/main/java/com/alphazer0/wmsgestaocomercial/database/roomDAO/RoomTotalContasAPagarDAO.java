@@ -5,8 +5,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
-import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 
 import java.util.List;
@@ -17,7 +15,7 @@ public interface RoomTotalContasAPagarDAO {
     void salvaTotal(TotalContasAPagar totalContasAPagar);
 
     @Query("SELECT * FROM totalcontasapagar")
-    List<TotalContasAPagar> totalContasAPagar();
+    TotalContasAPagar totalContasAPagar();
 
     @Delete
     void removeTotal(TotalContasAPagar totalContaAPagar);

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ContasAPagarDatabase;
+import com.alphazer0.wmsgestaocomercial.database.TotalContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
@@ -55,6 +56,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private FloatingActionButton fabLerCodigo;
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
+    private List<TotalContasAPagar> listTotal = new ArrayList<>();
  //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -73,6 +75,11 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+        if(totalContasAPagarDAO.totalContasAPagar() != null) {
+            vlTotalContasAPagar.setText(totalContasAPagarDAO.totalContasAPagar().getTotal());
+        }else {
+            vlTotalContasAPagar.setText("0.00");
+        }
     }
 //==================================================================================================
     private void mantemAtelaEmModoRetrato(){
@@ -86,6 +93,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private void configuraAdapter() {
         adapter = new ListaContasAPagarAdapter(listaContasAPagar);
         contaAPagarDAO = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
+        totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
     }
 
     private void configuraLista() {
@@ -161,10 +169,20 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                btotal = btotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
                btotal = btotal.add(bvlTotal);
                String stotal = btotal.toString();
-               vlTotalContasAPagar.setText(stotal);
+
                TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
                totalContasAPagar.setTotal(stotal);
-               totalContasAPagarDAO.salvaTotal(totalContasAPagar);//CORRIGIR NULL
+
+               if(totalContasAPagarDAO.totalContasAPagar() == null) {
+                   totalContasAPagarDAO.salvaTotal(totalContasAPagar);
+                   vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+               }else{
+                   int a = totalContasAPagarDAO.totalContasAPagar().getId();
+                   totalContasAPagar.setId(a);
+                   totalContasAPagarDAO.editaTotal(totalContasAPagar);
+                   vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+               }
+
                alertDialog.dismiss();
             }
         });
