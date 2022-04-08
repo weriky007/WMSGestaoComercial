@@ -71,9 +71,9 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         Segment segment_japao = new Segment("Japao",20);
 
         //SETANDO AS CORES EM RGB
-        SegmentFormatter formatterBrasil = new SegmentFormatter(Color.rgb(74,85,151));
-        SegmentFormatter formatterUsa = new SegmentFormatter(Color.rgb(104,121,201));
-        SegmentFormatter formatterJapao = new SegmentFormatter(Color.rgb(18,20,58));
+        SegmentFormatter formatterBrasil = new SegmentFormatter(Color.rgb(210,105,30));
+        SegmentFormatter formatterUsa = new SegmentFormatter(Color.rgb(128,0,128));
+        SegmentFormatter formatterJapao = new SegmentFormatter(Color.rgb(218,165,32));
 
         //SETANDO AS CONFIGURACOES DE CORES NO GRAFICO
         graficoPizza.addSegment(segment_brasil,formatterBrasil);
@@ -81,7 +81,7 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         graficoPizza.addSegment(segment_japao,formatterJapao);
 
         //MUDANDO ONDE O GRAFICO SE INICIA
-        graficoPizza.getRenderer(PieRenderer.class).setStartDegs(90);
+//        graficoPizza.getRenderer(PieRenderer.class).setStartDegs(90);
 
         //CASO QUEIRA CORTAR O CIRCULO
         //graficoPizza.getRenderer(PieRenderer.class).setExtentDegs(190);
@@ -92,12 +92,17 @@ public class ContasPrincipalActivity extends AppCompatActivity {
 
         //CASO QUEIRA MUDAR O TAMANHO DAS LETRAS DAS LEGENDAS
         formatterBrasil.getLabelPaint().setTextSize(40f);
-
+        formatterJapao.getLabelPaint().setTextSize(40f);
+        formatterUsa.getLabelPaint().setTextSize(40f);
         //MUDAR A COR DA LEGENDA
-        formatterBrasil.getLabelPaint().setColor(Color.RED);
+        formatterBrasil.getLabelPaint().setColor(Color.WHITE);
+        formatterJapao.getLabelPaint().setColor(Color.WHITE);
+        formatterUsa.getLabelPaint().setColor(Color.WHITE);
 
         //CASO QUEIRA SEPARAR UMA FATIA
         formatterBrasil.setOffset(30);
+        formatterJapao.setOffset(30);
+        formatterUsa.setOffset(30);
     }
 //==================================================================================================
 }
