@@ -21,12 +21,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ContasAReceberDatabase;
+import com.alphazer0.wmsgestaocomercial.database.TotalContasAReceberDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAReceberDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
+import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
+import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAReceberAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +46,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private ListView listaContasAReceber;
     private List<ContaAReceber> contasAReceber = new ArrayList<>();
     private ListaContasAReceberAdapter adapter;
-    private RoomContaAReceberDAO dao;
+    private RoomContaAReceberDAO contaAReceberDAO;
+    private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private final Context context = this;
 
     private EditText campoCodBarras;
@@ -68,7 +74,12 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        adapter.atualizaListaContasAReceber(dao.todasContaAReceber());
+        adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+        if(totalContasAReceberDAO.totalContasAReceber() != null) {
+            vlTotalContasAReceber.setText(totalContasAReceberDAO.totalContasAReceber().getTotal());
+        }else {
+            vlTotalContasAReceber.setText("0.00");
+        }
     }
 //==================================================================================================
     private void telaEmModoRetrado() {
@@ -79,7 +90,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
     private void configuraAdapter() {
         adapter = new ListaContasAReceberAdapter(contasAReceber);
-        dao = ContasAReceberDatabase.getInstance(this).getContasAReceberDAO();
+        contaAReceberDAO = ContasAReceberDatabase.getInstance(this).getContasAReceberDAO();
+        totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
     }
 
     private void configuraLista(){
@@ -139,8 +151,35 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
               contaAReceber.setCodigoBarras(campoCodBarras.getText().toString());
               contaAReceber.setDataVencimento(campoDataVencimento.getText().toString());
               contaAReceber.setVlConta(campoValor.getText().toString());
-              dao.salvaContaAReceber(contaAReceber);
-              adapter.atualizaListaContasAReceber(dao.todasContaAReceber());
+              contaAReceberDAO.salvaContaAReceber(contaAReceber);
+              adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+
+                //CALCULA TOTAL DE CONTAS A RECEBER
+                contasAReceber =  contaAReceberDAO.todasContaAReceber();
+                BigDecimal btotal = new BigDecimal("0");
+                BigDecimal bvlTotal = new BigDecimal("0");
+                String svalorRecebido = "";
+                for(int i = 0; i<contasAReceber.size();i++){
+                    svalorRecebido = contasAReceber.get(i).getVlConta();
+                    BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
+                    bvlTotal = bvlTotal.add(bvalorRecebido);
+                }
+                btotal = btotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
+                btotal = btotal.add(bvlTotal);
+                String stotal = btotal.toString();
+
+                TotalContasAReceber totalContasAReceber = new TotalContasAReceber();
+                totalContasAReceber.setTotal(stotal);
+
+                if(totalContasAReceberDAO.totalContasAReceber() == null) {
+                    totalContasAReceberDAO.salvaTotal(totalContasAReceber);
+                    vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
+                }else{
+                    int a = totalContasAReceberDAO.totalContasAReceber().getId();
+                    totalContasAReceber.setId(a);
+                    totalContasAReceberDAO.editaTotal(totalContasAReceber);
+                    vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
+                }
               alertDialog.dismiss();
             }
         });

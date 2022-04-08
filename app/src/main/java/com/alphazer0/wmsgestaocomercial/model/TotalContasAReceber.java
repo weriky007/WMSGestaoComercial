@@ -1,6 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ public class TotalContasAReceber implements Serializable {
 
     private String total="";
 
+    @Ignore
     public TotalContasAReceber(int id, String total) {
         this.id = id;
         this.total = total;

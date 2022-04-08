@@ -17,7 +17,7 @@ public interface RoomTotalContasAReceberDAO {
     void salvaTotal(TotalContasAReceber totalContasAReceber);
 
     @Query("SELECT * FROM totalcontasareceber")
-    List<TotalContasAReceber> totalContasAReceber();
+    TotalContasAReceber totalContasAReceber();
 
     @Delete
     void removeTotal(TotalContasAReceber totalContaAReceber);
