@@ -66,19 +66,19 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         graficoPizza = viewGrafico.findViewById(R.id.grafico_contas);
 
         //LEGENDA E DADOS QUE SERAO INSERIDOS NO GRAFICO
-        Segment segment_brasil = new Segment("Brasil",50);
-        Segment segment_usa = new Segment("USA",30);
-        Segment segment_japao = new Segment("Japao",20);
+        Segment segment_caixa = new Segment("Caixa",40);
+        Segment segment_pagar = new Segment("A Pagar",35);
+        Segment segment_receber = new Segment("A Receber",15);
 
         //SETANDO AS CORES EM RGB
-        SegmentFormatter formatterBrasil = new SegmentFormatter(Color.rgb(210,105,30));
-        SegmentFormatter formatterUsa = new SegmentFormatter(Color.rgb(128,0,128));
-        SegmentFormatter formatterJapao = new SegmentFormatter(Color.rgb(218,165,32));
+        SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(0,0,205));
+        SegmentFormatter formatterPagar = new SegmentFormatter(Color.rgb(255,0,0));
+        SegmentFormatter formatterReceber = new SegmentFormatter(Color.rgb(50,205,50));
 
         //SETANDO AS CONFIGURACOES DE CORES NO GRAFICO
-        graficoPizza.addSegment(segment_brasil,formatterBrasil);
-        graficoPizza.addSegment(segment_usa,formatterUsa);
-        graficoPizza.addSegment(segment_japao,formatterJapao);
+        graficoPizza.addSegment(segment_caixa,formatterCaixa);
+        graficoPizza.addSegment(segment_pagar,formatterPagar);
+        graficoPizza.addSegment(segment_receber,formatterReceber);
 
         //MUDANDO ONDE O GRAFICO SE INICIA
 //        graficoPizza.getRenderer(PieRenderer.class).setStartDegs(90);
@@ -91,18 +91,18 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         //graficoPizza.getRenderer(PieRenderer.class).setDonutSize(30, PieRenderer.DonutMode.PIXELS);
 
         //CASO QUEIRA MUDAR O TAMANHO DAS LETRAS DAS LEGENDAS
-        formatterBrasil.getLabelPaint().setTextSize(40f);
-        formatterJapao.getLabelPaint().setTextSize(40f);
-        formatterUsa.getLabelPaint().setTextSize(40f);
+        formatterCaixa.getLabelPaint().setTextSize(40f);
+        formatterReceber.getLabelPaint().setTextSize(40f);
+        formatterPagar.getLabelPaint().setTextSize(40f);
         //MUDAR A COR DA LEGENDA
-        formatterBrasil.getLabelPaint().setColor(Color.WHITE);
-        formatterJapao.getLabelPaint().setColor(Color.WHITE);
-        formatterUsa.getLabelPaint().setColor(Color.WHITE);
+        formatterCaixa.getLabelPaint().setColor(Color.WHITE);
+        formatterReceber.getLabelPaint().setColor(Color.WHITE);
+        formatterPagar.getLabelPaint().setColor(Color.WHITE);
 
         //CASO QUEIRA SEPARAR UMA FATIA
-        formatterBrasil.setOffset(30);
-        formatterJapao.setOffset(30);
-        formatterUsa.setOffset(30);
+        formatterCaixa.setOffset(30);
+//        formatterReceber.setOffset(30);
+//        formatterPagar.setOffset(30);
     }
 //==================================================================================================
 }
