@@ -20,12 +20,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
+import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ContasAReceberDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAReceberDatabase;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
+import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
-import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAReceberAdapter;
@@ -45,9 +47,11 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private FloatingActionButton fabAddContaAReceber;
     private ListView listaContasAReceber;
     private List<ContaAReceber> contasAReceber = new ArrayList<>();
+    private List<Cliente> listaClientes = new ArrayList<>();
     private ListaContasAReceberAdapter adapter;
     private RoomContaAReceberDAO contaAReceberDAO;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
+    private RoomClienteDAO clienteDAO;
     private final Context context = this;
 
     private EditText campoCodBarras;
@@ -57,6 +61,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private FloatingActionButton fabLerCodigo;
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
+
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +74,27 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         configuraAdapter();
         configuraLista();
         configuraFabAddContaAReceber();
+
+        ContaAReceber contaCliente = new ContaAReceber();
+        listaClientes = clienteDAO.todosClientes();
+        for(Cliente clienteLocalizado : listaClientes){
+            double valorDivida = Double.parseDouble(clienteLocalizado.getDivida());
+            if(valorDivida >0){
+                contaCliente.setConta(clienteLocalizado.getNomeCompleto());
+                contaCliente.setDataVencimento(clienteLocalizado.getDataVencimento());
+                contaCliente.setVlConta(clienteLocalizado.getDivida());
+                contaAReceberDAO.salvaContaAReceber(contaCliente);
+            }
+        }
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
-        if(totalContasAReceberDAO.totalContasAReceber() != null) {
+        if (totalContasAReceberDAO.totalContasAReceber() != null) {
             vlTotalContasAReceber.setText(totalContasAReceberDAO.totalContasAReceber().getTotal());
-        }else {
+        } else {
             vlTotalContasAReceber.setText("0.00");
         }
     }
@@ -86,15 +103,18 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
     }
 
-    private void bind(){vlTotalContasAReceber = findViewById(R.id.valor_contas_a_receber);}
+    private void bind() {
+        vlTotalContasAReceber = findViewById(R.id.valor_contas_a_receber);
+    }
 
     private void configuraAdapter() {
         adapter = new ListaContasAReceberAdapter(contasAReceber);
         contaAReceberDAO = ContasAReceberDatabase.getInstance(this).getContasAReceberDAO();
         totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
+        clienteDAO = ClientesDatabase.getInstance(this).getClienteDAO();
     }
 
-    private void configuraLista(){
+    private void configuraLista() {
         listaContasAReceber = findViewById(R.id.list_view_lista_contas_a_receber);
         listaContasAReceber.setAdapter(adapter);
     }
@@ -104,14 +124,14 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         fabAddContaAReceber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              abreFormularioContaAReceber();
+                abreFormularioContaAReceber();
             }
         });
     }
 //==================================================================================================
-    private void abreFormularioContaAReceber(){
+    private void abreFormularioContaAReceber() {
         View viewAddContaReceber = LayoutInflater.from(ListaContasAReceberActivity.this)
-                .inflate(R.layout.activity_formulario_adiciona_conta_a_receber,null);
+                .inflate(R.layout.activity_formulario_adiciona_conta_a_receber, null);
 
         bindElementos(viewAddContaReceber);
         configuraScanner(viewAddContaReceber);
@@ -146,41 +166,41 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              ContaAReceber contaAReceber = new ContaAReceber();
-              contaAReceber.setConta(campoConta.getText().toString());
-              contaAReceber.setCodigoBarras(campoCodBarras.getText().toString());
-              contaAReceber.setDataVencimento(campoDataVencimento.getText().toString());
-              contaAReceber.setVlConta(campoValor.getText().toString());
-              contaAReceberDAO.salvaContaAReceber(contaAReceber);
-              adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+                ContaAReceber contaAReceber = new ContaAReceber();
+                contaAReceber.setConta(campoConta.getText().toString());
+                contaAReceber.setCodigoBarras(campoCodBarras.getText().toString());
+                contaAReceber.setDataVencimento(campoDataVencimento.getText().toString());
+                contaAReceber.setVlConta(campoValor.getText().toString());
+                contaAReceberDAO.salvaContaAReceber(contaAReceber);
+                adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
 
                 //CALCULA TOTAL DE CONTAS A RECEBER
-                contasAReceber =  contaAReceberDAO.todasContaAReceber();
+                contasAReceber = contaAReceberDAO.todasContaAReceber();
                 BigDecimal btotal = new BigDecimal("0");
                 BigDecimal bvlTotal = new BigDecimal("0");
                 String svalorRecebido = "";
-                for(int i = 0; i<contasAReceber.size();i++){
+                for (int i = 0; i < contasAReceber.size(); i++) {
                     svalorRecebido = contasAReceber.get(i).getVlConta();
                     BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
                     bvlTotal = bvlTotal.add(bvalorRecebido);
                 }
-                btotal = btotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
+                btotal = btotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 btotal = btotal.add(bvlTotal);
                 String stotal = btotal.toString();
 
                 TotalContasAReceber totalContasAReceber = new TotalContasAReceber();
                 totalContasAReceber.setTotal(stotal);
 
-                if(totalContasAReceberDAO.totalContasAReceber() == null) {
+                if (totalContasAReceberDAO.totalContasAReceber() == null) {
                     totalContasAReceberDAO.salvaTotal(totalContasAReceber);
                     vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
-                }else{
+                } else {
                     int a = totalContasAReceberDAO.totalContasAReceber().getId();
                     totalContasAReceber.setId(a);
                     totalContasAReceberDAO.editaTotal(totalContasAReceber);
                     vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
                 }
-              alertDialog.dismiss();
+                alertDialog.dismiss();
             }
         });
     }
