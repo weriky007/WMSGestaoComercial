@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -74,18 +75,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         configuraAdapter();
         configuraLista();
         configuraFabAddContaAReceber();
-
-        ContaAReceber contaCliente = new ContaAReceber();
-        listaClientes = clienteDAO.todosClientes();
-        for(Cliente clienteLocalizado : listaClientes){
-            double valorDivida = Double.parseDouble(clienteLocalizado.getDivida());
-            if(valorDivida >0){
-                contaCliente.setConta(clienteLocalizado.getNomeCompleto());
-                contaCliente.setDataVencimento(clienteLocalizado.getDataVencimento());
-                contaCliente.setVlConta(clienteLocalizado.getDivida());
-                contaAReceberDAO.salvaContaAReceber(contaCliente);
-            }
-        }
+        pegaContasClientes();
+        calculaTotalContasAReceber();
     }
 
     @Override
@@ -167,42 +158,61 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContaAReceber contaAReceber = new ContaAReceber();
-                contaAReceber.setConta(campoConta.getText().toString());
-                contaAReceber.setCodigoBarras(campoCodBarras.getText().toString());
-                contaAReceber.setDataVencimento(campoDataVencimento.getText().toString());
-                contaAReceber.setVlConta(campoValor.getText().toString());
-                contaAReceberDAO.salvaContaAReceber(contaAReceber);
-                adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
-
-                //CALCULA TOTAL DE CONTAS A RECEBER
-                contasAReceber = contaAReceberDAO.todasContaAReceber();
-                BigDecimal btotal = new BigDecimal("0");
-                BigDecimal bvlTotal = new BigDecimal("0");
-                String svalorRecebido = "";
-                for (int i = 0; i < contasAReceber.size(); i++) {
-                    svalorRecebido = contasAReceber.get(i).getVlConta();
-                    BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
-                    bvlTotal = bvlTotal.add(bvalorRecebido);
-                }
-                btotal = btotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                btotal = btotal.add(bvlTotal);
-                String stotal = btotal.toString();
-
-                TotalContasAReceber totalContasAReceber = new TotalContasAReceber();
-                totalContasAReceber.setTotal(stotal);
-
-                if (totalContasAReceberDAO.totalContasAReceber() == null) {
-                    totalContasAReceberDAO.salvaTotal(totalContasAReceber);
-                    vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
-                } else {
-                    int a = totalContasAReceberDAO.totalContasAReceber().getId();
-                    totalContasAReceber.setId(a);
-                    totalContasAReceberDAO.editaTotal(totalContasAReceber);
-                    vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
-                }
+                pegaDadosDosCampos(contaAReceber);
+                salvaContaAReceberNoBancoDeDados(contaAReceber);
+                atualizaListaAdapter();
+                calculaTotalContasAReceber();
                 alertDialog.dismiss();
             }
         });
+    }
+
+    //METODOS ALERTDIALOG POSITIVE
+    private void salvaTotalNoBD(TotalContasAReceber totalContasAReceber) {
+        if (totalContasAReceberDAO.totalContasAReceber() == null) {
+            totalContasAReceberDAO.salvaTotal(totalContasAReceber);
+            vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
+        } else {
+            int a = totalContasAReceberDAO.totalContasAReceber().getId();
+            totalContasAReceber.setId(a);
+            totalContasAReceberDAO.editaTotal(totalContasAReceber);
+            vlTotalContasAReceber.setText(totalContasAReceber.getTotal());
+        }
+    }
+
+    private void calculaTotalContasAReceber() {
+        contasAReceber = contaAReceberDAO.todasContaAReceber();
+
+        BigDecimal btotal = new BigDecimal("0");
+        BigDecimal bvlTotal = new BigDecimal("0");
+        String svalorRecebido = "";
+        for (int i = 0; i < contasAReceber.size(); i++) {
+            svalorRecebido = contasAReceber.get(i).getVlConta();
+            BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
+            bvlTotal = bvlTotal.add(bvalorRecebido);
+        }
+        btotal = btotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        btotal = btotal.add(bvlTotal);
+        String stotal = btotal.toString();
+
+        TotalContasAReceber totalContasAReceber = new TotalContasAReceber();
+        totalContasAReceber.setTotal(stotal);
+        salvaTotalNoBD(totalContasAReceber);
+    }
+
+    private void atualizaListaAdapter() {
+        adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+    }
+
+    private void salvaContaAReceberNoBancoDeDados(ContaAReceber contaAReceber) {
+        contaAReceberDAO.salvaContaAReceber(contaAReceber);
+    }
+
+    private void pegaDadosDosCampos(ContaAReceber contaAReceber) {
+        contaAReceber.setConta(campoConta.getText().toString());
+        contaAReceber.setCodigoBarras(campoCodBarras.getText().toString());
+        contaAReceber.setDataVencimento(campoDataVencimento.getText().toString());
+        contaAReceber.setVlConta(campoValor.getText().toString());
     }
 
 
@@ -221,6 +231,39 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 scanCode.scanCode(activity);
             }
         });
+    }
+
+    private void pegaContasClientes(){
+        ContaAReceber contaCliente = new ContaAReceber();
+        contasAReceber = contaAReceberDAO.todasContaAReceber();
+        listaClientes = clienteDAO.todosClientes();
+        List<String> contaList = new ArrayList<>();
+
+        for(Cliente cliente : listaClientes){
+            double divCliente = Double.parseDouble(cliente.getDivida());
+            if(divCliente > 0){
+                if(contasAReceber.size() ==0){
+                    contaCliente.setConta(cliente.getNomeCompleto());
+                    contaCliente.setDataVencimento(cliente.getDataVencimento());
+                    contaCliente.setVlConta(cliente.getDivida());
+                    contaAReceberDAO.salvaContaAReceber(contaCliente);
+                }else{
+                    verificaSeContaClienteJaFoiAdicionada(contaCliente, contaList, cliente);
+                }
+            }
+        }
+    }
+
+    private void verificaSeContaClienteJaFoiAdicionada(ContaAReceber contaCliente, List<String> contaList, Cliente cliente) {
+        for (int i =0; i<contasAReceber.size();i++){
+            contaList.add(contasAReceber.get(i).getConta());
+        }
+        if(!contaList.contains(cliente.getNomeCompleto())){
+            contaCliente.setConta(cliente.getNomeCompleto());
+            contaCliente.setDataVencimento(cliente.getDataVencimento());
+            contaCliente.setVlConta(cliente.getDivida());
+            contaAReceberDAO.salvaContaAReceber(contaCliente);
+        }
     }
 //==================================================================================================
 }
