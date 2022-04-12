@@ -91,17 +91,17 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         double dReceber = Double.parseDouble(totalContasAReceberDAO.totalContasAReceber().getTotal());
         Segment segment_receber = new Segment("A Receber: R$" + dReceber, dReceber);
         SegmentFormatter formatterReceber = new SegmentFormatter(Color.rgb(50, 205, 50));
-        graficoPizza.addSegment(segment_receber, formatterReceber);
         formatterReceber.getLabelPaint().setTextSize(40f);
+        formatterReceber.getLabelPaint().setColor(Color.BLACK);
+        graficoPizza.addSegment(segment_receber, formatterReceber);
 
         //GRAFICO CAIXA
-        Segment segment_caixa = new Segment("Caixa", 40);
-        formatterReceber.getLabelPaint().setColor(Color.WHITE);
+        Segment segment_caixa = new Segment("Caixa: R$", 40);
         SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(0, 0, 205));
-        graficoPizza.addSegment(segment_caixa, formatterCaixa);
         formatterCaixa.getLabelPaint().setTextSize(40f);//TAMANHO TEXTO LEGENDA
         formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
         formatterCaixa.setOffset(30);//SEPARA FATIA
+        graficoPizza.addSegment(segment_caixa, formatterCaixa);
 
         //MUDANDO ONDE O GRAFICO SE INICIA
         //graficoPizza.getRenderer(PieRenderer.class).setStartDegs(90);
