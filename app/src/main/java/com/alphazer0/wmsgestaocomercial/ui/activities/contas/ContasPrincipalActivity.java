@@ -33,8 +33,7 @@ public class ContasPrincipalActivity extends AppCompatActivity {
     private PieChart graficoPizza;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
-
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
@@ -44,13 +43,11 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         configuraBotoes();
         configurandoGraficoPizza();
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void mantemAtelaEmModoRetrato() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraBotoes() {
         btnContasPagar = findViewById(R.id.btn_contas_a_pagar);
         btnContasReceber = findViewById(R.id.btn_contas_a_receber);
@@ -69,8 +66,7 @@ public class ContasPrincipalActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configurandoGraficoPizza() {
         //INFLANDO A VIEW
         View viewGrafico = getLayoutInflater().inflate(R.layout.grafico_contas_principal_activity, null);
