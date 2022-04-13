@@ -34,6 +34,12 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         configuraLista();
         configuraAddNovoItemFluxo();
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
+    }
 //==================================================================================================
     private void configuraAdapter() {
         fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(listaMovimentacoes);
