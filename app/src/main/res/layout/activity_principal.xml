@@ -130,7 +130,7 @@
             android:id="@+id/textViewContas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contas"
+            android:text="Finanças"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="@dimen/_10sdp"
