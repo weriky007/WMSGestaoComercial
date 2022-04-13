@@ -1,6 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.ui.adapters;
 
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_CLIENTE;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.CHAVE_MOVIMENTACAO;
 
 import android.content.Context;
 import android.content.Intent;
@@ -69,7 +70,7 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, InformacoesCliente.class);
-                intent.putExtra(CHAVE_CLIENTE, listaMovimentacao.get(holder.getAdapterPosition()));
+                intent.putExtra(CHAVE_MOVIMENTACAO, listaMovimentacao.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
         });

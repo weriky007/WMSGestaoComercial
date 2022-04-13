@@ -29,6 +29,7 @@ public interface ConstantesActivities {
     String CHAVE_FORNECEDORPJ = "fornecedorPJ";
     String CHAVE_PRODUTO = "produto";
     String CHAVE_VENDA = "venda";
+    String CHAVE_MOVIMENTACAO = "movimentacao";
 //--------------------------------------------------------------------------------------------------
     String LINK_MACRO = "https://script.google.com/macros/s/AKfycbx6_ewJEXcPP5SN9AVty-FjaeyCN7wZ0BfyXNmZgb831FjLGypkY5i1vlK27QThSXzI/exec";
     String ID_PASTA = "https://docs.google.com/spreadsheets/d/1NPtdlfoN8qgqRx673davAuDR45J_VwaFbQPy_Xo3kK4/edit#gid=0";
