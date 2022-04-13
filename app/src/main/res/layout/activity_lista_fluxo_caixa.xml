@@ -63,7 +63,7 @@
         android:focusable="true"
         android:src="@drawable/ic_action_add"
         android:tint="#F89402"
-        app:backgroundTint="#E91E63"
+        app:backgroundTint="#673AB7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#F8F3F3" />
