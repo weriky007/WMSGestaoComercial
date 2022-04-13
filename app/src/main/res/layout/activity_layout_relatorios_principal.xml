@@ -15,7 +15,7 @@
         android:backgroundTint="#F44336"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_action_btn_historico_vendas"
+        android:src="@drawable/ic_action_btn_fluxo_caixa"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

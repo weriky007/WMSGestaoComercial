@@ -106,6 +106,31 @@
         app:layout_constraintStart_toStartOf="@+id/btn_contas_pagas"
         app:layout_constraintTop_toBottomOf="@+id/btn_contas_pagas" />
 
+    <ImageButton
+        android:id="@+id/btn_caixa"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@drawable/botao_arredondado"
+        android:backgroundTint="#673AB7"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_action_btn_fluxo_caixa"
+        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_contas_pagas"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_contas_pagas"/>
+
+    <TextView
+        android:id="@+id/text_caixa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fluxo Caixa"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_caixa"
+        app:layout_constraintStart_toStartOf="@+id/btn_caixa"
+        app:layout_constraintTop_toBottomOf="@+id/btn_caixa" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_grafic_contas"

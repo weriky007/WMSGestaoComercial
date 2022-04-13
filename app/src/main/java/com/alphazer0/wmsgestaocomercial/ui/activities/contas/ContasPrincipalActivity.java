@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,15 +15,9 @@ import com.alphazer0.wmsgestaocomercial.database.TotalContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAReceberDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
-import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
-import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.androidplot.pie.PieChart;
-import com.androidplot.pie.PieRenderer;
 import com.androidplot.pie.Segment;
 import com.androidplot.pie.SegmentFormatter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ContasPrincipalActivity extends AppCompatActivity {
 
@@ -39,7 +32,7 @@ public class ContasPrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
         setTitle(CONTAS);
-        setContentView(R.layout.activity_contas_principal);
+        setContentView(R.layout.activity_financas_principal);
         mantemAtelaEmModoRetrato();
         configuraBotoes();
         configurandoGraficoPizza();
