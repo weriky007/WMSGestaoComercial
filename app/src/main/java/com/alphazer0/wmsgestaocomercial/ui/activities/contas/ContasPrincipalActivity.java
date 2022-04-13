@@ -112,6 +112,30 @@ public class ContasPrincipalActivity extends AppCompatActivity {
             formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
             formatterCaixa.setOffset(30);//SEPARA FATIA
             graficoPizza.addSegment(segment_caixa, formatterCaixa);
+        }else{
+            //GRAFICO CAIXA
+            Segment segment_caixa = new Segment("Caixa: R$", 40);
+            SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(0, 0, 205));
+            formatterCaixa.getLabelPaint().setTextSize(40f);//TAMANHO TEXTO LEGENDA
+            formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
+            formatterCaixa.setOffset(30);//SEPARA FATIA
+            graficoPizza.addSegment(segment_caixa, formatterCaixa);
+
+            //GRAFICO A PAGAR
+            double dPagar = Double.parseDouble(totalContasAPagarDAO.totalContasAPagar().getTotal());
+            Segment segment_pagar = new Segment("A Pagar: R$" + dPagar, dPagar);
+            SegmentFormatter formatterPagar = new SegmentFormatter(Color.rgb(255, 0, 0));
+            graficoPizza.addSegment(segment_pagar, formatterPagar);
+            formatterPagar.getLabelPaint().setTextSize(40f);
+            formatterPagar.getLabelPaint().setColor(Color.WHITE);
+
+            //GRAFICO A RECEBER
+            double dReceber = Double.parseDouble(totalContasAReceberDAO.totalContasAReceber().getTotal());
+            Segment segment_receber = new Segment("A Receber: R$" + dReceber, dReceber);
+            SegmentFormatter formatterReceber = new SegmentFormatter(Color.rgb(50, 205, 50));
+            formatterReceber.getLabelPaint().setTextSize(40f);
+            formatterReceber.getLabelPaint().setColor(Color.BLACK);
+            graficoPizza.addSegment(segment_receber, formatterReceber);
         }
 
         //MUDANDO ONDE O GRAFICO SE INICIA
