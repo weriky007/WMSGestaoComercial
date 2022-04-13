@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.contas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
 import android.app.Activity;
 import android.app.AlertDialog;

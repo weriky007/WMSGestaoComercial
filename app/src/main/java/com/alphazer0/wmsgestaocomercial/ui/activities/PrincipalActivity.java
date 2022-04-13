@@ -20,7 +20,7 @@ import com.alphazer0.wmsgestaocomercial.database.VendasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomVendasDAO;
 import com.alphazer0.wmsgestaocomercial.model.Venda;
 import com.alphazer0.wmsgestaocomercial.ui.activities.clientes.ListaDeClientesActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.contas.ContasPrincipalActivity;
+import com.alphazer0.wmsgestaocomercial.ui.activities.financas.FinancasPrincipalActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.estoque.ListaDeProdutosActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresActivity;
 import com.alphazer0.wmsgestaocomercial.ui.activities.relatorios.RelatoriosPrincipal;
@@ -324,7 +324,7 @@ public class PrincipalActivity extends AppCompatActivity {
         btnContas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PrincipalActivity.this, ContasPrincipalActivity.class));
+                startActivity(new Intent(PrincipalActivity.this, FinancasPrincipalActivity.class));
             }
         });
 

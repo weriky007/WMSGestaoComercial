@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.contas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,11 +19,15 @@ import com.androidplot.pie.PieChart;
 import com.androidplot.pie.Segment;
 import com.androidplot.pie.SegmentFormatter;
 
-public class ContasPrincipalActivity extends AppCompatActivity {
+public class FinancasPrincipalActivity extends AppCompatActivity {
 
-    public static final String CONTAS = "Contas";
+    public static final String CONTAS = "Finanças";
     private ImageButton btnContasPagar;
     private ImageButton btnContasReceber;
+    private ImageButton btnContasRecebidas;
+    private ImageButton btnContasPagas;
+    private ImageButton btnFluxoCaixa;
+
     private PieChart graficoPizza;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
@@ -49,14 +53,14 @@ public class ContasPrincipalActivity extends AppCompatActivity {
         btnContasPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ContasPrincipalActivity.this, ListaContasAPagarActivity.class));
+                startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasAPagarActivity.class));
             }
         });
 
         btnContasReceber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ContasPrincipalActivity.this, ListaContasAReceberActivity.class));
+                startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasAReceberActivity.class));
             }
         });
     }

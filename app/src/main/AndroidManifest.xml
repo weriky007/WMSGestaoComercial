@@ -86,13 +86,13 @@
             android:excludeFromRecents="true" />
 
         <activity
-            android:name=".ui.activities.contas.ContasPrincipalActivity"
+            android:name=".ui.activities.financas.FinancasPrincipalActivity"
             android:excludeFromRecents="true" />
         <activity
-            android:name=".ui.activities.contas.ListaContasAPagarActivity"
+            android:name=".ui.activities.financas.ListaContasAPagarActivity"
             android:excludeFromRecents="true" />
         <activity
-            android:name=".ui.activities.contas.ListaContasAReceberActivity"
+            android:name=".ui.activities.financas.ListaContasAReceberActivity"
             android:excludeFromRecents="true" />
 
     </application>

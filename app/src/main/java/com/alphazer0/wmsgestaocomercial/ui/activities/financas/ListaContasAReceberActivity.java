@@ -1,4 +1,4 @@
-package com.alphazer0.wmsgestaocomercial.ui.activities.contas;
+package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
