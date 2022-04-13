@@ -49,6 +49,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
     private void configuraBotoes() {
         btnContasPagar = findViewById(R.id.btn_contas_a_pagar);
         btnContasReceber = findViewById(R.id.btn_contas_a_receber);
+        btnFluxoCaixa = findViewById(R.id.btn_caixa);
 
         btnContasPagar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +62,13 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasAReceberActivity.class));
+            }
+        });
+
+        btnFluxoCaixa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FinancasPrincipalActivity.this, FluxoCaixaActivity.class));
             }
         });
     }
