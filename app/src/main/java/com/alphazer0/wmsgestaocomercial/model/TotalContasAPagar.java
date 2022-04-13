@@ -11,7 +11,7 @@ public class TotalContasAPagar implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id = 0;
 
-    private String total = "";
+    private String total = "0.00";
 
     @Ignore
     public TotalContasAPagar(int id, String total) {
