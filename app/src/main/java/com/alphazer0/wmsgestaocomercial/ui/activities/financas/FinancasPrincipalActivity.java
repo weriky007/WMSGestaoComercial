@@ -68,7 +68,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         btnFluxoCaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FinancasPrincipalActivity.this, FluxoCaixaActivity.class));
+                startActivity(new Intent(FinancasPrincipalActivity.this, ListaFluxoCaixaActivity.class));
             }
         });
     }

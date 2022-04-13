@@ -33,7 +33,7 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
     private Context context;
 
     //CONSTRUCTOR
-    public ListaFluxoCaixaAdapter(Context context, List<MovimentacaoCaixa> movimentacao) {
+    public ListaFluxoCaixaAdapter(List<MovimentacaoCaixa> movimentacao) {
         this.context = context;
         this.listaMovimentacaoPesquisa = movimentacao;
         this.listaMovimentacao = movimentacao;

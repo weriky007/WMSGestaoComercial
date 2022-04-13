@@ -95,7 +95,7 @@
             android:name=".ui.activities.financas.ListaContasAReceberActivity"
             android:excludeFromRecents="true" />
         <activity
-            android:name=".ui.activities.financas.FluxoCaixaActivity"
+            android:name=".ui.activities.financas.ListaFluxoCaixaActivity"
             android:excludeFromRecents="true" />
 
     </application>
