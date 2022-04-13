@@ -7,13 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomMovimentacaoCaixaDAO;
+import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaFluxoCaixaAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FluxoCaixaActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAddItemFluxo;
     private RecyclerView recyclerView;
-
+    private RoomMovimentacaoCaixaDAO movimentacaoCaixaDAO;
+    private ListaFluxoCaixaAdapter fluxoCaixaAdapter;
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState){
         super.onCreate(savedIntanceState);
@@ -23,7 +27,7 @@ public class FluxoCaixaActivity extends AppCompatActivity {
         configuraAddNovoItemFluxo();
         recyclerView = findViewById(R.id.recyclerview_lista_fluxo_caixa);
     }
-
+//==================================================================================================
     private void configuraAddNovoItemFluxo() {
         fabAddItemFluxo = findViewById(R.id.fab_novo_item_fluxo);
         fabAddItemFluxo.setOnClickListener(new View.OnClickListener() {
@@ -33,4 +37,5 @@ public class FluxoCaixaActivity extends AppCompatActivity {
             }
         });
     }
+//==================================================================================================
 }
