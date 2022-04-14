@@ -18,6 +18,7 @@ import java.util.List;
 
 public class ListaFluxoCaixaActivity extends AppCompatActivity {
 
+    public static final String FLUXO_DE_CAIXA = "Fluxo de Caixa";
     private FloatingActionButton fabAddItemFluxo;
     private RecyclerView recyclerView;
     private RoomMovimentacaoCaixaDAO movimentacaoCaixaDAO;
@@ -28,7 +29,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
         setContentView(R.layout.activity_lista_fluxo_caixa);
-        setTitle("Fluxo de Caixa");
+        setTitle(FLUXO_DE_CAIXA);
 
         configuraAdapter();
         configuraLista();
