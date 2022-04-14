@@ -47,8 +47,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private EditText campoDescricao;
     private EditText campoValor;
     private String sescolhaTipoFluxoCaixa;
-
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
@@ -65,8 +64,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         super.onResume();
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraAdapter() {
         fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(listaMovimentacoes);
         movimentacaoCaixaDAO = MovimentacoesCaixaDatabase.getInstance(this).getMovimentacaoCaixaDAO();
