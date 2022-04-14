@@ -117,8 +117,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void abreFormularioContaAPagar() {
         View viewAddContaPagar = LayoutInflater.from(ListaContasAPagarActivity.this)
                 .inflate(R.layout.activity_formulario_adiciona_conta_a_pagar, null);
@@ -213,7 +212,6 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             }
         });
     }
-
 //==================================================================================================
     //PEGA O RESULTADO DO SCANNER
     @Override

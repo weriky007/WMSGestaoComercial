@@ -1,6 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +61,11 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void abreFormularioAddMovimentacao(){
+        View viewAddMovimentacao = LayoutInflater.from(ListaFluxoCaixaActivity.this)
+                .inflate(R.layout.activity_formulario_fluxo_caixa, null);
     }
 //==================================================================================================
 }
