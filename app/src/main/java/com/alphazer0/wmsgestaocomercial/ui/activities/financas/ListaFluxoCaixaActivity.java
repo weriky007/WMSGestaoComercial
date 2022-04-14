@@ -29,7 +29,8 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
         setContentView(R.layout.activity_lista_fluxo_caixa);
-        setTitle(FLUXO_DE_CAIXA);
+        setTitle(
+                FLUXO_DE_CAIXA);
 
         configuraAdapter();
         configuraLista();
