@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -32,6 +34,8 @@ import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAReceberAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -62,7 +66,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
 
-//==================================================================================================
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +92,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             vlTotalContasAReceber.setText("0.00");
         }
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void telaEmModoRetrado() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
     }
@@ -108,7 +113,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         listaContasAReceber = findViewById(R.id.list_view_lista_contas_a_receber);
         listaContasAReceber.setAdapter(adapter);
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraFabAddContaAReceber() {
         fabAddContaAReceber = findViewById(R.id.fab_adiciona_conta_a_receber);
         fabAddContaAReceber.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +124,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             }
         });
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void abreFormularioContaAReceber() {
         View viewAddContaReceber = LayoutInflater.from(ListaContasAReceberActivity.this)
                 .inflate(R.layout.activity_formulario_adiciona_conta_a_receber, null);
@@ -232,21 +239,21 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         });
     }
 
-    private void pegaContasClientes(){
+    private void pegaContasClientes() {
         ContaAReceber contaCliente = new ContaAReceber();
         contasAReceber = contaAReceberDAO.todasContaAReceber();
         listaClientes = clienteDAO.todosClientes();
         List<String> contaList = new ArrayList<>();
 
-        for(Cliente cliente : listaClientes){
+        for (Cliente cliente : listaClientes) {
             double divCliente = Double.parseDouble(cliente.getDivida());
-            if(divCliente > 0){
-                if(contasAReceber.size() ==0){
+            if (divCliente > 0) {
+                if (contasAReceber.size() == 0) {
                     contaCliente.setConta(cliente.getNomeCompleto());
                     contaCliente.setDataVencimento(cliente.getDataVencimento());
                     contaCliente.setVlConta(cliente.getDivida());
                     contaAReceberDAO.salvaContaAReceber(contaCliente);
-                }else{
+                } else {
                     verificaSeContaClienteJaFoiAdicionada(contaCliente, contaList, cliente);
                 }
             }
@@ -254,15 +261,36 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void verificaSeContaClienteJaFoiAdicionada(ContaAReceber contaCliente, List<String> contaList, Cliente cliente) {
-        for (int i =0; i<contasAReceber.size();i++){
+        for (int i = 0; i < contasAReceber.size(); i++) {
             contaList.add(contasAReceber.get(i).getConta());
         }
-        if(!contaList.contains(cliente.getNomeCompleto())){
+        if (!contaList.contains(cliente.getNomeCompleto())) {
             contaCliente.setConta(cliente.getNomeCompleto());
             contaCliente.setDataVencimento(cliente.getDataVencimento());
             contaCliente.setVlConta(cliente.getDivida());
             contaAReceberDAO.salvaContaAReceber(contaCliente);
         }
+    }
+
+//==================================================================================================
+    //PEGA O RESULTADO DO SCANNER
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() != null) {
+                campoCodBarras.setText(result.getContents());
+                alert(result.getContents());
+            } else {
+                alert("Scan Cancelado!");
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void alert(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 //==================================================================================================
 }

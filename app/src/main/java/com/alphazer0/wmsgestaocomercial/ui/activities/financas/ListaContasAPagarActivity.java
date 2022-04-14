@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -29,6 +31,8 @@ import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAPagarAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -57,9 +61,10 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
     private List<TotalContasAPagar> listTotal = new ArrayList<>();
- //==================================================================================================
+
+    //==================================================================================================
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(CONTAS_A_PAGAR);
         setContentView(R.layout.activity_lista_contas_a_pagar);
@@ -72,21 +77,22 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
-        if(totalContasAPagarDAO.totalContasAPagar() != null) {
+        if (totalContasAPagarDAO.totalContasAPagar() != null) {
             vlTotalContasAPagar.setText(totalContasAPagarDAO.totalContasAPagar().getTotal());
-        }else {
+        } else {
             vlTotalContasAPagar.setText("0.00");
         }
     }
-//==================================================================================================
-    private void mantemAtelaEmModoRetrato(){
+
+    //==================================================================================================
+    private void mantemAtelaEmModoRetrato() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
     }
 
-    private void bind(){
+    private void bind() {
         vlTotalContasAPagar = findViewById(R.id.valor_contas_a_pagar);
     }
 
@@ -100,20 +106,22 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         listViewContasAPagar = findViewById(R.id.list_view_lista_contas_a_pagar);
         listViewContasAPagar.setAdapter(adapter);
     }
-//==================================================================================================
-    private void configuraFabAddContaAPagar(){
+
+    //==================================================================================================
+    private void configuraFabAddContaAPagar() {
         fabAddContaAPagar = findViewById(R.id.fab_adiciona_conta_a_pagar);
         fabAddContaAPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              abreFormularioContaAPagar();
+                abreFormularioContaAPagar();
             }
         });
     }
-//==================================================================================================
-    private void abreFormularioContaAPagar(){
+
+    //==================================================================================================
+    private void abreFormularioContaAPagar() {
         View viewAddContaPagar = LayoutInflater.from(ListaContasAPagarActivity.this)
-                .inflate(R.layout.activity_formulario_adiciona_conta_a_pagar,null);
+                .inflate(R.layout.activity_formulario_adiciona_conta_a_pagar, null);
 
         bindElementos(viewAddContaPagar);
         configuraScanner(viewAddContaPagar);
@@ -148,42 +156,42 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               ContaAPagar contaAPagar = new ContaAPagar();
-               contaAPagar.setConta(campoConta.getText().toString());
-               contaAPagar.setCodigoBarras(campoCodBarras.getText().toString());
-               contaAPagar.setDataVencimento(campoDataVencimento.getText().toString());
-               contaAPagar.setVlConta(campoValor.getText().toString());
-               contaAPagarDAO.salvaContaAPagar(contaAPagar);
-               adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+                ContaAPagar contaAPagar = new ContaAPagar();
+                contaAPagar.setConta(campoConta.getText().toString());
+                contaAPagar.setCodigoBarras(campoCodBarras.getText().toString());
+                contaAPagar.setDataVencimento(campoDataVencimento.getText().toString());
+                contaAPagar.setVlConta(campoValor.getText().toString());
+                contaAPagarDAO.salvaContaAPagar(contaAPagar);
+                adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
 
-               //CALCULA TOTAL DE CONTAS A PAGAR
-               listaContasAPagar =  contaAPagarDAO.todasContasAPagar();
-               BigDecimal btotal = new BigDecimal("0");
-               BigDecimal bvlTotal = new BigDecimal("0");
-               String svalorRecebido = "";
-                for(int i = 0; i<listaContasAPagar.size();i++){
-                  svalorRecebido = listaContasAPagar.get(i).getVlConta();
-                  BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
-                  bvlTotal = bvlTotal.add(bvalorRecebido);
+                //CALCULA TOTAL DE CONTAS A PAGAR
+                listaContasAPagar = contaAPagarDAO.todasContasAPagar();
+                BigDecimal btotal = new BigDecimal("0");
+                BigDecimal bvlTotal = new BigDecimal("0");
+                String svalorRecebido = "";
+                for (int i = 0; i < listaContasAPagar.size(); i++) {
+                    svalorRecebido = listaContasAPagar.get(i).getVlConta();
+                    BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
+                    bvlTotal = bvlTotal.add(bvalorRecebido);
                 }
-               btotal = btotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
-               btotal = btotal.add(bvlTotal);
-               String stotal = btotal.toString();
+                btotal = btotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                btotal = btotal.add(bvlTotal);
+                String stotal = btotal.toString();
 
-               TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
-               totalContasAPagar.setTotal(stotal);
+                TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
+                totalContasAPagar.setTotal(stotal);
 
-               if(totalContasAPagarDAO.totalContasAPagar() == null) {
-                   totalContasAPagarDAO.salvaTotal(totalContasAPagar);
-                   vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
-               }else{
-                   int a = totalContasAPagarDAO.totalContasAPagar().getId();
-                   totalContasAPagar.setId(a);
-                   totalContasAPagarDAO.editaTotal(totalContasAPagar);
-                   vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
-               }
+                if (totalContasAPagarDAO.totalContasAPagar() == null) {
+                    totalContasAPagarDAO.salvaTotal(totalContasAPagar);
+                    vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+                } else {
+                    int a = totalContasAPagarDAO.totalContasAPagar().getId();
+                    totalContasAPagar.setId(a);
+                    totalContasAPagarDAO.editaTotal(totalContasAPagar);
+                    vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+                }
 
-               alertDialog.dismiss();
+                alertDialog.dismiss();
             }
         });
     }
@@ -204,6 +212,27 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 scanCode.scanCode(activity);
             }
         });
+    }
+
+//==================================================================================================
+    //PEGA O RESULTADO DO SCANNER
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() != null) {
+                campoCodBarras.setText(result.getContents());
+                alert(result.getContents());
+            } else {
+                alert("Scan Cancelado!");
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void alert(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 //==================================================================================================
 }
