@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -45,7 +46,9 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private RadioGroup grupoTipo;
     private EditText campoDescricao;
     private EditText campoValor;
-//==================================================================================================
+    private String sescolhaTipoFluxoCaixa;
+
+    //==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
         super.onCreate(savedIntanceState);
@@ -58,11 +61,12 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
     }
-//==================================================================================================
+
+    //==================================================================================================
     private void configuraAdapter() {
         fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(listaMovimentacoes);
         movimentacaoCaixaDAO = MovimentacoesCaixaDatabase.getInstance(this).getMovimentacaoCaixaDAO();
@@ -83,7 +87,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         });
     }
 
-    private void abreFormularioAddMovimentacao(){
+    private void abreFormularioAddMovimentacao() {
         View viewAddMovimentacao = LayoutInflater.from(ListaFluxoCaixaActivity.this)
                 .inflate(R.layout.activity_formulario_fluxo_caixa, null);
 
@@ -91,6 +95,25 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         campoDescricao = viewAddMovimentacao.findViewById(R.id.edit_descricao_fluxo_caixa);
         campoValor = viewAddMovimentacao.findViewById(R.id.edit_valor_fluxo_caixa);
 
+        //PEGANDO ESCOLHA DO TIPO
+        grupoTipo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int item = radioGroup.getCheckedRadioButtonId();
+                RadioButton rescolhaTipoFluxoCaixa = viewAddMovimentacao.findViewById(item);
+                sescolhaTipoFluxoCaixa = rescolhaTipoFluxoCaixa.getText().toString();
+
+                switch (sescolhaTipoFluxoCaixa) {
+                    case "Depósito":
+                        Toast.makeText(context, "Depósito", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case "Retirada":
+                        Toast.makeText(context, "Retirada", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
