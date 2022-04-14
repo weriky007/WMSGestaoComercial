@@ -150,6 +150,19 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 Date horaAtual = new Date();
                 String dataFormatada = formataData.format(dataAtual);
                 String horaFormatada = formataHora.format(horaAtual);
+                String tipo = sescolhaTipoFluxoCaixa.toString();
+                String descricao = campoDescricao.getText().toString();
+                String valor = campoValor.getText().toString();
+
+                MovimentacaoCaixa movimentacaoCaixa = new MovimentacaoCaixa();
+                movimentacaoCaixa.setData(dataFormatada);
+                movimentacaoCaixa.setTipo(tipo);
+                movimentacaoCaixa.setDescricao(descricao);
+                movimentacaoCaixa.setValor(valor);
+
+                listaMovimentacoes.add(movimentacaoCaixa);
+                movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
+
                 alertDialog.dismiss();
             }
         });
