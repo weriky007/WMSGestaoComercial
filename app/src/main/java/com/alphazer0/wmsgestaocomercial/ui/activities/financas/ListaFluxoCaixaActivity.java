@@ -163,6 +163,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
                 listaMovimentacoes = movimentacaoCaixaDAO.todasMovimentacoes();
                 Toast.makeText(context, ""+listaMovimentacoes.size(), Toast.LENGTH_SHORT).show();
+                fluxoCaixaAdapter.atualiza(listaMovimentacoes);
                 alertDialog.dismiss();
             }
         });
