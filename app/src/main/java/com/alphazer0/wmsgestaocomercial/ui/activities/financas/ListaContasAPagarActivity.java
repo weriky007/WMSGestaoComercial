@@ -177,6 +177,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 btotal = btotal.add(bvlTotal);
                 String stotal = btotal.toString();
 
+                //SALVANDO O TOTAL
                 TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
                 totalContasAPagar.setTotal(stotal);
 

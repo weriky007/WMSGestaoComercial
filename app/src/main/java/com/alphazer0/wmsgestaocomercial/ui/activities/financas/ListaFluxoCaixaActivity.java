@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,11 +25,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.MovimentacoesCaixaDatabase;
+import com.alphazer0.wmsgestaocomercial.database.TotalCaixaDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomMovimentacaoCaixaDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalCaixaDAO;
 import com.alphazer0.wmsgestaocomercial.model.MovimentacaoCaixa;
+import com.alphazer0.wmsgestaocomercial.model.TotalCaixa;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaFluxoCaixaAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +45,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private FloatingActionButton fabAddItemFluxo;
     private RecyclerView recyclerView;
     private RoomMovimentacaoCaixaDAO movimentacaoCaixaDAO;
+    private RoomTotalCaixaDAO totalCaixaDAO;
     private ListaFluxoCaixaAdapter fluxoCaixaAdapter;
     private List<MovimentacaoCaixa> listaMovimentacoes = new ArrayList<>();
     private final Context context = this;
@@ -48,6 +54,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private EditText campoDescricao;
     private EditText campoValor;
     private String sescolhaTipoFluxoCaixa;
+    private TextView saldoTotal;
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
@@ -57,6 +64,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
 
         configuraAdapter();
         configuraLista();
+        saldoTotal = findViewById(R.id.text_fluxo_caixa_saldo);
         configuraAddNovoItemFluxo();
     }
 
@@ -64,11 +72,13 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
+        saldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
     }
 //==================================================================================================
     private void configuraAdapter() {
         fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(this,listaMovimentacoes);
         movimentacaoCaixaDAO = MovimentacoesCaixaDatabase.getInstance(this).getMovimentacaoCaixaDAO();
+        totalCaixaDAO = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
     }
 
     private void configuraLista() {
@@ -155,10 +165,13 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 Date horaAtual = new Date();
                 String dataFormatada = formataData.format(dataAtual);
                 String horaFormatada = formataHora.format(horaAtual);
+
+                //PEGA VALORES E TRANSFORMA EM STRING
                 String tipo = sescolhaTipoFluxoCaixa.toString();
                 String descricao = campoDescricao.getText().toString();
                 String valor = campoValor.getText().toString();
 
+                //INSERE VALORES DO ITEM QUE ESTA SENDO CRIADO
                 MovimentacaoCaixa movimentacaoCaixa = new MovimentacaoCaixa();
                 movimentacaoCaixa.setData(dataFormatada);
                 movimentacaoCaixa.setHora(horaFormatada);
@@ -166,9 +179,29 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 movimentacaoCaixa.setDescricao(descricao);
                 movimentacaoCaixa.setValor(valor);
 
+                //SALVANDO O ITEM CRIADO E ATUALIZANDO A LISTA
                 movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
                 listaMovimentacoes = movimentacaoCaixaDAO.todasMovimentacoes();
                 fluxoCaixaAdapter.atualiza(listaMovimentacoes);
+
+                //CALCULA O TOTAL DO SALDO
+                BigDecimal bSaldoTotal = new BigDecimal("0");
+                BigDecimal bValorItem = new BigDecimal("0");
+                String sValorColetadoDaLista = "";
+
+                for(int i = 0;i<listaMovimentacoes.size();i++){
+                    sValorColetadoDaLista = listaMovimentacoes.get(i).getValor();
+                    BigDecimal bValorColetadoDaLista = new BigDecimal(sValorColetadoDaLista);
+                    bValorItem = bValorItem.add(bValorColetadoDaLista);
+                }
+                bSaldoTotal = bSaldoTotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
+                bSaldoTotal = bSaldoTotal.add(bValorItem);
+                String sSaldoTotal = bSaldoTotal.toString();
+
+                //SALVANDO O TOTAL
+                TotalCaixa totalCaixa = new TotalCaixa();
+                totalCaixa.setTotal(sSaldoTotal);
+                totalCaixaDAO.salvaTotal(totalCaixa);
 
                 alertDialog.dismiss();
             }
