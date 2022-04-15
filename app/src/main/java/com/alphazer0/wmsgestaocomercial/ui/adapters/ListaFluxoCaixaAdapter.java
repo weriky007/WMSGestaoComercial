@@ -83,7 +83,7 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
         TextView valor = holder.itemView.findViewById(R.id.item_valor);
 
         tipo.setText("Tipo: "+itemMovimentacao.getTipo());
-        data.setText("Data: "+itemMovimentacao.getData());
+        data.setText("Data: "+itemMovimentacao.getData()+" | "+"Hora: "+itemMovimentacao.getHora());
         descricao.setText("Descrição: "+itemMovimentacao.getDescricao());
         valor.setText("Valor: R$"+itemMovimentacao.getValor());
     }

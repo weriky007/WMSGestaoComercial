@@ -13,14 +13,16 @@ public class MovimentacaoCaixa implements Serializable {
 
     private String tipo = "";
     private String data = "";
+    private String hora = "";
     private String descricao = "";
     private String valor = "";
 
     @Ignore
-    public MovimentacaoCaixa(int id, String tipo, String data, String descricao, String valor) {
+    public MovimentacaoCaixa(int id, String tipo, String data, String hora, String descricao, String valor) {
         this.id = id;
         this.tipo = tipo;
         this.data = data;
+        this.hora = hora;
         this.descricao = descricao;
         this.valor = valor;
     }
@@ -50,6 +52,14 @@ public class MovimentacaoCaixa implements Serializable {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public String getDescricao() {

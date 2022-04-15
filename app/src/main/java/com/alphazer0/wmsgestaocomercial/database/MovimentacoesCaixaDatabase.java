@@ -13,7 +13,7 @@ import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomMovimentacaoCaixaDA
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.MovimentacaoCaixa;
 
-@Database(entities = {MovimentacaoCaixa.class},version = 2, exportSchema = false)
+@Database(entities = {MovimentacaoCaixa.class},version = 3, exportSchema = false)
 
 //ADICIONANDO OS TIPOS DE CONVERSOR QUE VAMOS TER NO PROJETO
 @TypeConverters({ConversorCalendar.class})

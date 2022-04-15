@@ -74,7 +74,12 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private void configuraLista() {
         recyclerView = findViewById(R.id.recyclerview_lista_fluxo_caixa);
         recyclerView.setAdapter(fluxoCaixaAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //TIPO DE LAYOUT
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        //COLOCA OS MAIS RECENTES PRIMEIRO NA LISTA
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
     }
 
     private void configuraAddNovoItemFluxo() {
@@ -156,6 +161,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
 
                 MovimentacaoCaixa movimentacaoCaixa = new MovimentacaoCaixa();
                 movimentacaoCaixa.setData(dataFormatada);
+                movimentacaoCaixa.setHora(horaFormatada);
                 movimentacaoCaixa.setTipo(tipo);
                 movimentacaoCaixa.setDescricao(descricao);
                 movimentacaoCaixa.setValor(valor);
