@@ -28,12 +28,12 @@ import java.util.List;
 public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filterable {
 //==================================================================================================
     //CRIANDO UMA COPIA DA LISTA PARA O ADAPTER
+    private Context context;
     private List<MovimentacaoCaixa> listaMovimentacaoPesquisa;
     private List<MovimentacaoCaixa> listaMovimentacao;
-    private Context context;
 
     //CONSTRUCTOR
-    public ListaFluxoCaixaAdapter(List<MovimentacaoCaixa> movimentacao) {
+    public ListaFluxoCaixaAdapter(Context context,List<MovimentacaoCaixa> movimentacao) {
         this.context = context;
         this.listaMovimentacaoPesquisa = movimentacao;
         this.listaMovimentacao = movimentacao;
@@ -59,7 +59,7 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_movimentacao_caixa, parent, false);
-        return new FluxoCaixaViewHolder(viewCriada);
+        return new ListaFluxoCaixaAdapter.FluxoCaixaViewHolder(viewCriada);
     }
 
     //CLICK DO ITEM
@@ -82,16 +82,16 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
         TextView descricao = holder.itemView.findViewById(R.id.item_descricao);
         TextView valor = holder.itemView.findViewById(R.id.item_valor);
 
-        tipo.setText(itemMovimentacao.getTipo());
-        data.setText(itemMovimentacao.getData());
-        descricao.setText(itemMovimentacao.getDescricao());
-        valor.setText(itemMovimentacao.getDescricao());
+        tipo.setText("Tipo: "+itemMovimentacao.getTipo());
+        data.setText("Data: "+itemMovimentacao.getData());
+        descricao.setText("Descrição: "+itemMovimentacao.getDescricao());
+        valor.setText("Valor: R$"+itemMovimentacao.getValor());
     }
 
     //PEGA O TAMANHO DA LISTA
     @Override
     public int getItemCount() {
-        return listaMovimentacao.size();
+        return listaMovimentacaoPesquisa.size();
     }
 //==================================================================================================
     public void atualiza(List<MovimentacaoCaixa> movimentacaoCaixa) {

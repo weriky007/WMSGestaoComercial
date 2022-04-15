@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphazer0.wmsgestaocomercial.R;
@@ -66,13 +67,14 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAdapter() {
-        fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(listaMovimentacoes);
+        fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(this,listaMovimentacoes);
         movimentacaoCaixaDAO = MovimentacoesCaixaDatabase.getInstance(this).getMovimentacaoCaixaDAO();
     }
 
     private void configuraLista() {
         recyclerView = findViewById(R.id.recyclerview_lista_fluxo_caixa);
         recyclerView.setAdapter(fluxoCaixaAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void configuraAddNovoItemFluxo() {
@@ -158,9 +160,9 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 movimentacaoCaixa.setDescricao(descricao);
                 movimentacaoCaixa.setValor(valor);
 
-                listaMovimentacoes.add(movimentacaoCaixa);
                 movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
-
+                listaMovimentacoes = movimentacaoCaixaDAO.todasMovimentacoes();
+                Toast.makeText(context, ""+listaMovimentacoes.size(), Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });
