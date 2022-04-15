@@ -72,7 +72,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
-        saldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+//        saldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
     }
 //==================================================================================================
     private void configuraAdapter() {
@@ -167,7 +167,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 String horaFormatada = formataHora.format(horaAtual);
 
                 //PEGA VALORES E TRANSFORMA EM STRING
-                String tipo = sescolhaTipoFluxoCaixa.toString();
+                String tipo = sescolhaTipoFluxoCaixa.trim().trim().trim();
                 String descricao = campoDescricao.getText().toString();
                 String valor = campoValor.getText().toString();
 
@@ -192,17 +192,20 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 for(int i = 0;i<listaMovimentacoes.size();i++){
                     sValorColetadoDaLista = listaMovimentacoes.get(i).getValor();
                     BigDecimal bValorColetadoDaLista = new BigDecimal(sValorColetadoDaLista);
-                    bValorItem = bValorItem.add(bValorColetadoDaLista);
+                    bValorItem = bValorColetadoDaLista;
+                    bSaldoTotal = bSaldoTotal.add(bValorColetadoDaLista);
                 }
+
                 bSaldoTotal = bSaldoTotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
-                bSaldoTotal = bSaldoTotal.add(bValorItem);
-                String sSaldoTotal = bSaldoTotal.toString();
-
-                //SALVANDO O TOTAL
                 TotalCaixa totalCaixa = new TotalCaixa();
-                totalCaixa.setTotal(sSaldoTotal);
-                totalCaixaDAO.salvaTotal(totalCaixa);
+                if(tipo.equals("Depósito")) {
+                    bSaldoTotal = bSaldoTotal.add(bValorItem);
+                }else if(tipo.equals("Retirada")){
+                    bSaldoTotal = bSaldoTotal.subtract(bValorItem);
+                }
 
+                saldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+                Toast.makeText(context, bValorItem.toString()+" | "+saldoTotal.getText(), Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });
