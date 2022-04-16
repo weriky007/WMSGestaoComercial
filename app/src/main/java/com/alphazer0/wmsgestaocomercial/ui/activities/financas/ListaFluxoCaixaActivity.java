@@ -202,7 +202,6 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 String valor = campoValor.getText().toString();
 
 
-
                     if (tipo.equals("Depósito")) {
                         concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valor, alertDialog);
                         insereTotal();
