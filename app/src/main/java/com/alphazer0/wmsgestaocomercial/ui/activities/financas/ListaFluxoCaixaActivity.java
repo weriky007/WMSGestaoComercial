@@ -171,7 +171,6 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                     Toast.makeText(context, "Escolha um tipo", Toast.LENGTH_SHORT).show();
                 }
 
-
             }
         });
         configuraAlertDialog(viewAddMovimentacao);

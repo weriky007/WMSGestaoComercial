@@ -92,8 +92,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             vlTotalContasAReceber.setText("0.00");
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void telaEmModoRetrado() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
     }
@@ -113,8 +112,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         listaContasAReceber = findViewById(R.id.list_view_lista_contas_a_receber);
         listaContasAReceber.setAdapter(adapter);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraFabAddContaAReceber() {
         fabAddContaAReceber = findViewById(R.id.fab_adiciona_conta_a_receber);
         fabAddContaAReceber.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +122,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             }
         });
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void abreFormularioContaAReceber() {
         View viewAddContaReceber = LayoutInflater.from(ListaContasAReceberActivity.this)
                 .inflate(R.layout.activity_formulario_adiciona_conta_a_receber, null);
@@ -133,6 +130,10 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         bindElementos(viewAddContaReceber);
         configuraScanner(viewAddContaReceber);
 
+        configuraAlertDialog(viewAddContaReceber);
+    }
+//==================================================================================================
+    private void configuraAlertDialog(View viewAddContaReceber) {
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
@@ -164,15 +165,34 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContaAReceber contaAReceber = new ContaAReceber();
-                pegaDadosDosCampos(contaAReceber);
-                salvaContaAReceberNoBancoDeDados(contaAReceber);
-                atualizaListaAdapter();
-                calculaTotalContasAReceber();
-                alertDialog.dismiss();
+                if(campoConta.getText().toString().equals("") || campoConta.getText().toString() == null){
+                    Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(campoValor.getText().toString().equals("") || campoValor.getText().toString() ==null){
+                        Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Double d  = Double.parseDouble(campoValor.getText().toString());
+                        if(d <= 0){
+                            Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
+                                Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
+                            }else{
+                                //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
+                                pegaDadosDosCampos(contaAReceber);
+                                salvaContaAReceberNoBancoDeDados(contaAReceber);
+                                atualizaListaAdapter();
+                                calculaTotalContasAReceber();
+                                alertDialog.dismiss();
+                            }
+                        }
+                    }
+                }
+
             }
         });
     }
-
+//==================================================================================================
     //METODOS ALERTDIALOG POSITIVE
     private void salvaTotalNoBD(TotalContasAReceber totalContasAReceber) {
         if (totalContasAReceberDAO.totalContasAReceber() == null) {

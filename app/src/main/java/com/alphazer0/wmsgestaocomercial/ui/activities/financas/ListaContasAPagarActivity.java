@@ -61,8 +61,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
     private List<TotalContasAPagar> listTotal = new ArrayList<>();
-
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +85,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             vlTotalContasAPagar.setText("0.00");
         }
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void mantemAtelaEmModoRetrato() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
     }
@@ -106,8 +104,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         listViewContasAPagar = findViewById(R.id.list_view_lista_contas_a_pagar);
         listViewContasAPagar.setAdapter(adapter);
     }
-
-    //==================================================================================================
+//==================================================================================================
     private void configuraFabAddContaAPagar() {
         fabAddContaAPagar = findViewById(R.id.fab_adiciona_conta_a_pagar);
         fabAddContaAPagar.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +121,10 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
         bindElementos(viewAddContaPagar);
         configuraScanner(viewAddContaPagar);
-
+        configuraAlerDialog(viewAddContaPagar);
+    }
+//==================================================================================================
+    private void configuraAlerDialog(View viewAddContaPagar) {
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
@@ -156,47 +156,76 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContaAPagar contaAPagar = new ContaAPagar();
-                contaAPagar.setConta(campoConta.getText().toString());
-                contaAPagar.setCodigoBarras(campoCodBarras.getText().toString());
-                contaAPagar.setDataVencimento(campoDataVencimento.getText().toString());
-                contaAPagar.setVlConta(campoValor.getText().toString());
-                contaAPagarDAO.salvaContaAPagar(contaAPagar);
-                adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+                if(campoConta.getText().toString().equals("") || campoConta.getText().toString() == null){
+                    Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(campoValor.getText().toString().equals("") || campoValor.getText().toString() ==null){
+                        Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Double d  = Double.parseDouble(campoValor.getText().toString());
+                        if(d <= 0){
+                            Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
+                                Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
+                            }else{
+                                //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
+                                pegandoDadosDigitadosNosCampos(contaAPagar);
+                                salvandoEatualizandoOsDados(contaAPagar);
 
-                //CALCULA TOTAL DE CONTAS A PAGAR
-                listaContasAPagar = contaAPagarDAO.todasContasAPagar();
-                BigDecimal btotal = new BigDecimal("0");
-                BigDecimal bvlTotal = new BigDecimal("0");
-                String svalorRecebido = "";
-                for (int i = 0; i < listaContasAPagar.size(); i++) {
-                    svalorRecebido = listaContasAPagar.get(i).getVlConta();
-                    BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
-                    bvlTotal = bvlTotal.add(bvalorRecebido);
-                }
-                btotal = btotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                btotal = btotal.add(bvlTotal);
-                String stotal = btotal.toString();
+                                calculaEsalvaOTotal();
 
-                //SALVANDO O TOTAL
-                TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
-                totalContasAPagar.setTotal(stotal);
-
-                if (totalContasAPagarDAO.totalContasAPagar() == null) {
-                    totalContasAPagarDAO.salvaTotal(totalContasAPagar);
-                    vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
-                } else {
-                    int a = totalContasAPagarDAO.totalContasAPagar().getId();
-                    totalContasAPagar.setId(a);
-                    totalContasAPagarDAO.editaTotal(totalContasAPagar);
-                    vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+                                alertDialog.dismiss();
+                            }
+                        }
+                    }
                 }
 
-                alertDialog.dismiss();
             }
         });
     }
+//==================================================================================================
+    private void calculaEsalvaOTotal() {
+        listaContasAPagar = contaAPagarDAO.todasContasAPagar();
+        BigDecimal btotal = new BigDecimal("0");
+        BigDecimal bvlTotal = new BigDecimal("0");
+        String svalorRecebido = "";
+        for (int i = 0; i < listaContasAPagar.size(); i++) {
+            svalorRecebido = listaContasAPagar.get(i).getVlConta();
+            BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
+            bvlTotal = bvlTotal.add(bvalorRecebido);
+        }
+        btotal = btotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        btotal = btotal.add(bvlTotal);
+        String stotal = btotal.toString();
 
+        //SALVANDO O TOTAL
+        TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
+        totalContasAPagar.setTotal(stotal);
 
+        if (totalContasAPagarDAO.totalContasAPagar() == null) {
+            totalContasAPagarDAO.salvaTotal(totalContasAPagar);
+            vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+        } else {
+            int a = totalContasAPagarDAO.totalContasAPagar().getId();
+            totalContasAPagar.setId(a);
+            totalContasAPagarDAO.editaTotal(totalContasAPagar);
+            vlTotalContasAPagar.setText(totalContasAPagar.getTotal());
+        }
+    }
+//==================================================================================================
+    private void salvandoEatualizandoOsDados(ContaAPagar contaAPagar) {
+        contaAPagarDAO.salvaContaAPagar(contaAPagar);
+        adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+    }
+//==================================================================================================
+    private void pegandoDadosDigitadosNosCampos(ContaAPagar contaAPagar) {
+        contaAPagar.setConta(campoConta.getText().toString());
+        contaAPagar.setCodigoBarras(campoCodBarras.getText().toString());
+        contaAPagar.setDataVencimento(campoDataVencimento.getText().toString());
+        contaAPagar.setVlConta(campoValor.getText().toString());
+    }
+//==================================================================================================
     private void bindElementos(View viewAddContaPagar) {
         campoCodBarras = viewAddContaPagar.findViewById(R.id.edit_d_conta_a_pagar_codigo_barras);
         campoConta = viewAddContaPagar.findViewById(R.id.edit_conta_a_pagar);
