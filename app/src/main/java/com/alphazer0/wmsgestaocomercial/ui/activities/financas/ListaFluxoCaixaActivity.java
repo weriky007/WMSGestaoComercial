@@ -54,7 +54,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private EditText campoDescricao;
     private EditText campoValor;
     private String sescolhaTipoFluxoCaixa;
-    private TextView saldoTotal;
+    private TextView textViewSaldoTotal;
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
@@ -64,7 +64,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
 
         configuraAdapter();
         configuraLista();
-        saldoTotal = findViewById(R.id.text_fluxo_caixa_saldo);
+        textViewSaldoTotal = findViewById(R.id.text_fluxo_caixa_saldo);
         configuraAddNovoItemFluxo();
     }
 
@@ -72,7 +72,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
-//        saldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+        insereTotal();
     }
 //==================================================================================================
     private void configuraAdapter() {
@@ -100,6 +100,33 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 abreFormularioAddMovimentacao();
             }
         });
+    }
+
+    private void insereTotal(){
+        if(listaMovimentacoes.size() >0) {
+            String sTotal = "";
+            BigDecimal bTotalDepositos = new BigDecimal("0");
+            BigDecimal bTotalRetiradas = new BigDecimal("0");
+            for (int i = 0; i < listaMovimentacoes.size(); i++) {
+                sTotal = listaMovimentacoes.get(i).getValor();
+                BigDecimal b = new BigDecimal(sTotal);
+                if(listaMovimentacoes.get(i).getTipo().equals("Depósito")) {
+                    bTotalDepositos = bTotalDepositos.add(b);
+                }else if(listaMovimentacoes.get(i).getTipo().equals("Retirada")){
+                    bTotalRetiradas = bTotalRetiradas.add(b);
+                }
+            }
+            BigDecimal bSaldoTotal = bTotalDepositos.subtract(bTotalRetiradas);
+            String result = bSaldoTotal.toString();
+            TotalCaixa totalCaixa = new TotalCaixa();
+            totalCaixa.setTotal(result);
+            if(totalCaixaDAO.totalCaixa() != null){
+                totalCaixaDAO.editaTotal(totalCaixa);
+            }else {
+                totalCaixaDAO.salvaTotal(totalCaixa);
+            }
+            textViewSaldoTotal.setText(result);
+        }
     }
 
     private void abreFormularioAddMovimentacao() {
@@ -171,42 +198,48 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 String descricao = campoDescricao.getText().toString();
                 String valor = campoValor.getText().toString();
 
-                //INSERE VALORES DO ITEM QUE ESTA SENDO CRIADO
-                MovimentacaoCaixa movimentacaoCaixa = new MovimentacaoCaixa();
-                movimentacaoCaixa.setData(dataFormatada);
-                movimentacaoCaixa.setHora(horaFormatada);
-                movimentacaoCaixa.setTipo(tipo);
-                movimentacaoCaixa.setDescricao(descricao);
-                movimentacaoCaixa.setValor(valor);
+                //VERIFICA SE O VALOR DA RETIRADA E MAIOR DO QUE O SALDO
+                if(tipo.equals("Retirada")){
+                    double dvalor = Double.parseDouble(valor);
+                    double dtotal = Double.parseDouble(totalCaixaDAO.totalCaixa().getTotal());
+                    if(dvalor > dtotal){
+                        Toast.makeText(context, "O valor da Retirada não pode ser maior do que o Saldo", Toast.LENGTH_LONG).show();
+                    }else {
+                        //INSERE VALORES DO ITEM QUE ESTA SENDO CRIADO
+                        MovimentacaoCaixa movimentacaoCaixa = new MovimentacaoCaixa();
+                        movimentacaoCaixa.setData(dataFormatada);
+                        movimentacaoCaixa.setHora(horaFormatada);
+                        movimentacaoCaixa.setTipo(tipo);
+                        movimentacaoCaixa.setDescricao(descricao);
+                        movimentacaoCaixa.setValor(valor);
 
-                //SALVANDO O ITEM CRIADO E ATUALIZANDO A LISTA
-                movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
-                listaMovimentacoes = movimentacaoCaixaDAO.todasMovimentacoes();
-                fluxoCaixaAdapter.atualiza(listaMovimentacoes);
+                        //SALVANDO O ITEM CRIADO E ATUALIZANDO A LISTA
+                        movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
+                        listaMovimentacoes = movimentacaoCaixaDAO.todasMovimentacoes();
+                        fluxoCaixaAdapter.atualiza(listaMovimentacoes);
 
-                //CALCULA O TOTAL DO SALDO
-                BigDecimal bSaldoTotal = new BigDecimal("0");
-                BigDecimal bValorItem = new BigDecimal("0");
-                String sValorColetadoDaLista = "";
+                        insereTotal();
 
-                for(int i = 0;i<listaMovimentacoes.size();i++){
-                    sValorColetadoDaLista = listaMovimentacoes.get(i).getValor();
-                    BigDecimal bValorColetadoDaLista = new BigDecimal(sValorColetadoDaLista);
-                    bValorItem = bValorColetadoDaLista;
-                    bSaldoTotal = bSaldoTotal.add(bValorColetadoDaLista);
+                        alertDialog.dismiss();
+                    }
+                }else {
+                    //INSERE VALORES DO ITEM QUE ESTA SENDO CRIADO
+                    MovimentacaoCaixa movimentacaoCaixa = new MovimentacaoCaixa();
+                    movimentacaoCaixa.setData(dataFormatada);
+                    movimentacaoCaixa.setHora(horaFormatada);
+                    movimentacaoCaixa.setTipo(tipo);
+                    movimentacaoCaixa.setDescricao(descricao);
+                    movimentacaoCaixa.setValor(valor);
+
+                    //SALVANDO O ITEM CRIADO E ATUALIZANDO A LISTA
+                    movimentacaoCaixaDAO.salvaMovimentacaoCaixa(movimentacaoCaixa);
+                    listaMovimentacoes = movimentacaoCaixaDAO.todasMovimentacoes();
+                    fluxoCaixaAdapter.atualiza(listaMovimentacoes);
+
+                    insereTotal();
+
+                    alertDialog.dismiss();
                 }
-
-                bSaldoTotal = bSaldoTotal.setScale(2,BigDecimal.ROUND_HALF_EVEN);
-                TotalCaixa totalCaixa = new TotalCaixa();
-                if(tipo.equals("Depósito")) {
-                    bSaldoTotal = bSaldoTotal.add(bValorItem);
-                }else if(tipo.equals("Retirada")){
-                    bSaldoTotal = bSaldoTotal.subtract(bValorItem);
-                }
-
-                saldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
-                Toast.makeText(context, bValorItem.toString()+" | "+saldoTotal.getText(), Toast.LENGTH_SHORT).show();
-                alertDialog.dismiss();
             }
         });
     }
