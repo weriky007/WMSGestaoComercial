@@ -38,7 +38,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ListaContasAReceberActivity extends AppCompatActivity {
@@ -65,6 +68,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private FloatingActionButton fabLerCodigo;
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
+    private Date dataSelect;
 
     //==================================================================================================
     @Override
@@ -134,6 +138,11 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAlertDialog(View viewAddContaReceber) {
+        //CONFIGURA DATA
+        SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataAtual = new Date();
+        dataSelect = new Date();
+
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
@@ -178,12 +187,20 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                             if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
                                 Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
                             }else{
-                                //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
-                                pegaDadosDosCampos(contaAReceber);
-                                salvaContaAReceberNoBancoDeDados(contaAReceber);
-                                atualizaListaAdapter();
-                                calculaTotalContasAReceber();
-                                alertDialog.dismiss();
+                                configuraDataSelecionada(formataData);
+                                if(dataSelect.before(dataAtual)){
+                                    Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
+                                    pegaDadosDosCampos(contaAReceber);
+                                    salvaContaAReceberNoBancoDeDados(contaAReceber);
+                                    atualizaListaAdapter();
+                                    calculaTotalContasAReceber();
+                                    alertDialog.dismiss();
+
+                                    TextView test = findViewById(R.id.total_contas_a_receber);
+                                    test.setText(formataData.format(dataAtual));
+                                }
                             }
                         }
                     }
@@ -191,6 +208,15 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
             }
         });
+    }
+//==================================================================================================
+    private void configuraDataSelecionada(SimpleDateFormat formataData) {
+        String sCampoData = campoDataVencimento.getText().toString();
+        try {
+            dataSelect = formataData.parse(sCampoData);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
     }
 //==================================================================================================
     //METODOS ALERTDIALOG POSITIVE
