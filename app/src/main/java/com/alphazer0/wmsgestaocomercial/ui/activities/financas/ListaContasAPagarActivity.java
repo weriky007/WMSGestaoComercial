@@ -35,7 +35,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ListaContasAPagarActivity extends AppCompatActivity {
@@ -52,6 +55,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private RoomContaAPagarDAO contaAPagarDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
     private final Context context = this;
+    private Date dataSelect;
 
     private EditText campoCodBarras;
     private EditText campoConta;
@@ -125,6 +129,12 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAlerDialog(View viewAddContaPagar) {
+        //CONFIGURA DATA
+        SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataAtual = new Date();
+        dataSelect = new Date();
+
+
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
@@ -169,13 +179,18 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                             if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
                                 Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
                             }else{
-                                //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
-                                pegandoDadosDigitadosNosCampos(contaAPagar);
-                                salvandoEatualizandoOsDados(contaAPagar);
+                                configuraDataSelecionada(formataData);
+                                if(dataSelect.before(dataAtual)){
+                                    Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
+                                    pegandoDadosDigitadosNosCampos(contaAPagar);
+                                    salvandoEatualizandoOsDados(contaAPagar);
 
-                                calculaEsalvaOTotal();
+                                    calculaEsalvaOTotal();
 
-                                alertDialog.dismiss();
+                                    alertDialog.dismiss();
+                                }
                             }
                         }
                     }
@@ -183,6 +198,15 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
             }
         });
+    }
+//==================================================================================================
+    private void configuraDataSelecionada(SimpleDateFormat formataData) {
+        String sCampoData = campoDataVencimento.getText().toString();
+        try {
+            dataSelect = formataData.parse(sCampoData);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
     }
 //==================================================================================================
     private void calculaEsalvaOTotal() {
