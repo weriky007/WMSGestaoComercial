@@ -1,5 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_DATA;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,6 +29,7 @@ import com.alphazer0.wmsgestaocomercial.database.TotalContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
+import com.alphazer0.wmsgestaocomercial.model.MaskText;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAPagarAdapter;
@@ -76,6 +79,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         bind();
         configuraAdapter();
         configuraLista();
+        configuraTextoCampo();
         configuraFabAddContaAPagar();
     }
 
@@ -88,6 +92,10 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         } else {
             vlTotalContasAPagar.setText("0.00");
         }
+    }
+//==================================================================================================
+    private void configuraTextoCampo() {
+        campoDataVencimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataVencimento));
     }
 //==================================================================================================
     private void mantemAtelaEmModoRetrato() {
@@ -166,23 +174,23 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContaAPagar contaAPagar = new ContaAPagar();
-                if(campoConta.getText().toString().equals("") || campoConta.getText().toString() == null){
+                if (campoConta.getText().toString().equals("") || campoConta.getText().toString() == null) {
                     Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(campoValor.getText().toString().equals("") || campoValor.getText().toString() ==null){
+                } else {
+                    if (campoValor.getText().toString().equals("") || campoValor.getText().toString() == null) {
                         Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Double d  = Double.parseDouble(campoValor.getText().toString());
-                        if(d <= 0){
+                    } else {
+                        Double d = Double.parseDouble(campoValor.getText().toString());
+                        if (d <= 0) {
                             Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
-                        }else{
-                            if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
+                        } else {
+                            if (campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() == null) {
                                 Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 configuraDataSelecionada(formataData);
-                                if(dataSelect.before(dataAtual)){
+                                if (dataSelect.before(dataAtual)) {
                                     Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
                                     pegandoDadosDigitadosNosCampos(contaAPagar);
                                     salvandoEatualizandoOsDados(contaAPagar);
@@ -204,7 +212,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         String sCampoData = campoDataVencimento.getText().toString();
         try {
             dataSelect = formataData.parse(sCampoData);
-        }catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

@@ -8,7 +8,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_CEL;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_CEP;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_CPF;
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_DATA_NASCIMENTO;
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_DATA;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_TEL;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.TITULO_APPBAR_CADASTRO_CLIENTE;
 
@@ -136,7 +136,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
     //MASCARA FORMATA TEXTO
     private void formataTexto() {
         campoCpf.addTextChangedListener(MaskText.insert(MASK_CPF, campoCpf));
-        campoDataNascimento.addTextChangedListener(MaskText.insert(MASK_DATA_NASCIMENTO, campoDataNascimento));
+        campoDataNascimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataNascimento));
         campoCelular1.addTextChangedListener(MaskText.insert(MASK_CEL, campoCelular1));
         campoCelular2.addTextChangedListener(MaskText.insert(MASK_CEL, campoCelular2));
         campoTelefone.addTextChangedListener(MaskText.insert(MASK_TEL, campoTelefone));

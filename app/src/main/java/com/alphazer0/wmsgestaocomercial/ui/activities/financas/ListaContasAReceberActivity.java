@@ -1,5 +1,7 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
+import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_DATA;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,6 +32,7 @@ import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
+import com.alphazer0.wmsgestaocomercial.model.MaskText;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAReceberAdapter;
@@ -81,6 +84,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         bind();
         configuraAdapter();
         configuraLista();
+        configuraTextoCampo();
         configuraFabAddContaAReceber();
         pegaContasClientes();
         calculaTotalContasAReceber();
@@ -125,6 +129,10 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 abreFormularioContaAReceber();
             }
         });
+    }
+//==================================================================================================
+    private void configuraTextoCampo(){
+        campoDataVencimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataVencimento));
     }
 //==================================================================================================
     private void abreFormularioContaAReceber() {

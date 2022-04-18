@@ -7,7 +7,6 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivitie
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_CEL;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_CEP;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_CNPJ;
-import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_DATA_NASCIMENTO;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.MASK_TEL;
 import static com.alphazer0.wmsgestaocomercial.ui.activities.ConstantesActivities.TITULO_APPBAR_CADASTRO_FORNECEDOR_PJ;
 
@@ -26,11 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.FornecedoresPJDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomFornecedorPJDAO;
-import com.alphazer0.wmsgestaocomercial.model.FornecedorPF;
 import com.alphazer0.wmsgestaocomercial.model.FornecedorPJ;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
-import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.CadastroFornecedorPFActivity;
-import com.alphazer0.wmsgestaocomercial.ui.activities.fornecedores.FornecedoresPF.ListaDeFornecedorPFActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

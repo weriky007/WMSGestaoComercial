@@ -19,7 +19,7 @@ public interface ConstantesActivities {
 //--------------------------------------------------------------------------------------------------
     String MASK_CPF = "###.###.###-##";
     String MASK_CNPJ = "##.###.###/####-##";
-    String MASK_DATA_NASCIMENTO = "##/##/####";
+    String MASK_DATA = "##/##/####";
     String MASK_CEP = "#####-###";
     String MASK_TEL = "(##)####-####";
     String MASK_CEL = "(##)#####-####";
