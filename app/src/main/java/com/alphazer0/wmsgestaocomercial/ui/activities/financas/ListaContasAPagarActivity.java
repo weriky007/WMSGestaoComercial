@@ -79,7 +79,6 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         bind();
         configuraAdapter();
         configuraLista();
-        configuraTextoCampo();
         configuraFabAddContaAPagar();
     }
 
@@ -92,10 +91,6 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         } else {
             vlTotalContasAPagar.setText("0.00");
         }
-    }
-//==================================================================================================
-    private void configuraTextoCampo() {
-        campoDataVencimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataVencimento));
     }
 //==================================================================================================
     private void mantemAtelaEmModoRetrato() {
@@ -263,6 +258,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         campoConta = viewAddContaPagar.findViewById(R.id.edit_conta_a_pagar);
         campoValor = viewAddContaPagar.findViewById(R.id.edit_valor_conta_a_pagar);
         campoDataVencimento = viewAddContaPagar.findViewById(R.id.edit_data_conta_a_pagar);
+        campoDataVencimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataVencimento));
     }
 
     private void configuraScanner(View viewAddContaPagar) {

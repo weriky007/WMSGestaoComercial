@@ -84,7 +84,6 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         bind();
         configuraAdapter();
         configuraLista();
-        configuraTextoCampo();
         configuraFabAddContaAReceber();
         pegaContasClientes();
         calculaTotalContasAReceber();
@@ -129,10 +128,6 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 abreFormularioContaAReceber();
             }
         });
-    }
-//==================================================================================================
-    private void configuraTextoCampo(){
-        campoDataVencimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataVencimento));
     }
 //==================================================================================================
     private void abreFormularioContaAReceber() {
@@ -281,6 +276,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         campoConta = viewAddContaReceber.findViewById(R.id.edit_conta_a_receber);
         campoValor = viewAddContaReceber.findViewById(R.id.edit_valor_conta_a_receber);
         campoDataVencimento = viewAddContaReceber.findViewById(R.id.edit_data_conta_a_receber);
+
+        campoDataVencimento.addTextChangedListener(MaskText.insert(MASK_DATA, campoDataVencimento));
     }
 
     private void configuraScanner(View viewAddContaReceber) {
