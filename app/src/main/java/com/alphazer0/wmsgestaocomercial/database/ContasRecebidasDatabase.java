@@ -26,7 +26,7 @@ public abstract class ContasRecebidasDatabase extends RoomDatabase {
      */
 
     private static final String NOME_BD = "contasARecebidas.db";
-    public abstract RoomContasRecebidasDAO getContasAReceberDAO();
+    public abstract RoomContasRecebidasDAO getContasRecebidasDAO();
 
     public static ContasRecebidasDatabase getInstance(Context context){
         return Room.databaseBuilder(context, ContasRecebidasDatabase.class, NOME_BD)
