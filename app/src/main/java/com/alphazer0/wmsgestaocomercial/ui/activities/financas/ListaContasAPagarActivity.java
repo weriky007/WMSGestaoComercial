@@ -78,6 +78,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
         bind();
         configuraAdapter();
+        pegaDadosBDs();
         configuraLista();
         configuraFabAddContaAPagar();
     }
@@ -106,6 +107,9 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
     private void configuraAdapter() {
         adapter = new ListaContasAPagarAdapter(listaContasAPagar);
+    }
+
+    private void pegaDadosBDs(){
         contaAPagarDAO = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
         totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
     }
