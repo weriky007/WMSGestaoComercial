@@ -62,6 +62,8 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         btnContasPagar = findViewById(R.id.btn_contas_a_pagar);
         btnContasReceber = findViewById(R.id.btn_contas_a_receber);
         btnFluxoCaixa = findViewById(R.id.btn_caixa);
+        btnContasPagas = findViewById(R.id.btn_contas_pagas);
+        btnContasRecebidas = findViewById(R.id.btn_contas_recebidas);
 
         //VAI PARA CONTAS A PAGAR
         btnContasPagar.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +88,24 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(FinancasPrincipalActivity.this, ListaFluxoCaixaActivity.class));
+                finish();
+            }
+        });
+
+        //VAI PARA CONTAS PAGAS
+        btnContasPagas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasPagasActivity.class));
+                finish();
+            }
+        });
+
+        //VAI PARA CONTAS RECEBIDAS
+        btnContasRecebidas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasRecebidasActivity.class));
                 finish();
             }
         });
