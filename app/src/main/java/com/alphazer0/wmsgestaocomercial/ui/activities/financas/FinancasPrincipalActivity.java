@@ -58,10 +58,12 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraBotoes() {
+        //BIND DOS BOTOES
         btnContasPagar = findViewById(R.id.btn_contas_a_pagar);
         btnContasReceber = findViewById(R.id.btn_contas_a_receber);
         btnFluxoCaixa = findViewById(R.id.btn_caixa);
 
+        //VAI PARA CONTAS A PAGAR
         btnContasPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +72,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             }
         });
 
+        //VAI PARA CONTAS A RECEBER
         btnContasReceber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +81,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             }
         });
 
+        //VAI PARA CONTROLE DE CAIXA
         btnFluxoCaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,14 +92,14 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configurandoGraficoPizza() {
-        //INFLANDO A VIEW
+        //INFLANDO A VIEW DO GRAFICO NO CARDVIEW
         View viewGrafico = getLayoutInflater().inflate(R.layout.grafico_contas_principal_activity, null);
         LinearLayout linearLayout = findViewById(R.id.linear_grafic_contas);
 
         //BIND DO ELEMENTO
         graficoPizza = viewGrafico.findViewById(R.id.grafico_contas);
 
-        //VERIFICA SE EXISTEM VALORES PARA O GRAFICO SER INSERIDO
+        //VERIFICA SE EXISTEM VALORES PARA O GRAFICO SER RENDERIZADO
         if(totalContasAReceberDAO.totalContasAReceber() != null && !totalContasAReceberDAO.totalContasAReceber().getTotal().equals("0.00") || totalContasAPagarDAO.totalContasAPagar() != null || totalCaixaDAO.totalCaixa() != null){
             linearLayout.addView(viewGrafico);
         }
@@ -128,6 +132,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         //graficoPizza.getRenderer(PieRenderer.class).setDonutSize(30, PieRenderer.DonutMode.PIXELS);
     }
 //==================================================================================================
+    //CONFIGURACOES DOS DADOS A SEREM APRESENTADOS NO GRAFICO
     private void configuraGraficoReceber(){
         double dReceber = Double.parseDouble(totalContasAReceberDAO.totalContasAReceber().getTotal());
         Segment segment_receber = new Segment("A Receber: R$" + dReceber, dReceber);

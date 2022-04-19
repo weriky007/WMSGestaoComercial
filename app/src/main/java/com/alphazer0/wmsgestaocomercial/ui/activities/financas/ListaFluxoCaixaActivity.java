@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
@@ -62,8 +63,10 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         super.onCreate(savedIntanceState);
         setContentView(R.layout.activity_lista_fluxo_caixa);
         setTitle(FLUXO_DE_CAIXA);
+        telaEmModoRetrado();
 
         configuraAdapter();
+        pegaDadosDosBDs();
         configuraLista();
         textViewSaldoTotal = findViewById(R.id.text_fluxo_caixa_saldo);
         configuraAddNovoItemFluxo();
@@ -75,9 +78,16 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
         insereTotal();
     }
+
+    private void telaEmModoRetrado() {
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+    }
 //==================================================================================================
     private void configuraAdapter() {
         fluxoCaixaAdapter = new ListaFluxoCaixaAdapter(this,listaMovimentacoes);
+    }
+
+    private void pegaDadosDosBDs(){
         movimentacaoCaixaDAO = MovimentacoesCaixaDatabase.getInstance(this).getMovimentacaoCaixaDAO();
         totalCaixaDAO = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
     }
@@ -144,9 +154,11 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void abreFormularioAddMovimentacao() {
+        //CRIA VIEW QUE IRA INFLAR O ALERTDIALOG
         View viewAddMovimentacao = LayoutInflater.from(ListaFluxoCaixaActivity.this)
                 .inflate(R.layout.activity_formulario_fluxo_caixa, null);
 
+        //BIND DOS ELEMENTOS
         grupoTipo = viewAddMovimentacao.findViewById(R.id.radio_escolha_tipo_fluxo_caixa);
         campoDescricao = viewAddMovimentacao.findViewById(R.id.edit_descricao_fluxo_caixa);
         campoValor = viewAddMovimentacao.findViewById(R.id.edit_valor_fluxo_caixa);
@@ -178,13 +190,16 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraAlertDialog(View viewAddMovimentacao) {
+        //CONFIGURA COR E MARGEM ALERT DIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
+        //CRIA ALERTDIALOG
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setMessage("Adicionar Movimentação");
         alertDialog.setView(viewAddMovimentacao);
 
+        //BOTAO POSITIVO
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, CONCLUIR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -192,6 +207,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
             }
         });
 
+        //BOTAO NEGATIVO
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -200,6 +216,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
             }
         });
 
+        //EXECUTANDO ALERTDIALOG
         alertDialog.show();
         alertDialog.getWindow().setBackgroundDrawable(inset);
         Button btn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -215,53 +232,57 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 String dataFormatada = formataData.format(dataAtual);
                 String horaFormatada = formataHora.format(horaAtual);
 
-                //VERIFICACAO DOS CAMPOS
-                if(sescolhaTipoFluxoCaixa.equals("") || sescolhaTipoFluxoCaixa == null){
-                    Toast.makeText(context, "Escolha um tipo", Toast.LENGTH_SHORT).show();
+                realizaVerificacao(dataFormatada, horaFormatada, alertDialog);
+
+            }
+        });
+    }
+//==================================================================================================
+    private void realizaVerificacao(String dataFormatada, String horaFormatada, AlertDialog alertDialog) {
+        //VERIFICACAO DOS CAMPOS
+        if(sescolhaTipoFluxoCaixa.equals("") || sescolhaTipoFluxoCaixa == null){
+            Toast.makeText(context, "Escolha um tipo", Toast.LENGTH_SHORT).show();
+        }else{
+            if(campoDescricao.getText().toString().equals("") || campoDescricao.getText().toString() == null){
+                Toast.makeText(context, "Preencha o campo descrição", Toast.LENGTH_SHORT).show();
+            }else{
+                if(campoValor.getText().toString().equals("") || campoValor.getText().toString() == null){
+                    Toast.makeText(context, "Preencha o valor", Toast.LENGTH_SHORT).show();
                 }else{
-                    if(campoDescricao.getText().toString().equals("") || campoDescricao.getText().toString() == null){
-                        Toast.makeText(context, "Preencha o campo descrição", Toast.LENGTH_SHORT).show();
+                    double d = Double.parseDouble(campoValor.getText().toString());
+                    if(d <=0){
+                        Toast.makeText(context, "O valor deve ser maior que Zero", Toast.LENGTH_SHORT).show();
                     }else{
-                        if(campoValor.getText().toString().equals("") || campoValor.getText().toString() == null){
-                            Toast.makeText(context, "Preencha o valor", Toast.LENGTH_SHORT).show();
-                        }else{
-                            double d = Double.parseDouble(campoValor.getText().toString());
-                            if(d <=0){
-                                Toast.makeText(context, "O valor deve ser maior que Zero", Toast.LENGTH_SHORT).show();
-                            }else{
-                                //PEGA OS VALORES DOS CAMPOS
-                                String tipo = sescolhaTipoFluxoCaixa.trim().trim().trim();
-                                String descricao = campoDescricao.getText().toString();
-                                String valor = campoValor.getText().toString();
+                        //PEGA OS VALORES DOS CAMPOS
+                        String tipo = sescolhaTipoFluxoCaixa.trim().trim().trim();
+                        String descricao = campoDescricao.getText().toString();
+                        String valor = campoValor.getText().toString();
 
 
-                                //VERIFICA O TIPO
-                                if (tipo.equals("Depósito")) {
+                        //VERIFICA O TIPO
+                        if (tipo.equals("Depósito")) {
+                            concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valor, alertDialog);
+                            insereTotal();
+                        }
+
+                        if (tipo.equals("Retirada")) {
+                            if (totalCaixaDAO.totalCaixa() == null) {
+                                Toast.makeText(context, "Não é possível realizar uma Retirada sem Saldo", Toast.LENGTH_SHORT).show();
+                            } else {
+                                double dtotal = Double.parseDouble(totalCaixaDAO.totalCaixa().getTotal());
+                                double dvalor = Double.parseDouble(valor);
+                                if (dvalor > 0 && dvalor <= dtotal) {
                                     concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valor, alertDialog);
                                     insereTotal();
-                                }
-
-                                if (tipo.equals("Retirada")) {
-                                    if (totalCaixaDAO.totalCaixa() == null) {
-                                        Toast.makeText(context, "Não é possível realizar uma Retirada sem Saldo", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        double dtotal = Double.parseDouble(totalCaixaDAO.totalCaixa().getTotal());
-                                        double dvalor = Double.parseDouble(valor);
-                                        if (dvalor > 0 && dvalor <= dtotal) {
-                                            concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valor, alertDialog);
-                                            insereTotal();
-                                        } else {
-                                            Toast.makeText(context, "O valor da Retirada não pode ser maior do que o Saldo: R$" + dtotal, Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
+                                } else {
+                                    Toast.makeText(context, "O valor da Retirada não pode ser maior do que o Saldo: R$" + dtotal, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
                     }
                 }
-
             }
-        });
+        }
     }
 //==================================================================================================
     private void concluiAddMovimentacao(String dataFormatada, String horaFormatada, String tipo, String descricao, String valor, AlertDialog alertDialog) {

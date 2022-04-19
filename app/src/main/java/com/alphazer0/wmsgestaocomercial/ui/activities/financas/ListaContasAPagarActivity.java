@@ -85,7 +85,10 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //ATUALIZA LISTA
         adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+
+        //VERIFICANCO DADOS DO TOTAL PARA QUE SEJA CARREGADO AUTOMATICAMENTE
         if (totalContasAPagarDAO.totalContasAPagar() != null) {
             vlTotalContasAPagar.setText(totalContasAPagarDAO.totalContasAPagar().getTotal());
         } else {
@@ -123,6 +126,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void abreFormularioContaAPagar() {
+        //CRIANDO VIEW QUE SERA INFLADA
         View viewAddContaPagar = LayoutInflater.from(ListaContasAPagarActivity.this)
                 .inflate(R.layout.activity_formulario_adiciona_conta_a_pagar, null);
 
@@ -137,10 +141,11 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         Date dataAtual = new Date();
         dataSelect = new Date();
 
-
+        //CONFIGURA O LAYOUT DO ALERTDIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
+        //CRIANDO O ALERTDIALOG
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setMessage(ADICIONAR_CONTA_A_PAGAR);
         alertDialog.setView(viewAddContaPagar);
@@ -152,6 +157,8 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 //ESTA SOBREESCRITO ABAIXO
             }
         });
+
+        //ACAO BOTAO CANCELAR
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -160,6 +167,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             }
         });
 
+        //EXECUTANDO O ALERTDIALOG
         alertDialog.show();
         alertDialog.getWindow().setBackgroundDrawable(inset);
         Button btn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -169,38 +177,43 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContaAPagar contaAPagar = new ContaAPagar();
-                if (campoConta.getText().toString().equals("") || campoConta.getText().toString() == null) {
-                    Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (campoValor.getText().toString().equals("") || campoValor.getText().toString() == null) {
-                        Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Double d = Double.parseDouble(campoValor.getText().toString());
-                        if (d <= 0) {
-                            Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() == null) {
-                                Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
-                            } else {
-                                configuraDataSelecionada(formataData);
-                                if (dataSelect.before(dataAtual)) {
-                                    Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
-                                    pegandoDadosDigitadosNosCampos(contaAPagar);
-                                    salvandoEatualizandoOsDados(contaAPagar);
-
-                                    calculaEsalvaOTotal();
-
-                                    alertDialog.dismiss();
-                                }
-                            }
-                        }
-                    }
-                }
+                realizaVerificacao(contaAPagar, formataData, dataAtual, alertDialog);
 
             }
         });
+    }
+//==================================================================================================
+    private void realizaVerificacao(ContaAPagar contaAPagar, SimpleDateFormat formataData, Date dataAtual, AlertDialog alertDialog) {
+        if (campoConta.getText().toString().equals("") || campoConta.getText().toString() == null) {
+            Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
+        } else {
+            if (campoValor.getText().toString().equals("") || campoValor.getText().toString() == null) {
+                Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
+            } else {
+                Double d = Double.parseDouble(campoValor.getText().toString());
+                if (d <= 0) {
+                    Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() == null) {
+                        Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
+                    } else {
+                        configuraDataSelecionada(formataData);
+                        if (dataSelect.before(dataAtual)) {
+                            Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
+                        } else {
+                            concluiCadastro(contaAPagar, alertDialog);
+                        }
+                    }
+                }
+            }
+        }
+    }
+//==================================================================================================
+    private void concluiCadastro(ContaAPagar contaAPagar, AlertDialog alertDialog) {
+        pegandoDadosDigitadosNosCampos(contaAPagar);
+        salvandoEatualizandoOsDados(contaAPagar);
+        calculaEsalvaOTotal();
+        alertDialog.dismiss();
     }
 //==================================================================================================
     private void configuraDataSelecionada(SimpleDateFormat formataData) {
@@ -214,6 +227,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 //==================================================================================================
     private void calculaEsalvaOTotal() {
         listaContasAPagar = contaAPagarDAO.todasContasAPagar();
+
         BigDecimal btotal = new BigDecimal("0");
         BigDecimal bvlTotal = new BigDecimal("0");
         String svalorRecebido = "";
@@ -230,6 +244,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         TotalContasAPagar totalContasAPagar = new TotalContasAPagar();
         totalContasAPagar.setTotal(stotal);
 
+        //VERIFICA SE O TOTAL JA EXISTE
         if (totalContasAPagarDAO.totalContasAPagar() == null) {
             totalContasAPagarDAO.salvaTotal(totalContasAPagar);
             vlTotalContasAPagar.setText(totalContasAPagar.getTotal());

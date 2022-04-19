@@ -83,6 +83,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
         bind();
         configuraAdapter();
+        carregaOsDadosDosBDs();
         configuraLista();
         configuraFabAddContaAReceber();
         pegaContasClientes();
@@ -93,6 +94,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+        
+        //CONFIGURA O TOTAL PARA QUE CARREGUE DE FORMA AUTOMATICA
         if (totalContasAReceberDAO.totalContasAReceber() != null) {
             vlTotalContasAReceber.setText(totalContasAReceberDAO.totalContasAReceber().getTotal());
         } else {
@@ -110,6 +113,9 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
     private void configuraAdapter() {
         adapter = new ListaContasAReceberAdapter(contasAReceber);
+    }
+
+    private void carregaOsDadosDosBDs() {
         contaAReceberDAO = ContasAReceberDatabase.getInstance(this).getContasAReceberDAO();
         totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
         clienteDAO = ClientesDatabase.getInstance(this).getClienteDAO();
@@ -131,12 +137,12 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void abreFormularioContaAReceber() {
+        //CRIANDO VIEW  QUE INFLARA O ALERTDIALOG
         View viewAddContaReceber = LayoutInflater.from(ListaContasAReceberActivity.this)
                 .inflate(R.layout.activity_formulario_adiciona_conta_a_receber, null);
 
         bindElementos(viewAddContaReceber);
         configuraScanner(viewAddContaReceber);
-
         configuraAlertDialog(viewAddContaReceber);
     }
 //==================================================================================================
@@ -146,9 +152,11 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         Date dataAtual = new Date();
         dataSelect = new Date();
 
+        //CONFIGURACOES DE CORES E MARGEM ALERT DIALOG
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 0);
 
+        //CRIANDO O ALERTDIALOG
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setMessage(ADICIONA_CONTA_A_RECEBER);
         alertDialog.setView(viewAddContaReceber);
@@ -160,6 +168,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 //ESTA SOBREESCRITO ABAIXO
             }
         });
+
+        //BOTAO NEGATIVO ALERTDIALOG
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -168,6 +178,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             }
         });
 
+        //EXECUTANDO O ALERTDIALOG
         alertDialog.show();
         alertDialog.getWindow().setBackgroundDrawable(inset);
         Button btn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -177,37 +188,44 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContaAReceber contaAReceber = new ContaAReceber();
-                if(campoConta.getText().toString().equals("") || campoConta.getText().toString() == null){
-                    Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(campoValor.getText().toString().equals("") || campoValor.getText().toString() ==null){
-                        Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Double d  = Double.parseDouble(campoValor.getText().toString());
-                        if(d <= 0){
-                            Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
-                        }else{
-                            if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
-                                Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
-                            }else{
-                                configuraDataSelecionada(formataData);
-                                if(dataSelect.before(dataAtual)){
-                                    Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    //FALTA VERIFICAR A DATA  SE NAO E MENOR DO QUE A DE HOJE
-                                    pegaDadosDosCampos(contaAReceber);
-                                    salvaContaAReceberNoBancoDeDados(contaAReceber);
-                                    atualizaListaAdapter();
-                                    calculaTotalContasAReceber();
-                                    alertDialog.dismiss();
-                                }
-                            }
-                        }
-                    }
-                }
+                realizaVerificacao(contaAReceber, formataData, dataAtual, alertDialog);
 
             }
         });
+    }
+//==================================================================================================
+    private void realizaVerificacao(ContaAReceber contaAReceber, SimpleDateFormat formataData, Date dataAtual, AlertDialog alertDialog) {
+        if(campoConta.getText().toString().equals("") || campoConta.getText().toString() == null){
+            Toast.makeText(context, "Preencha o campo Conta", Toast.LENGTH_SHORT).show();
+        }else{
+            if(campoValor.getText().toString().equals("") || campoValor.getText().toString() ==null){
+                Toast.makeText(context, "Preencha o campo valor", Toast.LENGTH_SHORT).show();
+            }else{
+                Double d  = Double.parseDouble(campoValor.getText().toString());
+                if(d <= 0){
+                    Toast.makeText(context, "O valor tem que ser maior que Zero", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(campoDataVencimento.getText().toString().equals("") || campoDataVencimento.getText().toString() ==null){
+                        Toast.makeText(context, "Preencha a Data", Toast.LENGTH_SHORT).show();
+                    }else{
+                        configuraDataSelecionada(formataData);
+                        if(dataSelect.before(dataAtual)){
+                            Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
+                        }else {
+                            concluiCadastro(contaAReceber, alertDialog);
+                        }
+                    }
+                }
+            }
+        }
+    }
+//==================================================================================================
+    private void concluiCadastro(ContaAReceber contaAReceber, AlertDialog alertDialog) {
+        pegaDadosDosCampos(contaAReceber);
+        salvaContaAReceberNoBancoDeDados(contaAReceber);
+        atualizaListaAdapter();
+        calculaTotalContasAReceber();
+        alertDialog.dismiss();
     }
 //==================================================================================================
     private void configuraDataSelecionada(SimpleDateFormat formataData) {
