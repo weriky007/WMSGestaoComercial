@@ -32,6 +32,7 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_fornecedorpf.xml" value="0.49" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_fornecedorpj.xml" value="0.153125" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/activity_formulario_dados_produtos.xml" value="0.16" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-hdpi/item_conta_paga.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-ldpi/activity_fomulario_adiciona_produto_vendas.xml" value="0.75" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-ldpi/activity_formulario_dados_cliente.xml" value="0.9074074074074074" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout-ldpi/activity_formulario_dados_fornecedorpf.xml" value="0.20416666666666666" />
@@ -103,6 +104,8 @@
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_cliente.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_conta_a_pagar.xml" value="0.16" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_conta_a_receber.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_conta_paga.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_conta_recebida.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_fornecedorpf.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_fornecedorpj.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Alphazer0/AndroidStudioProjects/WMSGestaoComercial/app/src/main/res/layout/item_movimentacao_caixa.xml" value="0.20416666666666666" />

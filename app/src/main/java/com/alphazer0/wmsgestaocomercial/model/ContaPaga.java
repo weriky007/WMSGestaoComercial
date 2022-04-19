@@ -16,17 +16,17 @@ public class ContaPaga implements Serializable {
     private String codigoBarras;
     private String conta;
     private String vlConta;
-    private String dataRecebimento;
+    private String dataPagamento;
 //==================================================================================================
     public ContaPaga() {
     }
 
-    public ContaPaga(int id, String codigoBarras, String conta, String vlConta, String dataRecebimento) {
+    public ContaPaga(int id, String codigoBarras, String conta, String vlConta, String dataPagamento) {
         this.id = id;
         this.codigoBarras = codigoBarras;
         this.conta = conta;
         this.vlConta = vlConta;
-        this.dataRecebimento = dataRecebimento;
+        this.dataPagamento = dataPagamento;
     }
 //==================================================================================================
     //SOBREESCREVENDO O TOSTRING
@@ -72,12 +72,13 @@ public class ContaPaga implements Serializable {
         this.vlConta = vlConta;
     }
 
-    public String getDataRecebimento() {
-        return dataRecebimento;
+    public String getDataPagamento() {
+        return dataPagamento;
     }
 
-    public void setDataRecebimento(String dataRecebimento) {
-        this.dataRecebimento = dataRecebimento;
+    public void setDataPagamento(String dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
-    //==================================================================================================
+
+//==================================================================================================
 }
