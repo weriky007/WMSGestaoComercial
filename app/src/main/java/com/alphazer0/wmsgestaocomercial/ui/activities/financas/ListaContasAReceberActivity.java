@@ -73,7 +73,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private Activity activity = this;
     private Date dataSelect;
 
-    //==================================================================================================
+//==================================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,6 +339,12 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
     private void alert(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
+//==================================================================================================
+    //SOBREESCREVE O BOTAO VOLTAR
+    public void onBackPressed(){
+        startActivity(new Intent(ListaContasAReceberActivity.this, FinancasPrincipalActivity.class));
+        finish();
     }
 //==================================================================================================
 }

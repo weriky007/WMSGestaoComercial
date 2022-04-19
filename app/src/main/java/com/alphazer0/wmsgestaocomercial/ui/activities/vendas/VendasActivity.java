@@ -210,7 +210,7 @@ public class VendasActivity extends AppCompatActivity {
         configuraLista();
         configuraFabAddProduto();
     }
-//==================================================================================================
+
     @Override
     protected void onResume() {
         super.onResume();

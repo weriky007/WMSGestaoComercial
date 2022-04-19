@@ -39,7 +39,7 @@ public class Cliente implements Serializable {
     private String complemento;
 
     private String dataVencimento;
-    private String divida = "0";
+    private String divida;
 //==================================================================================================
     //METODOS DE SOBRECARGA
     public Cliente(){}

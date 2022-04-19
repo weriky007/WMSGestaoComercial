@@ -6,6 +6,7 @@ import static com.alphazer0.wmsgestaocomercial.ui.activities.financas.ListaConta
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
@@ -278,6 +279,13 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         fluxoCaixaAdapter.atualiza(listaMovimentacoes);
 
         alertDialog.dismiss();
+    }
+//==================================================================================================
+    //SOBREESCREVE O BOTAO VOLTAR
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(ListaFluxoCaixaActivity.this,FinancasPrincipalActivity.class));
+        finish();
     }
 //==================================================================================================
 }

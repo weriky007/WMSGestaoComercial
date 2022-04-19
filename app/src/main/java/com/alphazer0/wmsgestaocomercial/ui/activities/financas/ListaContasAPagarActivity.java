@@ -291,4 +291,11 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 //==================================================================================================
+    //SOBREESCREVE O BOTAO VOLTAR
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(ListaContasAPagarActivity.this, FinancasPrincipalActivity.class));
+        finish();
+    }
+//==================================================================================================
 }

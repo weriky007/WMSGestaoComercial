@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,12 +42,19 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         setTitle(CONTAS);
         setContentView(R.layout.activity_financas_principal);
         mantemAtelaEmModoRetrato();
+        pegaDadosBds();
         configuraBotoes();
         configurandoGraficoPizza();
     }
 //==================================================================================================
     private void mantemAtelaEmModoRetrato() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+    }
+//==================================================================================================
+    private void pegaDadosBds(){
+        totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
+        totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
+        totalCaixaDAO  = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
     }
 //==================================================================================================
     private void configuraBotoes() {
@@ -83,15 +91,16 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         //INFLANDO A VIEW
         View viewGrafico = getLayoutInflater().inflate(R.layout.grafico_contas_principal_activity, null);
         LinearLayout linearLayout = findViewById(R.id.linear_grafic_contas);
-        linearLayout.addView(viewGrafico);
 
         //BIND DO ELEMENTO
         graficoPizza = viewGrafico.findViewById(R.id.grafico_contas);
 
-        totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
-        totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
-        totalCaixaDAO  = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
+        //VERIFICA SE EXISTEM VALORES PARA O GRAFICO SER INSERIDO
+        if(totalContasAReceberDAO.totalContasAReceber() != null && !totalContasAReceberDAO.totalContasAReceber().getTotal().equals("0.00") || totalContasAPagarDAO.totalContasAPagar() != null || totalCaixaDAO.totalCaixa() != null){
+            linearLayout.addView(viewGrafico);
+        }
 
+        //VERIFICA QUAIS GRAFICOS SERAO CONFIGURADOS
         if(totalCaixaDAO.totalCaixa() != null) {
             if (totalContasAPagarDAO.totalContasAPagar() == null && totalContasAReceberDAO.totalContasAReceber() != null) {
                 configuraGraficoCaixa();
