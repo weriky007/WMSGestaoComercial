@@ -43,6 +43,7 @@ public class ListaContasRecebidasActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        listaContasARecebidasAdapter.atualizaListaContasAReceber(contasRecebidasDAO.todasContasRecebidas());
     }
 
     private void configuraAdapter(){
