@@ -11,8 +11,10 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
+import com.alphazer0.wmsgestaocomercial.database.TotalCaixaDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAReceberDatabase;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalCaixaDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
 import com.androidplot.pie.PieChart;
@@ -31,6 +33,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
     private PieChart graficoPizza;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
+    private RoomTotalCaixaDAO totalCaixaDAO;
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
@@ -55,6 +58,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasAPagarActivity.class));
+                finish();
             }
         });
 
@@ -62,6 +66,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(FinancasPrincipalActivity.this, ListaContasAReceberActivity.class));
+                finish();
             }
         });
 
@@ -69,6 +74,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(FinancasPrincipalActivity.this, ListaFluxoCaixaActivity.class));
+                finish();
             }
         });
     }
@@ -84,65 +90,20 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
 
         totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
         totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
+        totalCaixaDAO  = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
 
-        if(totalContasAPagarDAO.totalContasAPagar() == null && totalContasAReceberDAO.totalContasAReceber() != null){
-            //GRAFICO CAIXA
-            Segment segment_caixa = new Segment("Caixa: R$", 40);
-            SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(0, 0, 205));
-            formatterCaixa.getLabelPaint().setTextSize(40f);//TAMANHO TEXTO LEGENDA
-            formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
-            formatterCaixa.setOffset(30);//SEPARA FATIA
-            graficoPizza.addSegment(segment_caixa, formatterCaixa);
-
-            //GRAFICO A RECEBER
-            double dReceber = Double.parseDouble(totalContasAReceberDAO.totalContasAReceber().getTotal());
-            Segment segment_receber = new Segment("A Receber: R$" + dReceber, dReceber);
-            SegmentFormatter formatterReceber = new SegmentFormatter(Color.rgb(50, 205, 50));
-            formatterReceber.getLabelPaint().setTextSize(40f);
-            formatterReceber.getLabelPaint().setColor(Color.BLACK);
-            graficoPizza.addSegment(segment_receber, formatterReceber);
-
-        } else if(totalContasAReceberDAO.totalContasAReceber() == null && totalContasAPagarDAO.totalContasAPagar() != null){
-            //GRAFICO A PAGAR
-            double dPagar = Double.parseDouble(totalContasAPagarDAO.totalContasAPagar().getTotal());
-            Segment segment_pagar = new Segment("A Pagar: R$" + dPagar, dPagar);
-            SegmentFormatter formatterPagar = new SegmentFormatter(Color.rgb(255, 0, 0));
-            graficoPizza.addSegment(segment_pagar, formatterPagar);
-            formatterPagar.getLabelPaint().setTextSize(40f);
-            formatterPagar.getLabelPaint().setColor(Color.WHITE);
-
-            //GRAFICO CAIXA
-            Segment segment_caixa = new Segment("Caixa: R$", 40);
-            SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(0, 0, 205));
-            formatterCaixa.getLabelPaint().setTextSize(40f);//TAMANHO TEXTO LEGENDA
-            formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
-            formatterCaixa.setOffset(30);//SEPARA FATIA
-            graficoPizza.addSegment(segment_caixa, formatterCaixa);
-
-        }else if(totalContasAReceberDAO.totalContasAReceber() != null && totalContasAPagarDAO.totalContasAPagar() != null){
-            //GRAFICO CAIXA
-            Segment segment_caixa = new Segment("Caixa: R$", 40);
-            SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(0, 0, 205));
-            formatterCaixa.getLabelPaint().setTextSize(40f);//TAMANHO TEXTO LEGENDA
-            formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
-            formatterCaixa.setOffset(30);//SEPARA FATIA
-            graficoPizza.addSegment(segment_caixa, formatterCaixa);
-
-            //GRAFICO A PAGAR
-            double dPagar = Double.parseDouble(totalContasAPagarDAO.totalContasAPagar().getTotal());
-            Segment segment_pagar = new Segment("A Pagar: R$" + dPagar, dPagar);
-            SegmentFormatter formatterPagar = new SegmentFormatter(Color.rgb(255, 0, 0));
-            graficoPizza.addSegment(segment_pagar, formatterPagar);
-            formatterPagar.getLabelPaint().setTextSize(40f);
-            formatterPagar.getLabelPaint().setColor(Color.WHITE);
-
-            //GRAFICO A RECEBER
-            double dReceber = Double.parseDouble(totalContasAReceberDAO.totalContasAReceber().getTotal());
-            Segment segment_receber = new Segment("A Receber: R$" + dReceber, dReceber);
-            SegmentFormatter formatterReceber = new SegmentFormatter(Color.rgb(50, 205, 50));
-            formatterReceber.getLabelPaint().setTextSize(40f);
-            formatterReceber.getLabelPaint().setColor(Color.BLACK);
-            graficoPizza.addSegment(segment_receber, formatterReceber);
+        if(totalCaixaDAO.totalCaixa() != null) {
+            if (totalContasAPagarDAO.totalContasAPagar() == null && totalContasAReceberDAO.totalContasAReceber() != null) {
+                configuraGraficoCaixa();
+                configuraGraficoReceber();
+            } else if (totalContasAReceberDAO.totalContasAReceber() == null && totalContasAPagarDAO.totalContasAPagar() != null) {
+                configuraGraficoPagar();
+                configuraGraficoCaixa();
+            } else if (totalContasAReceberDAO.totalContasAReceber() != null && totalContasAPagarDAO.totalContasAPagar() != null) {
+                configuraGraficoCaixa();
+                configuraGraficoPagar();
+                configuraGraficoReceber();
+            }
         }else{
             //NAO INSERE NADA NO GRAFICO
         }
@@ -156,6 +117,34 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         //CASO QUEIRA MUDAR A LARGURA
         //graficoPizza.getRenderer(PieRenderer.class).setDonutSize(0.9f, PieRenderer.DonutMode.PERCENT);
         //graficoPizza.getRenderer(PieRenderer.class).setDonutSize(30, PieRenderer.DonutMode.PIXELS);
+    }
+//==================================================================================================
+    private void configuraGraficoReceber(){
+        double dReceber = Double.parseDouble(totalContasAReceberDAO.totalContasAReceber().getTotal());
+        Segment segment_receber = new Segment("A Receber: R$" + dReceber, dReceber);
+        SegmentFormatter formatterReceber = new SegmentFormatter(Color.rgb(50, 205, 50));
+        formatterReceber.getLabelPaint().setTextSize(40f);
+        formatterReceber.getLabelPaint().setColor(Color.WHITE);
+        graficoPizza.addSegment(segment_receber, formatterReceber);
+    }
+
+    private void configuraGraficoPagar(){
+        double dPagar = Double.parseDouble(totalContasAPagarDAO.totalContasAPagar().getTotal());
+        Segment segment_pagar = new Segment("A Pagar: R$" + dPagar, dPagar);
+        SegmentFormatter formatterPagar = new SegmentFormatter(Color.rgb(255, 0, 0));
+        graficoPizza.addSegment(segment_pagar, formatterPagar);
+        formatterPagar.getLabelPaint().setTextSize(40f);
+        formatterPagar.getLabelPaint().setColor(Color.WHITE);
+    }
+
+    private void configuraGraficoCaixa(){
+        double dCaixa = Double.parseDouble(totalCaixaDAO.totalCaixa().getTotal());
+        Segment segment_caixa = new Segment("Caixa: R$"+dCaixa, dCaixa);
+        SegmentFormatter formatterCaixa = new SegmentFormatter(Color.rgb(30,144,255));
+        formatterCaixa.getLabelPaint().setTextSize(40f);//TAMANHO TEXTO LEGENDA
+        formatterCaixa.getLabelPaint().setColor(Color.WHITE);//COR DA LEGENDA
+        formatterCaixa.setOffset(30);//SEPARA FATIA
+        graficoPizza.addSegment(segment_caixa, formatterCaixa);
     }
 //==================================================================================================
 }

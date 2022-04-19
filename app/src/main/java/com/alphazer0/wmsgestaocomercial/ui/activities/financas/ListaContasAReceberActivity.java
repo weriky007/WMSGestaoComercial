@@ -200,9 +200,6 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                                     atualizaListaAdapter();
                                     calculaTotalContasAReceber();
                                     alertDialog.dismiss();
-
-                                    TextView test = findViewById(R.id.total_contas_a_receber);
-                                    test.setText(formataData.format(dataAtual));
                                 }
                             }
                         }

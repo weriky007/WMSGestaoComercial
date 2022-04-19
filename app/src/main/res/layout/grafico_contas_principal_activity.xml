@@ -14,7 +14,7 @@
         android:background="@drawable/fundo_tela">
         <com.androidplot.pie.PieChart
             android:id="@+id/grafico_contas"
-            style="@style/APDefacto.Light"
+            style="@style/APDefacto.Dark"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_270sdp"/>
     </LinearLayout>
