@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,12 @@ public class ListaContasPagasActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+    }
+//==================================================================================================
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(ListaContasPagasActivity.this, FinancasPrincipalActivity.class));
+        finish();
     }
 //==================================================================================================
 }

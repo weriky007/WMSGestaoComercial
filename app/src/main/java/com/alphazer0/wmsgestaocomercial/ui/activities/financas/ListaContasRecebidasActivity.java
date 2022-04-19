@@ -1,5 +1,6 @@
 package com.alphazer0.wmsgestaocomercial.ui.activities.financas;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -31,6 +32,12 @@ public class ListaContasRecebidasActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+    }
+//==================================================================================================
+    @Override
+    public void onBackPressed(){
+      startActivity(new Intent(ListaContasRecebidasActivity.this, FinancasPrincipalActivity.class));
+      finish();
     }
 //==================================================================================================
 }
