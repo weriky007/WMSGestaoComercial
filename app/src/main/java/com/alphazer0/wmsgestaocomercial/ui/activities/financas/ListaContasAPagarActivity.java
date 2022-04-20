@@ -137,7 +137,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         if(itemId == R.id.item_menu_efetuar_pagamento_conta){
             confirmaPagamento(item);
         }
-        return onContextItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     public void confirmaPagamento(final MenuItem item){

@@ -29,12 +29,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ContasAReceberDatabase;
+import com.alphazer0.wmsgestaocomercial.database.ContasRecebidasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAReceberDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAReceberDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContasRecebidasDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
+import com.alphazer0.wmsgestaocomercial.model.ContaRecebida;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
@@ -63,6 +66,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private List<Cliente> listaClientes = new ArrayList<>();
     private ListaContasAReceberAdapter contaAReceberAdapter;
     private RoomContaAReceberDAO contaAReceberDAO;
+    private RoomContasRecebidasDAO contasRecebidasDAO;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomClienteDAO clienteDAO;
     private final Context context = this;
@@ -122,6 +126,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         contaAReceberDAO = ContasAReceberDatabase.getInstance(this).getContasAReceberDAO();
         totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
         clienteDAO = ClientesDatabase.getInstance(this).getClienteDAO();
+        contasRecebidasDAO = ContasRecebidasDatabase.getInstance(this).getContasRecebidasDAO();
     }
 
     private void configuraLista() {
@@ -143,11 +148,38 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         if(itemID == R.id.item_informar_recebimento_contar){
             confirmaRecebimento(item);
         }
-        return onContextItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     public  void confirmaRecebimento(final  MenuItem item){
-        ContaAReceber contaAReceber = pegaContaAReceber(item);
+        AlertDialog alertRecebimento = new AlertDialog.Builder(this).create();
+        alertRecebimento.setTitle("Informar Recebimento de Conta");
+        alertRecebimento.setMessage("Se esta conta foi recebida basta clicar em concluir");
+        alertRecebimento.setButton(DialogInterface.BUTTON_POSITIVE, "Concluir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ContaAReceber contaAReceber = pegaContaAReceber(item);
+                ContaRecebida contaRecebida = new ContaRecebida();
+
+                contaRecebida.setConta(contaAReceber.getConta());
+                contaRecebida.setCodigoBarras(contaAReceber.getCodigoBarras());
+                contaRecebida.setDataRecebimento(contaAReceber.getDataVencimento());
+                contaRecebida.setVlConta(contaAReceber.getVlConta());
+                contasRecebidasDAO.salvaContaRecebida(contaRecebida);
+                contaAReceberDAO.removeContaAReceber(contaAReceber);
+                contasAReceber.remove(contaAReceber);
+                atualizaListaAdapter();
+            }
+        });
+
+        alertRecebimento.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(context, "Cancelado!", Toast.LENGTH_SHORT).show();
+                alertRecebimento.dismiss();
+            }
+        });
+        alertRecebimento.show();
     }
 
     private ContaAReceber pegaContaAReceber(MenuItem item){
