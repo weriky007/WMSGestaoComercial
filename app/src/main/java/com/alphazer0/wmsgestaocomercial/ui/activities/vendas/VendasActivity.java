@@ -247,6 +247,45 @@ public class VendasActivity extends AppCompatActivity {
             }
         });
     }
+
+    //MENU ITENS LISTA REMOCAO
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_remover_listas_activity) {
+            confirmaRemocao(item);
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    //CONFIGURACOES DE REMOCAO
+    public void confirmaRemocao(final MenuItem item) {
+        new AlertDialog.Builder(context).setTitle(REMOVENDO_PRODUTO).setMessage(DESEJA_MESMO_REMOVER_O_PRODUTO).setPositiveButton(SIM, (dialogInterface, i) -> {
+            Produto produto = pegaProdutoItem(item);
+            put = 3;
+            id = produto.getId();
+//            new SendRequest().execute();
+            remove(produto);
+        })
+                .setNegativeButton(NÃO, null)
+                .show();
+    }
+
+
+    private Produto pegaProdutoItem(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        return produtosVendaAdapter.getItem(menuInfo.position);
+    }
+
+    private void remove(Produto produto) {
+        configuraRemocaoProdutoDoCarrinhoCompras(produto);
+    }
 //==================================================================================================
     //CONFIGURA ALERTDIALOG TELA VENDAS
     public void abreAddProdutoVenda() {
@@ -437,44 +476,7 @@ public class VendasActivity extends AppCompatActivity {
         finish();
     }
 //==================================================================================================
-    //MENU ITENS LISTA REMOCAO
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.menu_listas_activity, menu);
-    }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_remover_listas_activity) {
-            confirmaRemocao(item);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    //CONFIGURACOES DE REMOCAO
-    public void confirmaRemocao(final MenuItem item) {
-        new AlertDialog.Builder(context).setTitle(REMOVENDO_PRODUTO).setMessage(DESEJA_MESMO_REMOVER_O_PRODUTO).setPositiveButton(SIM, (dialogInterface, i) -> {
-            Produto produto = pegaProdutoItem(item);
-            put = 3;
-            id = produto.getId();
-//            new SendRequest().execute();
-            remove(produto);
-        })
-                .setNegativeButton(NÃO, null)
-                .show();
-    }
-
-
-    private Produto pegaProdutoItem(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        return produtosVendaAdapter.getItem(menuInfo.position);
-    }
-
-    private void remove(Produto produto) {
-        configuraRemocaoProdutoDoCarrinhoCompras(produto);
-    }
 //==================================================================================================
     //MENU APPBAR CONCLUI VENDA
     @Override

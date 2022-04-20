@@ -186,7 +186,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
         Number[] meses = {jan,fev,mar,abr,mai,jun,jul,ago,set,out,nov,dez};
         //Number[] meses = {51,28,36,29,55,69,49,42,60,30,27,30};//TESTE DO GRAFICO
-        if(jan >0 || fev>0 ||mar >0||abr>0||mai>0||jun>0 || jul>0||ago>0||set>0||out>0||nov>0||dez>0) {
+        if(jan >0|| fev>0||mar >0||abr>0||mai>0||jun>0 || jul>0||ago>0||set>0||out>0||nov>0||dez>0) {
             layoutGrafic.addView(layoutGrafico);
         }
 

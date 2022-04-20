@@ -12,8 +12,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -58,7 +61,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private ListView listaContasAReceber;
     private List<ContaAReceber> contasAReceber = new ArrayList<>();
     private List<Cliente> listaClientes = new ArrayList<>();
-    private ListaContasAReceberAdapter adapter;
+    private ListaContasAReceberAdapter contaAReceberAdapter;
     private RoomContaAReceberDAO contaAReceberDAO;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomClienteDAO clienteDAO;
@@ -93,7 +96,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+        contaAReceberAdapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
         
         //CONFIGURA O TOTAL PARA QUE CARREGUE DE FORMA AUTOMATICA
         if (totalContasAReceberDAO.totalContasAReceber() != null) {
@@ -112,7 +115,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter() {
-        adapter = new ListaContasAReceberAdapter(contasAReceber);
+        contaAReceberAdapter = new ListaContasAReceberAdapter(contasAReceber);
     }
 
     private void carregaOsDadosDosBDs() {
@@ -123,7 +126,33 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
     private void configuraLista() {
         listaContasAReceber = findViewById(R.id.list_view_lista_contas_a_receber);
-        listaContasAReceber.setAdapter(adapter);
+        listaContasAReceber.setAdapter(contaAReceberAdapter);
+        registerForContextMenu(listaContasAReceber);
+    }
+
+    //MENU ITENS LISTA
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view,ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu,view,menuInfo);
+        getMenuInflater().inflate(R.menu.menu_informar_recebimento_conta,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        int itemID = item.getItemId();
+        if(itemID == R.id.item_informar_recebimento_contar){
+            confirmaRecebimento(item);
+        }
+        return onContextItemSelected(item);
+    }
+
+    public  void confirmaRecebimento(final  MenuItem item){
+        ContaAReceber contaAReceber = pegaContaAReceber(item);
+    }
+
+    private ContaAReceber pegaContaAReceber(MenuItem item){
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        return contaAReceberAdapter.getItem(menuInfo.position);
     }
 //==================================================================================================
     private void configuraFabAddContaAReceber() {
@@ -271,7 +300,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void atualizaListaAdapter() {
-        adapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
+        contaAReceberAdapter.atualizaListaContasAReceber(contaAReceberDAO.todasContaAReceber());
     }
 
     private void salvaContaAReceberNoBancoDeDados(ContaAReceber contaAReceber) {

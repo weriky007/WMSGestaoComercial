@@ -12,8 +12,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -54,7 +57,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private FloatingActionButton fabAddContaAPagar;
     private ListView listViewContasAPagar;
     private List<ContaAPagar> listaContasAPagar = new ArrayList<>();
-    private ListaContasAPagarAdapter adapter;
+    private ListaContasAPagarAdapter contasAPagarAdapter;
     private RoomContaAPagarDAO contaAPagarDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
     private final Context context = this;
@@ -87,7 +90,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //ATUALIZA LISTA
-        adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+        contasAPagarAdapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
 
         //VERIFICANCO DADOS DO TOTAL PARA QUE SEJA CARREGADO AUTOMATICAMENTE
         if (totalContasAPagarDAO.totalContasAPagar() != null) {
@@ -106,7 +109,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter() {
-        adapter = new ListaContasAPagarAdapter(listaContasAPagar);
+        contasAPagarAdapter = new ListaContasAPagarAdapter(listaContasAPagar);
     }
 
     private void pegaDadosBDs(){
@@ -116,7 +119,34 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 
     private void configuraLista() {
         listViewContasAPagar = findViewById(R.id.list_view_lista_contas_a_pagar);
-        listViewContasAPagar.setAdapter(adapter);
+        listViewContasAPagar.setAdapter(contasAPagarAdapter);
+
+        registerForContextMenu(listViewContasAPagar);
+    }
+//==================================================================================================
+    //MENU ITENS LISTA
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu,view,menuInfo);
+        getMenuInflater().inflate(R.menu.menu_efetuar_pagamento_conta,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        int itemId = item.getItemId();
+        if(itemId == R.id.item_menu_efetuar_pagamento_conta){
+            confirmaPagamento(item);
+        }
+        return onContextItemSelected(item);
+    }
+
+    public void confirmaPagamento(final MenuItem item){
+        ContaAPagar contaAPagar = pegaContaAPagar(item);
+    }
+
+    private ContaAPagar pegaContaAPagar(MenuItem item){
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        return  contasAPagarAdapter.getItem(menuInfo.position);
     }
 //==================================================================================================
     private void configuraFabAddContaAPagar() {
@@ -262,7 +292,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
 //==================================================================================================
     private void salvandoEatualizandoOsDados(ContaAPagar contaAPagar) {
         contaAPagarDAO.salvaContaAPagar(contaAPagar);
-        adapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
+        contasAPagarAdapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
     }
 //==================================================================================================
     private void pegandoDadosDigitadosNosCampos(ContaAPagar contaAPagar) {
