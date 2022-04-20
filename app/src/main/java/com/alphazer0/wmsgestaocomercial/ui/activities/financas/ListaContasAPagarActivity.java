@@ -28,10 +28,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ContasAPagarDatabase;
+import com.alphazer0.wmsgestaocomercial.database.ContasPagasDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAPagarDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContasPagasDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
+import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
+import com.alphazer0.wmsgestaocomercial.model.ContaPaga;
+import com.alphazer0.wmsgestaocomercial.model.ContaRecebida;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
@@ -59,6 +64,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private List<ContaAPagar> listaContasAPagar = new ArrayList<>();
     private ListaContasAPagarAdapter contasAPagarAdapter;
     private RoomContaAPagarDAO contaAPagarDAO;
+    private RoomContasPagasDAO contasPagasDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
     private final Context context = this;
     private Date dataSelect;
@@ -84,6 +90,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         pegaDadosBDs();
         configuraLista();
         configuraFabAddContaAPagar();
+        calculaEsalvaOTotal();
     }
 
     @Override
@@ -115,6 +122,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private void pegaDadosBDs(){
         contaAPagarDAO = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
         totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
+        contasPagasDAO = ContasPagasDatabase.getInstance(this).getContasPagasDAO();
     }
 
     private void configuraLista() {
@@ -141,12 +149,45 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     }
 
     public void confirmaPagamento(final MenuItem item){
-        ContaAPagar contaAPagar = pegaContaAPagar(item);
+        AlertDialog alertPagamento = new AlertDialog.Builder(this).create();
+        alertPagamento.setTitle("Realizar pagamento da Conta");
+        alertPagamento.setMessage("Se esta conta foi paga basta clicar em concluir");
+        alertPagamento.setButton(DialogInterface.BUTTON_POSITIVE, "Concluir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ContaAPagar contaAPagar = pegaContaAPagar(item);
+                ContaPaga contaPaga = new ContaPaga();
+
+                contaPaga.setConta(contaAPagar.getConta());
+                contaPaga.setCodigoBarras(contaAPagar.getCodigoBarras());
+                contaPaga.setDataPagamento(contaAPagar.getDataVencimento());
+                contaPaga.setVlConta(contaAPagar.getVlConta());
+
+                contasPagasDAO.salvaContaPaga(contaPaga);
+                listaContasAPagar.remove(contaAPagar);
+                contaAPagarDAO.removeContaAPagar(contaAPagar);
+                atualizaListaAdapter();
+                calculaEsalvaOTotal();
+            }
+        });
+
+        alertPagamento.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(context, "Cancelado!", Toast.LENGTH_SHORT).show();
+                alertPagamento.dismiss();
+            }
+        });
+        alertPagamento.show();
     }
 
     private ContaAPagar pegaContaAPagar(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         return  contasAPagarAdapter.getItem(menuInfo.position);
+    }
+//==================================================================================================
+    private void atualizaListaAdapter(){
+        contasAPagarAdapter.atualizaListaContasAPagar(contaAPagarDAO.todasContasAPagar());
     }
 //==================================================================================================
     private void configuraFabAddContaAPagar() {
@@ -246,6 +287,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private void concluiCadastro(ContaAPagar contaAPagar, AlertDialog alertDialog) {
         pegandoDadosDigitadosNosCampos(contaAPagar);
         salvandoEatualizandoOsDados(contaAPagar);
+        atualizaListaAdapter();
         calculaEsalvaOTotal();
         alertDialog.dismiss();
     }

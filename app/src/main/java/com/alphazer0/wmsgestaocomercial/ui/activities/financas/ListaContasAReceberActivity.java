@@ -61,8 +61,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     public static final String CANCELAR = "Cancelar";
     private TextView vlTotalContasAReceber;
     private FloatingActionButton fabAddContaAReceber;
-    private ListView listaContasAReceber;
-    private List<ContaAReceber> contasAReceber = new ArrayList<>();
+    private ListView listViewContasAReceber;
+    private List<ContaAReceber> listaContasAReceber = new ArrayList<>();
     private List<Cliente> listaClientes = new ArrayList<>();
     private ListaContasAReceberAdapter contaAReceberAdapter;
     private RoomContaAReceberDAO contaAReceberDAO;
@@ -119,7 +119,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter() {
-        contaAReceberAdapter = new ListaContasAReceberAdapter(contasAReceber);
+        contaAReceberAdapter = new ListaContasAReceberAdapter(listaContasAReceber);
     }
 
     private void carregaOsDadosDosBDs() {
@@ -130,9 +130,9 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void configuraLista() {
-        listaContasAReceber = findViewById(R.id.list_view_lista_contas_a_receber);
-        listaContasAReceber.setAdapter(contaAReceberAdapter);
-        registerForContextMenu(listaContasAReceber);
+        listViewContasAReceber = findViewById(R.id.list_view_lista_contas_a_receber);
+        listViewContasAReceber.setAdapter(contaAReceberAdapter);
+        registerForContextMenu(listViewContasAReceber);
     }
 
     //MENU ITENS LISTA
@@ -167,8 +167,9 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 contaRecebida.setVlConta(contaAReceber.getVlConta());
                 contasRecebidasDAO.salvaContaRecebida(contaRecebida);
                 contaAReceberDAO.removeContaAReceber(contaAReceber);
-                contasAReceber.remove(contaAReceber);
+                listaContasAReceber.remove(contaAReceber);
                 atualizaListaAdapter();
+                calculaTotalContasAReceber();
             }
         });
 
@@ -312,13 +313,13 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void calculaTotalContasAReceber() {
-        contasAReceber = contaAReceberDAO.todasContaAReceber();
+        listaContasAReceber = contaAReceberDAO.todasContaAReceber();
 
         BigDecimal btotal = new BigDecimal("0");
         BigDecimal bvlTotal = new BigDecimal("0");
         String svalorRecebido = "";
-        for (int i = 0; i < contasAReceber.size(); i++) {
-            svalorRecebido = contasAReceber.get(i).getVlConta();
+        for (int i = 0; i < listaContasAReceber.size(); i++) {
+            svalorRecebido = listaContasAReceber.get(i).getVlConta();
             BigDecimal bvalorRecebido = new BigDecimal(svalorRecebido);
             bvlTotal = bvlTotal.add(bvalorRecebido);
         }
@@ -368,14 +369,14 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
 
     private void pegaContasClientes() {
         ContaAReceber contaCliente = new ContaAReceber();
-        contasAReceber = contaAReceberDAO.todasContaAReceber();
+        listaContasAReceber = contaAReceberDAO.todasContaAReceber();
         listaClientes = clienteDAO.todosClientes();
         List<String> contaList = new ArrayList<>();
 
         for (Cliente cliente : listaClientes) {
             double divCliente = Double.parseDouble(cliente.getDivida());
             if (divCliente > 0) {
-                if (contasAReceber.size() == 0) {
+                if (listaContasAReceber.size() == 0) {
                     contaCliente.setConta(cliente.getNomeCompleto());
                     contaCliente.setDataVencimento(cliente.getDataVencimento());
                     contaCliente.setVlConta(cliente.getDivida());
@@ -388,8 +389,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void verificaSeContaClienteJaFoiAdicionada(ContaAReceber contaCliente, List<String> contaList, Cliente cliente) {
-        for (int i = 0; i < contasAReceber.size(); i++) {
-            contaList.add(contasAReceber.get(i).getConta());
+        for (int i = 0; i < listaContasAReceber.size(); i++) {
+            contaList.add(listaContasAReceber.get(i).getConta());
         }
         if (!contaList.contains(cliente.getNomeCompleto())) {
             contaCliente.setConta(cliente.getNomeCompleto());
