@@ -77,9 +77,11 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 //==================================================================================================
     private void configuraGrafico() throws ParseException {
+        //CRIANDO VIEW DO GRAFICO
         View layoutGrafico = getLayoutInflater().inflate(R.layout.grafico_principal_activity,null);
         LinearLayout layoutGrafic = findViewById(R.id.linear_grafic_principal);
-        layoutGrafic.addView(layoutGrafico);
+
+        //BIND DO GRAFICO
         grafico = layoutGrafico.findViewById(R.id.grafico_linhas);
 
         //PEGA TODAS AS VENDAS
@@ -181,8 +183,12 @@ public class PrincipalActivity extends AppCompatActivity {
         Number[] K  = {0,nov};
         Number[] L  = {0,dez};
 
-        //Number[] meses = {jan,fev,mar,abr,mai,jun,jul,ago,set,out,nov,dez};
-        Number[] meses = {51,28,36,29,55,69,49,42,60,30,27,30};
+
+        Number[] meses = {jan,fev,mar,abr,mai,jun,jul,ago,set,out,nov,dez};
+        //Number[] meses = {51,28,36,29,55,69,49,42,60,30,27,30};//TESTE DO GRAFICO
+        if(jan >0 || fev>0 ||mar >0||abr>0||mai>0||jun>0 || jul>0||ago>0||set>0||out>0||nov>0||dez>0) {
+            layoutGrafic.addView(layoutGrafico);
+        }
 
         XYSeries a = new SimpleXYSeries(Arrays.asList(meses[0]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"01");
         XYSeries b = new SimpleXYSeries(Arrays.asList(meses[1]),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"02");
