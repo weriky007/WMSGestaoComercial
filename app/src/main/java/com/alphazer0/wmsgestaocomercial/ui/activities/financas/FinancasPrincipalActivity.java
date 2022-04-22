@@ -120,7 +120,7 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         graficoPizza = viewGrafico.findViewById(R.id.grafico_contas);
 
         //VERIFICA SE EXISTEM VALORES PARA O GRAFICO SER RENDERIZADO
-        if(totalContasAReceberDAO.totalContasAReceber() != null && !totalContasAReceberDAO.totalContasAReceber().getTotal().equals("0.00") || totalContasAPagarDAO.totalContasAPagar() != null || totalCaixaDAO.totalCaixa() != null){
+        if(totalContasAReceberDAO.totalContasAReceber() != null && !totalContasAReceberDAO.totalContasAReceber().getTotal().equals("0.00") || totalContasAPagarDAO.totalContasAPagar() != null && !totalContasAPagarDAO.totalContasAPagar().getTotal().equals("0.00") || totalCaixaDAO.totalCaixa() != null){
             linearLayout.addView(viewGrafico);
         }
 
