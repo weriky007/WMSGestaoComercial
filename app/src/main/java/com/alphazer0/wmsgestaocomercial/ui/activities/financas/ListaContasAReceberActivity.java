@@ -161,21 +161,10 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 ContaAReceber contaAReceber = pegaContaAReceber(item);
                 ContaRecebida contaRecebida = new ContaRecebida();
-                Cliente clienteConta = new Cliente();
 
                 insereDadosNaContaRecebida(contaAReceber, contaRecebida);
                 acaoBDs(contaAReceber, contaRecebida);
-
-                String sNome = contaAReceber.getConta();
-                String sValor = contaAReceber.getVlConta();
-
-                //REMOVENDO CONTA DO CLIENTE
-                for(Cliente cliente : listaClientes){
-                    if(cliente.getNomeCompleto().equals(sNome) && cliente.getDivida().equals(sValor)){
-                        clienteConta = cliente;
-                    }
-                }
-
+                removeContaDoCliente(contaAReceber);
                 atualizaListaAdapter();
                 calculaTotalContasAReceber();
             }
@@ -189,6 +178,22 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             }
         });
         alertRecebimento.show();
+    }
+//==================================================================================================
+    private void removeContaDoCliente(ContaAReceber contaAReceber) {
+        Cliente clienteConta = new Cliente();
+        String sNome = contaAReceber.getConta();
+        String sValor = contaAReceber.getVlConta();
+
+        for(Cliente cliente : listaClientes){
+            if(cliente.getNomeCompleto().equals(sNome) && cliente.getDivida().equals(sValor)){
+                clienteConta = cliente;
+            }
+        }
+        if(clienteConta.getNomeCompleto() != null){
+            clienteConta.setDivida("0");
+            clienteDAO.editaCliente(clienteConta);
+        }
     }
 
     private void acaoBDs(ContaAReceber contaAReceber, ContaRecebida contaRecebida) {
