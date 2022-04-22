@@ -166,15 +166,16 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 insereDadosNaContaRecebida(contaAReceber, contaRecebida);
                 acaoBDs(contaAReceber, contaRecebida);
 
-                for(int j = 0;j<listaClientes.size();j++){
-                    if(contaAReceber.getConta().equals(listaClientes.get(j).getNomeCompleto()) && contaAReceber.getVlConta().equals(listaClientes.get(i).getDivida())){
-                        clienteConta = listaClientes.get(i);
+                String sNome = contaAReceber.getConta();
+                String sValor = contaAReceber.getVlConta();
+
+                //REMOVENDO CONTA DO CLIENTE
+                for(Cliente cliente : listaClientes){
+                    if(cliente.getNomeCompleto().equals(sNome) && cliente.getDivida().equals(sValor)){
+                        clienteConta = cliente;
                     }
                 }
-                if(clienteConta != null && !clienteConta.getNomeCompleto().equals("")){
-                    clienteConta.setDivida("");
-                    clienteDAO.editaCliente(clienteConta);
-                }
+
                 atualizaListaAdapter();
                 calculaTotalContasAReceber();
             }
