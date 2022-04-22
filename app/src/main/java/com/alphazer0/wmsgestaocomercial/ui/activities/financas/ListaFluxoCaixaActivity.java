@@ -133,11 +133,24 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                     bTotalRetiradas = bTotalRetiradas.add(b);
                 }
             }
-            //SUBTRAI A RETIRADA DO TOTAL
+
+            String sValorCaixa;
+
+            if(totalCaixaDAO.totalCaixa() == null){
+                sValorCaixa = "0.00";
+            }else if(totalCaixaDAO.totalCaixa() != null) {
+                sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
+            }else{
+                sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
+            }
+
+            BigDecimal bBD= new BigDecimal(sValorCaixa);
             BigDecimal bSaldoTotal = bTotalDepositos.subtract(bTotalRetiradas);
+            BigDecimal bResult = new BigDecimal("0");
+            bResult = bSaldoTotal.add(bBD);
 
             //CRIANDO O OBJETO QUE SERA SALVO NO BD
-            String result = bSaldoTotal.toString();
+            String result = bResult.toString();
             TotalCaixa totalCaixa = new TotalCaixa();
             totalCaixa.setTotal(result);
 

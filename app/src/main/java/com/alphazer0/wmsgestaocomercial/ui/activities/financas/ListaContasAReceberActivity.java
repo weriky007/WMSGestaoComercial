@@ -30,15 +30,18 @@ import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ClientesDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ContasAReceberDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ContasRecebidasDatabase;
+import com.alphazer0.wmsgestaocomercial.database.TotalCaixaDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAReceberDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomClienteDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContasRecebidasDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalCaixaDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAReceberDAO;
 import com.alphazer0.wmsgestaocomercial.model.Cliente;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
 import com.alphazer0.wmsgestaocomercial.model.ContaRecebida;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
+import com.alphazer0.wmsgestaocomercial.model.TotalCaixa;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAReceber;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAReceberAdapter;
@@ -70,6 +73,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private RoomContasRecebidasDAO contasRecebidasDAO;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomClienteDAO clienteDAO;
+    private RoomTotalCaixaDAO totalCaixaDAO;
 
     private EditText campoCodBarras;
     private EditText campoConta;
@@ -128,6 +132,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         totalContasAReceberDAO = TotalContasAReceberDatabase.getInstance(this).getTotalContasAReceberDAO();
         clienteDAO = ClientesDatabase.getInstance(this).getClienteDAO();
         contasRecebidasDAO = ContasRecebidasDatabase.getInstance(this).getContasRecebidasDAO();
+        totalCaixaDAO = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
     }
 
     private void configuraLista() {
@@ -135,7 +140,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         listViewContasAReceber.setAdapter(contaAReceberAdapter);
         registerForContextMenu(listViewContasAReceber);
     }
-
+//==================================================================================================
     //MENU ITENS LISTA
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view,ContextMenu.ContextMenuInfo menuInfo){
@@ -151,7 +156,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         }
         return super.onContextItemSelected(item);
     }
-
+//==================================================================================================
     public  void confirmaRecebimento(final  MenuItem item){
         AlertDialog alertRecebimento = new AlertDialog.Builder(this).create();
         alertRecebimento.setTitle("Informar Recebimento de Conta");
@@ -165,6 +170,40 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
                 insereDadosNaContaRecebida(contaAReceber, contaRecebida);
                 acaoBDs(contaAReceber, contaRecebida);
                 removeContaDoCliente(contaAReceber);
+
+                //SOMANDO VALOR RECEBIDO AO CAIXA
+                String sValorConta = contaAReceber.getVlConta();
+                String sValorCaixa;
+
+                if(totalCaixaDAO.totalCaixa() == null){
+                    sValorCaixa = "0.00";
+                }else if(totalCaixaDAO.totalCaixa() != null) {
+                    sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
+                }else{
+                    sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
+                }
+
+
+                BigDecimal bVlConta = new BigDecimal(sValorConta);
+                BigDecimal bVlCaixa = new BigDecimal(sValorCaixa);
+                BigDecimal bResultado = new BigDecimal("0");
+                bResultado = bVlCaixa.add(bVlConta);
+
+                String sResult = bResultado.toString();
+                TotalCaixa  totalCaixa  = new TotalCaixa();
+                totalCaixa.setTotal(sResult);
+
+                //REMOVE DIVIDA CLIENTE
+                if(totalCaixaDAO.totalCaixa() == null){
+                    totalCaixaDAO.salvaTotal(totalCaixa);
+                    Toast.makeText(activity, "Salvando", Toast.LENGTH_SHORT).show();
+                }else if(totalCaixaDAO.totalCaixa() != null){
+                    int id = totalCaixaDAO.totalCaixa().getId();
+                    totalCaixa.setId(id);
+                    totalCaixaDAO.editaTotal(totalCaixa);
+                    Toast.makeText(activity, "Editando", Toast.LENGTH_SHORT).show();
+                }
+
                 atualizaListaAdapter();
                 calculaTotalContasAReceber();
             }
