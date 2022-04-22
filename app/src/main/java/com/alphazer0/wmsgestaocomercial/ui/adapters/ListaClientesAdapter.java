@@ -81,14 +81,14 @@ public class ListaClientesAdapter extends RecyclerView.Adapter implements Filter
         endereco.setText("R: " + cliente.getRua()+" | "+"Número: "+cliente.getNumero()+"\nBairro: "+cliente.getBairro());
 
         try {
-            if (!cliente.getDivida().equals(null) || !cliente.getDivida().equals("0")) {
+            if (cliente.getDivida() != null || !cliente.getDivida().equals("0")) {
                 divida.setText("Pendente: R$" + cliente.getDivida() + "\n" + "Data vencimento: " + cliente.getDataVencimento());
             }
         }catch (NullPointerException n){
             n.printStackTrace();
         }
 
-        if (cliente.getDivida().equals(null) || cliente.getDivida().equals("0")){
+        if (cliente.getDivida() == null || cliente.getDivida().equals("0")){
             divida.setText("");
         }
 

@@ -728,7 +728,7 @@ public class VendasActivity extends AppCompatActivity {
                                     if(dateSelect.before(dataAtual)){
                                         Toast.makeText(context, "Escolha uma data posterior ao dia de hoje ", Toast.LENGTH_SHORT).show();
                                     }else{
-                                    contaDoCliente.contaCliente(clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
+                                    contaDoCliente.contaCliente(context,clientes, clienteDAO, campoClienteConta, valorTotal, dataContaCliente, venda);
                                     //INSERINDO VALORES NA VENDA
                                     insereValoresNaVenda.insere(valorTotal, venda, dataFormatada, horaFormatada, escolhaFormaPagamento, listaCompras, vendasDAO, dataContaCliente);
                                     configuracaoIOEstoqueVendas.diminuiItemDoEstoque(context,produtos,produtoDao,listaCompras);

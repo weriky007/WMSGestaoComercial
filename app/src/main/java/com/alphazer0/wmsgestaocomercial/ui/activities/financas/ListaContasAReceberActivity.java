@@ -65,11 +65,11 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private List<ContaAReceber> listaContasAReceber = new ArrayList<>();
     private List<Cliente> listaClientes = new ArrayList<>();
     private ListaContasAReceberAdapter contaAReceberAdapter;
+
     private RoomContaAReceberDAO contaAReceberDAO;
     private RoomContasRecebidasDAO contasRecebidasDAO;
     private RoomTotalContasAReceberDAO totalContasAReceberDAO;
     private RoomClienteDAO clienteDAO;
-    private final Context context = this;
 
     private EditText campoCodBarras;
     private EditText campoConta;
@@ -79,8 +79,9 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     private ScanCode scanCode = new ScanCode();
     private Activity activity = this;
     private Date dataSelect;
-
+    private final Context context = this;
 //==================================================================================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +93,8 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         configuraAdapter();
         carregaOsDadosDosBDs();
         configuraLista();
-        configuraFabAddContaAReceber();
         pegaContasClientes();
+        configuraFabAddContaAReceber();
         calculaTotalContasAReceber();
     }
 
@@ -160,14 +161,20 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 ContaAReceber contaAReceber = pegaContaAReceber(item);
                 ContaRecebida contaRecebida = new ContaRecebida();
+                Cliente clienteConta = new Cliente();
 
-                contaRecebida.setConta(contaAReceber.getConta());
-                contaRecebida.setCodigoBarras(contaAReceber.getCodigoBarras());
-                contaRecebida.setDataRecebimento(contaAReceber.getDataVencimento());
-                contaRecebida.setVlConta(contaAReceber.getVlConta());
-                contasRecebidasDAO.salvaContaRecebida(contaRecebida);
-                contaAReceberDAO.removeContaAReceber(contaAReceber);
-                listaContasAReceber.remove(contaAReceber);
+                insereDadosNaContaRecebida(contaAReceber, contaRecebida);
+                acaoBDs(contaAReceber, contaRecebida);
+
+                for(int j = 0;j<listaClientes.size();j++){
+                    if(contaAReceber.getConta().equals(listaClientes.get(j).getNomeCompleto()) && contaAReceber.getVlConta().equals(listaClientes.get(i).getDivida())){
+                        clienteConta = listaClientes.get(i);
+                    }
+                }
+                if(clienteConta != null && !clienteConta.getNomeCompleto().equals("")){
+                    clienteConta.setDivida("");
+                    clienteDAO.editaCliente(clienteConta);
+                }
                 atualizaListaAdapter();
                 calculaTotalContasAReceber();
             }
@@ -181,6 +188,19 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
             }
         });
         alertRecebimento.show();
+    }
+
+    private void acaoBDs(ContaAReceber contaAReceber, ContaRecebida contaRecebida) {
+        contasRecebidasDAO.salvaContaRecebida(contaRecebida);
+        contaAReceberDAO.removeContaAReceber(contaAReceber);
+        listaContasAReceber.remove(contaAReceber);
+    }
+
+    private void insereDadosNaContaRecebida(ContaAReceber contaAReceber, ContaRecebida contaRecebida) {
+        contaRecebida.setConta(contaAReceber.getConta());
+        contaRecebida.setCodigoBarras(contaAReceber.getCodigoBarras());
+        contaRecebida.setDataRecebimento(contaAReceber.getDataVencimento());
+        contaRecebida.setVlConta(contaAReceber.getVlConta());
     }
 
     private ContaAReceber pegaContaAReceber(MenuItem item){

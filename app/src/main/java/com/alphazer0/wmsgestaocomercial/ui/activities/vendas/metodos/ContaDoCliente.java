@@ -14,31 +14,39 @@ import java.util.List;
 
 public class ContaDoCliente {
 
-    public void contaCliente(List<Cliente> clientes, RoomClienteDAO clienteDAO, MultiAutoCompleteTextView campoClienteConta, TextView valorTotal, String dataContaCliente, Venda venda){
+    public void contaCliente(Context context, List<Cliente> clientes, RoomClienteDAO clienteDAO, MultiAutoCompleteTextView campoClienteConta, TextView valorTotal, String dataContaCliente, Venda venda){
         Cliente cli  = new Cliente();
-        String campoCliente = campoClienteConta.getText().toString().trim();
+        String sCampoCliente = campoClienteConta.getText().toString().trim();
         clientes = clienteDAO.todosClientes();
-        String divida ="";
-        String data = "";
-        String divOld = "";
-        String cliente = "";
+        String sDivida ="";
+        String sData = "";
+        String sDivOld = "";
+        String sCliente = "";
 
         for(int a = 0; a<clientes.size();a++){
-            if(campoCliente.equals(clientes.get(a).getNomeCompleto().trim())){
+            if(sCampoCliente.equals(clientes.get(a).getNomeCompleto().trim())){
                 cli = clientes.get(a);
             }
         }
-        cliente = cli.getNomeCompleto();
-        venda.setCliente(cliente);
+        sCliente = cli.getNomeCompleto();
+        venda.setCliente(sCliente);
 
-        divOld = cli.getDivida();
-        divida = valorTotal.getText().toString();
-        BigDecimal bdivida = new BigDecimal(divida);
-        BigDecimal bdividaOld = new BigDecimal(divOld);
+        try{
+        if(cli.getDivida() == null || cli.getDivida().equals("")){
+            cli.setDivida("0.00");
+        }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        sDivOld = cli.getDivida();
+        sDivida = valorTotal.getText().toString();
+        BigDecimal bdivida = new BigDecimal(sDivida);
+        BigDecimal bdividaOld = new BigDecimal(sDivOld);
         bdivida = bdivida.add(bdividaOld);
 
-        data = dataContaCliente;
-        cli.setDataVencimento(data);
+        sData = dataContaCliente;
+        cli.setDataVencimento(sData);
         cli.setDivida(bdivida.toString());
         clienteDAO.editaCliente(cli);
     }
