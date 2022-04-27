@@ -476,8 +476,6 @@ public class VendasActivity extends AppCompatActivity {
         finish();
     }
 //==================================================================================================
-
-//==================================================================================================
     //MENU APPBAR CONCLUI VENDA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -44,6 +44,9 @@ import java.util.List;
 public class ListaFluxoCaixaActivity extends AppCompatActivity {
 
     public static final String FLUXO_DE_CAIXA = "Fluxo de Caixa";
+    public static final String DEPOSITO = "Depósito";
+    public static final String RETIRADA = "Retirada";
+    public static final String CANCELADO = "Cancelado!";
     private FloatingActionButton fabAddItemFluxo;
     private RecyclerView recyclerView;
     private RoomMovimentacaoCaixaDAO movimentacaoCaixaDAO;
@@ -76,7 +79,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
-        insereTotal();
+        somaValorAoTotal();
     }
 
     private void telaEmModoRetrado() {
@@ -102,6 +105,14 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
     }
+
+    private void somaValorAoTotal(){
+        if(totalCaixaDAO.totalCaixa() != null) {
+            textViewSaldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+        }else {
+            textViewSaldoTotal.setText("0.00");
+        }
+    }
 //==================================================================================================
     private void configuraAddNovoItemFluxo() {
         fabAddItemFluxo = findViewById(R.id.fab_novo_item_fluxo);
@@ -113,29 +124,28 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         });
     }
 //==================================================================================================
-    private void insereTotal(){
+    private void calculaSaldoTotal(){
         if(listaMovimentacoes.size() >0) {
-            //VARIAVEIS
+
+            //SEPARA O VALOR TOTAL POR TIPO
             String sTotal = "";
             BigDecimal bTotalDepositos = new BigDecimal("0");
             BigDecimal bTotalRetiradas = new BigDecimal("0");
+
             for (int i = 0; i < listaMovimentacoes.size(); i++) {
                 //PEGA O VALOR DOS INTENS DA LISTA
                 sTotal = listaMovimentacoes.get(i).getValor();
-
-                //TRANSFORMA O VALOR EM BIGDECIMAL PARA CALCULO
                 BigDecimal b = new BigDecimal(sTotal);
-
-                //FAZ A SOMA SEPARADA POR TIPO
-                if(listaMovimentacoes.get(i).getTipo().equals("Depósito")) {
+                //FAZ A SOMA SEPARADA POR TIPO, DEPOSITO OU RETIRADA
+                if(listaMovimentacoes.get(i).getTipo().equals(DEPOSITO)) {
                     bTotalDepositos = bTotalDepositos.add(b);
-                }else if(listaMovimentacoes.get(i).getTipo().equals("Retirada")){
+                }else if(listaMovimentacoes.get(i).getTipo().equals(RETIRADA)){
                     bTotalRetiradas = bTotalRetiradas.add(b);
                 }
             }
 
+            //PEGA VALOR DO CAIXA DO BD E INSERE NA STRING
             String sValorCaixa;
-
             if(totalCaixaDAO.totalCaixa() == null){
                 sValorCaixa = "0.00";
             }else if(totalCaixaDAO.totalCaixa() != null) {
@@ -144,6 +154,8 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
             }
 
+            //CALCULANDO O TOTAL DO CAIXA COM O SALDO DAS MOVIMENTACOES INSERIDAS
+            //POIS O CAIXA RECEBE OS VALORES DAS VENDAS
             BigDecimal bBD= new BigDecimal(sValorCaixa);
             BigDecimal bSaldoTotal = bTotalDepositos.subtract(bTotalRetiradas);
             BigDecimal bResult = new BigDecimal("0");
@@ -154,7 +166,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
             TotalCaixa totalCaixa = new TotalCaixa();
             totalCaixa.setTotal(result);
 
-            //VERIFICA SE O BD E NULO
+            //VERIFICA SE IRA SALVAR OU EDITAR O TOTAL DO CAIXA
             if(totalCaixaDAO.totalCaixa() == null){
                 totalCaixaDAO.salvaTotal(totalCaixa);
             }else if(totalCaixaDAO.totalCaixa() != null){
@@ -162,6 +174,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 totalCaixa.setId(id);
                 totalCaixaDAO.editaTotal(totalCaixa);
             }
+            //INSERE O TOTAL DO CALCULO NA STRING
             textViewSaldoTotal.setText(result);
         }
     }
@@ -185,12 +198,12 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                 if(item > 0) {
                     sescolhaTipoFluxoCaixa = rescolhaTipoFluxoCaixa.getText().toString();
                     switch (sescolhaTipoFluxoCaixa) {
-                        case "Depósito":
-                            Toast.makeText(context, "Depósito", Toast.LENGTH_SHORT).show();
+                        case DEPOSITO:
+                            Toast.makeText(context, DEPOSITO, Toast.LENGTH_SHORT).show();
                             break;
 
-                        case "Retirada":
-                            Toast.makeText(context, "Retirada", Toast.LENGTH_SHORT).show();
+                        case RETIRADA:
+                            Toast.makeText(context, RETIRADA, Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }else{
@@ -224,7 +237,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, CANCELAR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(context, "Cancelado!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, CANCELADO, Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });
@@ -269,32 +282,75 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                         //PEGA OS VALORES DOS CAMPOS
                         String tipo = sescolhaTipoFluxoCaixa.trim().trim().trim();
                         String descricao = campoDescricao.getText().toString();
-                        String valor = campoValor.getText().toString();
+                        String valorDigitado = campoValor.getText().toString();
 
 
                         //VERIFICA O TIPO
-                        if (tipo.equals("Depósito")) {
-                            concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valor, alertDialog);
-                            insereTotal();
+                        if (tipo.equals(DEPOSITO)) {
+                            concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valorDigitado, alertDialog);
+                            somaValorAoTotal(valorDigitado);
                         }
 
-                        if (tipo.equals("Retirada")) {
+                        if (tipo.equals(RETIRADA)) {
                             if (totalCaixaDAO.totalCaixa() == null) {
                                 Toast.makeText(context, "Não é possível realizar uma Retirada sem Saldo", Toast.LENGTH_SHORT).show();
                             } else {
                                 double dtotal = Double.parseDouble(totalCaixaDAO.totalCaixa().getTotal());
-                                double dvalor = Double.parseDouble(valor);
+                                double dvalor = Double.parseDouble(valorDigitado);
                                 if (dvalor > 0 && dvalor <= dtotal) {
-                                    concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valor, alertDialog);
-                                    insereTotal();
+                                    concluiAddMovimentacao(dataFormatada, horaFormatada, tipo, descricao, valorDigitado, alertDialog);
+                                    subtraiValorDoTotal(valorDigitado);
                                 } else {
-                                    Toast.makeText(context, "O valor da Retirada não pode ser maior do que o Saldo: R$" + dtotal, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "O valorDigitado da Retirada não pode ser maior do que o Saldo: R$" + dtotal, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+//==================================================================================================
+    private void subtraiValorDoTotal(String valorDigitado) {
+        BigDecimal bValor = new BigDecimal(valorDigitado);
+        BigDecimal bTotalCaixa;
+        BigDecimal resultado = new BigDecimal("0");
+        TotalCaixa totalCaixa = new TotalCaixa();
+
+        if (totalCaixaDAO.totalCaixa() != null) {
+            bTotalCaixa = new BigDecimal(totalCaixaDAO.totalCaixa().getTotal());
+            resultado = bTotalCaixa.subtract(bValor);
+            totalCaixa.setId(totalCaixaDAO.totalCaixa().getId());
+            totalCaixa.setTotal(resultado.toString());
+            totalCaixaDAO.editaTotal(totalCaixa);
+            textViewSaldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+        }else {
+            bTotalCaixa = new BigDecimal("0");
+            resultado = bTotalCaixa.add(bValor);
+            totalCaixa.setTotal(resultado.toString());
+            totalCaixaDAO.salvaTotal(totalCaixa);
+            textViewSaldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+        }
+    }
+
+    private void somaValorAoTotal(String valorDigitado) {
+        BigDecimal bValor = new BigDecimal(valorDigitado);
+        BigDecimal bTotalCaixa;
+        BigDecimal resultado = new BigDecimal("0");
+        TotalCaixa totalCaixa = new TotalCaixa();
+        if (totalCaixaDAO.totalCaixa() != null) {
+            bTotalCaixa = new BigDecimal(totalCaixaDAO.totalCaixa().getTotal());
+            resultado = bTotalCaixa.add(bValor);
+            totalCaixa.setId(totalCaixaDAO.totalCaixa().getId());
+            totalCaixa.setTotal(resultado.toString());
+            totalCaixaDAO.editaTotal(totalCaixa);
+            textViewSaldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
+        }else {
+            bTotalCaixa = new BigDecimal("0");
+            resultado = bTotalCaixa.add(bValor);
+            totalCaixa.setTotal(resultado.toString());
+            totalCaixaDAO.salvaTotal(totalCaixa);
+            textViewSaldoTotal.setText(totalCaixaDAO.totalCaixa().getTotal());
         }
     }
 //==================================================================================================
