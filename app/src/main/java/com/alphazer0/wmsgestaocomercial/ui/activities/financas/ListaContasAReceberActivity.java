@@ -242,9 +242,17 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
     }
 
     private void insereDadosNaContaRecebida(ContaAReceber contaAReceber, ContaRecebida contaRecebida) {
+        //CONFIGURA DATA E HORA
+        SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
+        Date dataAtual = new Date();
+        Date horaAtual = new Date();
+        String dataFormatada = formataData.format(dataAtual);
+        String horaFormatada = formataHora.format(horaAtual);
+
         contaRecebida.setConta(contaAReceber.getConta());
         contaRecebida.setCodigoBarras(contaAReceber.getCodigoBarras());
-        contaRecebida.setDataRecebimento(contaAReceber.getDataVencimento());
+        contaRecebida.setDataRecebimento(dataFormatada);
         contaRecebida.setVlConta(contaAReceber.getVlConta());
     }
 
