@@ -679,7 +679,7 @@ public class VendasActivity extends AppCompatActivity {
                     finish();
                 }
 
-                //CONFIGURA RECEBIMENTO CARTAO CREDITO
+                //CONFIGURA RECEBIMENTO CARTAO CREDITO A VISTA
                 if (escolhaFormaPagamento.equals(CARTAO_DE_CREDITO)) {
                     if (escolhaCcParcelamento.equals(A_VISTA)) {
                         //INSERINDO VALORES NA VENDA
