@@ -29,15 +29,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphazer0.wmsgestaocomercial.R;
 import com.alphazer0.wmsgestaocomercial.database.ContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.ContasPagasDatabase;
+import com.alphazer0.wmsgestaocomercial.database.TotalCaixaDatabase;
 import com.alphazer0.wmsgestaocomercial.database.TotalContasAPagarDatabase;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContaAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomContasPagasDAO;
+import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalCaixaDAO;
 import com.alphazer0.wmsgestaocomercial.database.roomDAO.RoomTotalContasAPagarDAO;
 import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
 import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
 import com.alphazer0.wmsgestaocomercial.model.ContaPaga;
 import com.alphazer0.wmsgestaocomercial.model.ContaRecebida;
 import com.alphazer0.wmsgestaocomercial.model.MaskText;
+import com.alphazer0.wmsgestaocomercial.model.TotalCaixa;
 import com.alphazer0.wmsgestaocomercial.model.TotalContasAPagar;
 import com.alphazer0.wmsgestaocomercial.ui.activities.leitor_codigo_barras.ScanCode;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasAPagarAdapter;
@@ -66,6 +69,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
     private RoomContaAPagarDAO contaAPagarDAO;
     private RoomContasPagasDAO contasPagasDAO;
     private RoomTotalContasAPagarDAO totalContasAPagarDAO;
+    private RoomTotalCaixaDAO totalCaixaDAO;
     private final Context context = this;
     private Date dataSelect;
 
@@ -123,6 +127,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
         contaAPagarDAO = ContasAPagarDatabase.getInstance(this).getContasAPagarDAO();
         totalContasAPagarDAO = TotalContasAPagarDatabase.getInstance(this).getTotalContasAPagarDAO();
         contasPagasDAO = ContasPagasDatabase.getInstance(this).getContasPagasDAO();
+        totalCaixaDAO = TotalCaixaDatabase.getInstance(this).getTotalCaixaDAO();
     }
 
     private void configuraLista() {
@@ -158,16 +163,57 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 ContaAPagar contaAPagar = pegaContaAPagar(item);
                 ContaPaga contaPaga = new ContaPaga();
 
+                //SOMANDO VALOR RECEBIDO AO CAIXA
+                String sValorConta = contaAPagar.getVlConta();
+                String sValorCaixa;
+
+                //VERIFICA SE O SALDO DO CAIXA ESTA NULO
+                if(totalCaixaDAO.totalCaixa() == null){
+                    sValorCaixa = "0.00";
+                }else if(totalCaixaDAO.totalCaixa() != null) {
+                    sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
+                }else{
+                    sValorCaixa = totalCaixaDAO.totalCaixa().getTotal();
+                }
+
+                //REALIZANDO O CALCULO DE SUBTRACAO DO CAIXA
+                BigDecimal bVlConta = new BigDecimal(sValorConta);
+                BigDecimal bVlCaixa = new BigDecimal(sValorCaixa);
+                BigDecimal bResultado = new BigDecimal("0");
+                bResultado = bVlCaixa.subtract(bVlConta);
+
+
+                String sResult = bResultado.toString();
+                TotalCaixa totalCaixa  = new TotalCaixa();
+                totalCaixa.setTotal(sResult);
+
+                //VERIFICA SE SALVA OU EDITA
+                if(totalCaixaDAO.totalCaixa() == null){
+                    totalCaixaDAO.salvaTotal(totalCaixa);
+                }else if(totalCaixaDAO.totalCaixa() != null){
+                    int id = totalCaixaDAO.totalCaixa().getId();
+                    totalCaixa.setId(id);
+                    totalCaixaDAO.editaTotal(totalCaixa);
+                }
+
+                //CONFIGURA DATA E HORA
+                SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
+                Date dataAtual = new Date();
+                Date horaAtual = new Date();
+                String dataFormatada = formataData.format(dataAtual);
+                String horaFormatada = formataHora.format(horaAtual);
+
                 contaPaga.setConta(contaAPagar.getConta());
                 contaPaga.setCodigoBarras(contaAPagar.getCodigoBarras());
-                contaPaga.setDataPagamento(contaAPagar.getDataVencimento());
+                contaPaga.setDataPagamento(dataFormatada);
                 contaPaga.setVlConta(contaAPagar.getVlConta());
 
                 contasPagasDAO.salvaContaPaga(contaPaga);
                 listaContasAPagar.remove(contaAPagar);
                 contaAPagarDAO.removeContaAPagar(contaAPagar);
                 atualizaListaAdapter();
-                calculaEsalvaOTotal();
+                //calculaEsalvaOTotal();
             }
         });
 

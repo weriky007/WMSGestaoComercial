@@ -16,36 +16,7 @@
         android:backgroundTint="@color/white"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/total_contas_a_receber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total: R$"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/valor_contas_a_receber"/>
-
-            <TextView
-                android:id="@+id/valor_contas_a_receber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
-                app:layout_constraintTop_toTopOf="@id/total_contas_a_receber"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_alignParentTop="true"/>
 
 
 
