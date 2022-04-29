@@ -14,10 +14,13 @@ import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListaFluxoCaixaActivity extends AppCompatActivity {
@@ -53,6 +57,8 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private RoomTotalCaixaDAO totalCaixaDAO;
     private ListaFluxoCaixaAdapter fluxoCaixaAdapter;
     private List<MovimentacaoCaixa> listaMovimentacoes = new ArrayList<>();
+    private List<String> tipos = new ArrayList<>();
+    private HashSet<String> hashSet = new HashSet<>();
     private final Context context = this;
 
     private RadioGroup grupoTipo;
@@ -60,6 +66,8 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
     private EditText campoValor;
     private String sescolhaTipoFluxoCaixa ="";
     private TextView textViewSaldoTotal;
+    private Spinner sp;
+    private String filtroTipo = "";
 //==================================================================================================
     @Override
     protected void onCreate(Bundle savedIntanceState) {
@@ -73,6 +81,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
         configuraLista();
         textViewSaldoTotal = findViewById(R.id.text_fluxo_caixa_saldo);
         configuraAddNovoItemFluxo();
+        configuraAutoComplete();
     }
 
     @Override
@@ -120,6 +129,36 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 abreFormularioAddMovimentacao();
+            }
+        });
+    }
+//==================================================================================================
+    //CONFIGURA O FILTRO POR TIPO
+    private void pegaTipo(List<MovimentacaoCaixa> listaMovimentacaoCaixa){
+        for(MovimentacaoCaixa movimentacaoCaixa : listaMovimentacaoCaixa ){
+            this.tipos.add(movimentacaoCaixa.getTipo());
+        }
+        hashSet.addAll(this.tipos);
+        this.tipos.clear();
+        this.tipos.add("Todos");
+        this.tipos.addAll(hashSet);
+    }
+
+    private void configuraAutoComplete(){
+        pegaTipo(movimentacaoCaixaDAO.todasMovimentacoes());
+        ArrayAdapter<String> adapterTipos = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,tipos);
+        adapterTipos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        sp = findViewById(R.id.spinner);
+        sp.setAdapter(adapterTipos);
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                filtroTipo = sp.getSelectedItem().toString();
+                fluxoCaixaAdapter.atualiza(movimentacaoCaixaDAO.todasMovimentacoes());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
     }
@@ -305,6 +344,7 @@ public class ListaFluxoCaixaActivity extends AppCompatActivity {
                                 }
                             }
                         }
+                        configuraAutoComplete();
                     }
                 }
             }

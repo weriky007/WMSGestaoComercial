@@ -92,7 +92,6 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
 //==================================================================================================
    //CONFIGURA LISTA SUSPENSA DE FILTRO
     private void pegaCategorias(List<Produto> produto){
-
         for (Produto filtroGrupo : produto) {
             this.categorias.add(filtroGrupo.getCategoria());
         }
