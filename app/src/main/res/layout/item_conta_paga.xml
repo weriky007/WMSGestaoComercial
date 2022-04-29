@@ -46,6 +46,29 @@
             app:layout_constraintTop_toTopOf="@+id/item_txt_data"/>
 
         <TextView
+            android:id="@+id/item_txt_conta_paga_hora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="|   Hora: "
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/item_conta_paga_data"
+            app:layout_constraintTop_toTopOf="@+id/item_conta_paga_data"/>
+
+        <TextView
+            android:id="@+id/item_conta_paga_hora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/item_txt_conta_paga_hora"
+            app:layout_constraintTop_toTopOf="@+id/item_txt_conta_paga_hora"/>
+
+        <TextView
             android:id="@+id/item_txt_conta_paga_cod_barras"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

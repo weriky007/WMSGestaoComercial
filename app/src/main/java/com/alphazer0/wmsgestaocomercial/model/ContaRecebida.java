@@ -17,16 +17,18 @@ public class ContaRecebida implements Serializable {
     private String conta;
     private String vlConta;
     private String dataRecebimento;
+    private String horaRecebimento;
 //==================================================================================================
     public ContaRecebida() {
     }
 
-    public ContaRecebida(int id, String codigoBarras, String conta, String vlConta, String dataRecebimento) {
+    public ContaRecebida(int id, String codigoBarras, String conta, String vlConta, String dataRecebimento, String horaRecebimento) {
         this.id = id;
         this.codigoBarras = codigoBarras;
         this.conta = conta;
         this.vlConta = vlConta;
         this.dataRecebimento = dataRecebimento;
+        this.horaRecebimento = horaRecebimento;
     }
 //==================================================================================================
     //SOBREESCREVENDO O TOSTRING
@@ -79,5 +81,13 @@ public class ContaRecebida implements Serializable {
     public void setDataRecebimento(String dataRecebimento) {
         this.dataRecebimento = dataRecebimento;
     }
-    //==================================================================================================
+
+    public String getHoraRecebimento() {
+        return horaRecebimento;
+    }
+
+    public void setHoraRecebimento(String horaRecebimento) {
+        this.horaRecebimento = horaRecebimento;
+    }
+//==================================================================================================
 }

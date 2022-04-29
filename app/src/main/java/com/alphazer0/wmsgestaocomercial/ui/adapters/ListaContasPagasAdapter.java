@@ -54,11 +54,13 @@ public class ListaContasPagasAdapter extends BaseAdapter implements Filterable {
         //BIND
         TextView contaPaga = viewCriada.findViewById(R.id.item_conta_paga);
         TextView dataDePagamento = viewCriada.findViewById(R.id.item_conta_paga_data);
+        TextView horaDePagamento = viewCriada.findViewById(R.id.item_conta_paga_hora);
         TextView codigoBarras = viewCriada.findViewById(R.id.item_conta_paga_cod_barras);
         TextView valorConta = viewCriada.findViewById(R.id.item_conta_paga_valor);
 
         contaPaga.setText(contaPagaDevolvida.getConta());
         dataDePagamento.setText(contaPagaDevolvida.getDataPagamento());
+        horaDePagamento.setText(contaPagaDevolvida.getHoraPagamento());
         codigoBarras.setText(contaPagaDevolvida.getCodigoBarras());
         valorConta.setText(contaPagaDevolvida.getVlConta());
     }

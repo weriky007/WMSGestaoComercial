@@ -54,11 +54,13 @@ public class ListaContasARecebidasAdapter extends BaseAdapter implements Filtera
         //BIND
         TextView contaRecebida = viewCriada.findViewById(R.id.item_conta_recebida);
         TextView dataRecebimento = viewCriada.findViewById(R.id.item_conta_recebida_data);
+        TextView horaRecebimento = viewCriada.findViewById(R.id.item_txt_conta_recebida_hora);
         TextView codigoBarras = viewCriada.findViewById(R.id.item_conta_recebida_cod_barras);
         TextView valorConta = viewCriada.findViewById(R.id.item_conta_recebida_valor);
 
         contaRecebida.setText(contaRecebidaDevolvida.getConta());
         dataRecebimento.setText(contaRecebidaDevolvida.getDataRecebimento());
+        horaRecebimento.setText(contaRecebidaDevolvida.getHoraRecebimento());
         codigoBarras.setText(contaRecebidaDevolvida.getCodigoBarras());
         valorConta.setText(contaRecebidaDevolvida.getVlConta());
     }

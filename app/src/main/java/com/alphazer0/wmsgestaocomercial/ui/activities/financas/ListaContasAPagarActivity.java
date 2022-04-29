@@ -207,6 +207,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 contaPaga.setConta(contaAPagar.getConta());
                 contaPaga.setCodigoBarras(contaAPagar.getCodigoBarras());
                 contaPaga.setDataPagamento(dataFormatada);
+                contaPaga.setHoraPagamento(horaFormatada);
                 contaPaga.setVlConta(contaAPagar.getVlConta());
 
                 contasPagasDAO.salvaContaPaga(contaPaga);
