@@ -40,18 +40,18 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
     }
 //==================================================================================================
     //CRIANDO O MENU DE CONTEXTO
-    class FluxoCaixaViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    class FluxoCaixaViewHolder extends RecyclerView.ViewHolder  {
         public FluxoCaixaViewHolder(@NonNull View itemView) {
             super(itemView);
             CardView cardView = itemView.findViewById(R.id.cardViewMovimentacaoCaixa);
-            cardView.setOnCreateContextMenuListener(this);
+//            cardView.setOnCreateContextMenuListener(this);
         }
 
-    //PRESSAO DO ITEM
-    @Override
-    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-        contextMenu.add(this.getAdapterPosition(),0,0,"Remover item?");
-    }
+//    //PRESSAO DO ITEM
+//    @Override
+//    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+//        contextMenu.add(this.getAdapterPosition(),0,0,"Remover item?");
+//    }
 }
 
     //INFLANDO O ITEM NA LISTA
@@ -69,9 +69,9 @@ public class ListaFluxoCaixaAdapter extends RecyclerView.Adapter implements Filt
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, InformacoesCliente.class);
-                intent.putExtra(CHAVE_MOVIMENTACAO, listaMovimentacao.get(holder.getAdapterPosition()));
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, InformacoesCliente.class);
+//                intent.putExtra(CHAVE_MOVIMENTACAO, listaMovimentacao.get(holder.getAdapterPosition()));
+//                context.startActivity(intent);
             }
         });
 
