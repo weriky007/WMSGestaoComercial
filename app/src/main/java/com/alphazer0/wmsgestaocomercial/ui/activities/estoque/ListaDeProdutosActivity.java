@@ -90,6 +90,7 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
         adapter.atualizaListaProdutos(dao.todosProdutos(),filtroCategoria);
     }
 //==================================================================================================
+   //CONFIGURA LISTA SUSPENSA DE FILTRO
     private void pegaCategorias(List<Produto> produto){
 
         for (Produto filtroGrupo : produto) {
@@ -174,7 +175,7 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
         });
     }
 //==================================================================================================
-    //CONFIGURACOES DO FILTRO PESQUISA
+    //CONFIGURACOES DO CAMPO PESQUISA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
