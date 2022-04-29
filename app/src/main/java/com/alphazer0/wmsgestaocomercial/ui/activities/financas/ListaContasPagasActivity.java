@@ -13,6 +13,7 @@ import com.alphazer0.wmsgestaocomercial.model.ContaPaga;
 import com.alphazer0.wmsgestaocomercial.ui.adapters.ListaContasPagasAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListaContasPagasActivity extends AppCompatActivity {

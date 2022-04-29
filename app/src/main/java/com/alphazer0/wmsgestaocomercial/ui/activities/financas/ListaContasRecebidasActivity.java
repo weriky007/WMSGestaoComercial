@@ -57,6 +57,7 @@ public class ListaContasRecebidasActivity extends AppCompatActivity {
     private void configuraLista(){
         listViewContasRecebidas = findViewById(R.id.list_view_lista_contas_recebidas);
         listViewContasRecebidas.setAdapter(listaContasARecebidasAdapter);
+
     }
 //==================================================================================================
     @Override

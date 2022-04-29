@@ -13,6 +13,7 @@ import com.alphazer0.wmsgestaocomercial.model.ContaAPagar;
 import com.alphazer0.wmsgestaocomercial.model.ContaPaga;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListaContasPagasAdapter extends BaseAdapter implements Filterable {

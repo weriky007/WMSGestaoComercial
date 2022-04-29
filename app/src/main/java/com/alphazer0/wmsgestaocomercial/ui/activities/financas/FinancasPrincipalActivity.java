@@ -46,6 +46,11 @@ public class FinancasPrincipalActivity extends AppCompatActivity {
         configuraBotoes();
         configurandoGraficoPizza();
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
 //==================================================================================================
     private void mantemAtelaEmModoRetrato() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
