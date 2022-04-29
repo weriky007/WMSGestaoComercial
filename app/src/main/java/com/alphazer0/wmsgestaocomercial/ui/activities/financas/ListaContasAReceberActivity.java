@@ -253,6 +253,7 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         contaRecebida.setConta(contaAReceber.getConta());
         contaRecebida.setCodigoBarras(contaAReceber.getCodigoBarras());
         contaRecebida.setDataRecebimento(dataFormatada);
+        contaRecebida.setHoraRecebimento(horaFormatada);
         contaRecebida.setVlConta(contaAReceber.getVlConta());
     }
 
@@ -447,15 +448,17 @@ public class ListaContasAReceberActivity extends AppCompatActivity {
         List<String> contaList = new ArrayList<>();
 
         for (Cliente cliente : listaClientes) {
-            double divCliente = Double.parseDouble(cliente.getDivida());
-            if (divCliente > 0) {
-                if (listaContasAReceber.size() == 0) {
-                    contaCliente.setConta(cliente.getNomeCompleto());
-                    contaCliente.setDataVencimento(cliente.getDataVencimento());
-                    contaCliente.setVlConta(cliente.getDivida());
-                    contaAReceberDAO.salvaContaAReceber(contaCliente);
-                } else {
-                    verificaSeContaClienteJaFoiAdicionada(contaCliente, contaList, cliente);
+            if (cliente.getDivida() != null) {
+                double divCliente = Double.parseDouble(cliente.getDivida());
+                if (divCliente > 0) {
+                    if (listaContasAReceber.size() == 0) {
+                        contaCliente.setConta(cliente.getNomeCompleto());
+                        contaCliente.setDataVencimento(cliente.getDataVencimento());
+                        contaCliente.setVlConta(cliente.getDivida());
+                        contaAReceberDAO.salvaContaAReceber(contaCliente);
+                    } else {
+                        verificaSeContaClienteJaFoiAdicionada(contaCliente, contaList, cliente);
+                    }
                 }
             }
         }

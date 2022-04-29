@@ -214,7 +214,7 @@ public class ListaContasAPagarActivity extends AppCompatActivity {
                 listaContasAPagar.remove(contaAPagar);
                 contaAPagarDAO.removeContaAPagar(contaAPagar);
                 atualizaListaAdapter();
-                //calculaEsalvaOTotal();
+                calculaEsalvaOTotal();
             }
         });
 
