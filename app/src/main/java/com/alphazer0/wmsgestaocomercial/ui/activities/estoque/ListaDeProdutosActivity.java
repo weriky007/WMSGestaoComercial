@@ -114,10 +114,8 @@ public class ListaDeProdutosActivity extends AppCompatActivity {
                filtroCategoria = sp.getSelectedItem().toString();
                adapter.atualizaListaProdutos(dao.todosProdutos(),filtroCategoria);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }
