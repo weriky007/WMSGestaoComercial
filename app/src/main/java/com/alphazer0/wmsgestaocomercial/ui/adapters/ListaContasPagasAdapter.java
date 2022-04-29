@@ -73,6 +73,7 @@ public class ListaContasPagasAdapter extends BaseAdapter implements Filterable {
     public void atualizaListaContasPagaS(List<ContaPaga> contaPaga) {
         this.listaContasPagas.clear();
         this.listaContasPagas.addAll(contaPaga);
+        Collections.reverse(listaContasPagas);
         notifyDataSetChanged();
     }
 //==================================================================================================

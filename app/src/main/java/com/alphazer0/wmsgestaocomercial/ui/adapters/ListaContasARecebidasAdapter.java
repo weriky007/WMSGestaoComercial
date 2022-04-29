@@ -13,6 +13,7 @@ import com.alphazer0.wmsgestaocomercial.model.ContaAReceber;
 import com.alphazer0.wmsgestaocomercial.model.ContaRecebida;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListaContasARecebidasAdapter extends BaseAdapter implements Filterable {
@@ -72,6 +73,7 @@ public class ListaContasARecebidasAdapter extends BaseAdapter implements Filtera
     public void atualizaListaContasAReceber(List<ContaRecebida> contasRecebidas) {
         this.listaContasRecebidas.clear();
         this.listaContasRecebidas.addAll(contasRecebidas);
+        Collections.reverse(listaContasRecebidas);
         notifyDataSetChanged();
     }
 //==================================================================================================
